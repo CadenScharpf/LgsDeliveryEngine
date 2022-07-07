@@ -7,6 +7,17 @@
 node_modules/
 dist/
 
+# React specific
+.expo/
+npm-debug.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
 # Compiled Java class files
 *.class
 
