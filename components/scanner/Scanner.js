@@ -2,6 +2,7 @@ import 'react-native-gesture-handler'
 import React, { useState, useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Button } from "react-native";
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import getString from "../../StringsArray";
 
 export default function Scanner() {
     const [hasPermission, setHasPermission] = useState(null);
@@ -31,14 +32,14 @@ export default function Scanner() {
     if (hasPermission === null) {
         return (
             <View style={styles.container}>
-                <Text>Requesting for camera permission</Text>
+                <Text>{getString('qrscanner_permission', global.language)}</Text>
             </View>)
     }
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
                 <Text style={{ margin: 10 }}>No access to camera</Text>
-                <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
+                <Button title={getString('qrscanner_allow', global.language)} onPress={() => askForCameraPermission()} />
             </View>)
     }
 
@@ -55,12 +56,12 @@ export default function Scanner() {
             >
                 <View style={styles.container}>
                     <View style={styles.modalView}>
-                    <Text style={styles.modalText}>{text + '\n\nProduct Details Here' }</Text>
+                    <Text style={styles.modalText}>{text + '\n\n' + getString('qrscanner_placeholder', global.language)}</Text>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
                             onPress={() => setScanned(!scanned)}
                         >
-                            <Text style={styles.textStyle}>Close</Text>
+                            <Text style={styles.textStyle}>getString('qrscanner_close', global.language)</Text>
                         </Pressable>
                     </View>
                 </View>

@@ -7,17 +7,19 @@ import Dashboard from './components/dashboard/Dashboard';
 import Scanner from './components/scanner/Scanner'
 import Settings from './components/settings/Settings'
 import Demo_database from './components/demo_database/Demo_database'
-
+import getString from "./StringsArray";
+import './global.js';
 
 const Drawer = createDrawerNavigator();
+const debugging_option = true;
 
 function SideBar() {
   return (
     <Drawer.Navigator useLegacyImplementation>
-      <Drawer.Screen name="Dashboard" component={Dashboard} />
-      <Drawer.Screen name="Scan Barcode" component={Scanner} />
-      <Drawer.Screen name="Settings" component={Settings} />
-      <Drawer.Screen name="Demo - Database" component={Demo_database} />
+      <Drawer.Screen name={getString('drawer_dashboard', global.language)} component={Dashboard} />
+      <Drawer.Screen name={getString('drawer_scanbarcode', global.language)} component={Scanner} />
+      <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} />
+      <Drawer.Screen name={getString('drawer_demo_database', global.language)} component={Demo_database} />
     </Drawer.Navigator>
   );
 }

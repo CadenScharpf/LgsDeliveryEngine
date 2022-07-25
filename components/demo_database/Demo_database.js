@@ -4,9 +4,9 @@ import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-nati
 import ReactDOM from 'react-dom';
 import React, { Component } from "react";
 import * as SQLite from 'expo-sqlite';
+import getString from "../../StringsArray";
 
-// var db;
-const StringsDB = SQLite.openDatabase('Strings.db') // returns Database object
+const DemoDB = SQLite.openDatabase('DemoDB.db') // returns Database object
 let sqlQuery = '';
 let params = '';
 
@@ -19,21 +19,21 @@ export default function Demo_database() {
     
     sqlQuery = "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, count INT)"
     params = [];
-    this.executeQuery(sqlQuery, params);
+    executeQuery(sqlQuery, params);
 
     sqlQuery = "INSERT INTO items (text, count) values ('FarmerABC', 1)"
     params = [];
-    this.executeQuery(sqlQuery, params);
+    executeQuery(sqlQuery, params);
 
     sqlQuery = "INSERT INTO items (text, count) values ('FarmerXYZ', 1)"
     params = [];
-    this.executeQuery(sqlQuery, params);
+    executeQuery(sqlQuery, params);
 
     sqlQuery = "INSERT INTO items (text, count) values ('Retailer123', 1)"
     params = [];
-    this.executeQuery(sqlQuery, params);
+    executeQuery(sqlQuery, params);
 
-    this.fetchData();
+    fetchData();
     console.log('Item Data: ' + state.item_data);
 
     // Return the View
@@ -42,11 +42,11 @@ export default function Demo_database() {
         <Text style={styles.white}>.</Text>
         <Text style={styles.white}>.</Text>
         <Text style={styles.white}>.</Text>
-        <Text style={styles.title}>LGS Delivery Engine Demo</Text>
-        <Text style={styles.black}>Android + Database Demo</Text>
-        <Text style={styles.black}>Add Random Name with Counts</Text>
-        <TouchableOpacity onPress={this.newItem} style={styles.green}>
-          <Text style={styles.black}>Add New Item</Text>
+        <Text style={styles.title}>{getString('demo_db_title', global.language)}</Text>
+        <Text style={styles.black}>{getString('demo_db_description', global.language)}</Text>
+        <Text style={styles.black}>{getString('demo_db_instructions', global.language)}</Text>
+        <TouchableOpacity onPress={newItem} style={styles.green}>
+          <Text style={styles.black}>{getString('demo_db_add', global.language)}</Text>
         </TouchableOpacity>
 
         <ScrollView /*style={styles.widthfull} contentContainerStyle={{flex: 1}}*/>
@@ -55,11 +55,11 @@ export default function Demo_database() {
             (
                 <View key={item_data.id} style={styles.list}>
                   <Text style={styles.black}>{item_data.text} - {item_data.count}</Text>
-                  <TouchableOpacity onPress={() => this.increment(item_data.id)}>
+                  <TouchableOpacity onPress={() => increment(item_data.id)}>
                       <Text style={styles.green}> + </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => this.deleteId(item_data.id)}>
-                      <Text style={styles.red}>DEL</Text>
+                  <TouchableOpacity onPress={() => deleteId(item_data.id)}>
+                      <Text style={styles.red}>{getString('demo_db_delete', global.language)}</Text>
                   </TouchableOpacity>
                 </View>
             )
@@ -75,7 +75,7 @@ export default function Demo_database() {
     console.log('Query: ' + sqlQuery);
     console.log('Parameters: ' + params);
 
-    StringsDB.transaction((txn) => {
+    DemoDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => {
           console.log("SUCCESS");
           console.log("Results: " + results);
@@ -95,12 +95,12 @@ export default function Demo_database() {
   fetchData = () => {
     console.log('fetchData function call');
     
-    StringsDB.transaction(tx => {
+    DemoDB.transaction(tx => {
       // sending 4 arguments in executeSql
       tx.executeSql('SELECT * FROM items', null, // passing sql query and parameters:null
         // success callback which sends two things Transaction object and ResultSet Object
-        // (txObj, { rows: { _array } }) => this.setState({ item_data: _array }), 
-        (txObj, { rows: { _array } }) => this.setState(_array), 
+        // (txObj, { rows: { _array } }) => setState({ item_data: _array }), 
+        (txObj, { rows: { _array } }) => setState(_array), 
         // failure callback which sends two things Transaction object and Error
         (txObj, error) => console.log('Error ', error)
         ) // end executeSQL
@@ -115,14 +115,15 @@ export default function Demo_database() {
   newItem = () => {
     sqlQuery = "INSERT INTO items (text, count) values (?, ?)"
     params = ['Distributor', 0];
-    this.executeQuery(sqlQuery, params);
+    executeQuery(sqlQuery, params);
 
-    this.fetchData();
+    fetchData();
     console.log('Item Data: ' + state.item_data);
   }
 
   increment = (id) => {
-    StringsDB.transaction(tx => {
+    console.log('Increment Function Called');
+    DemoDB.transaction(tx => {
       tx.executeSql('UPDATE items SET count = count + 1 WHERE id = ?', [id],
         (txObj, resultSet) => {
           if (resultSet.rowsAffected > 0) {
@@ -132,15 +133,16 @@ export default function Demo_database() {
               else
                 return item_data
             })
-            // this.setState({ item_data: newList })
-            this.setState(newList)
+            // setState({ item_data: newList })
+            setState(newList)
           }
         })
     })
   }
 
   deleteId = (id) => {
-    StringsDB.transaction(tx => {
+    console.log('Delete Function Called');
+    DemoDB.transaction(tx => {
       tx.executeSql('DELETE FROM items WHERE id = ? ', [id],
         (txObj, resultSet) => {
           if (resultSet.rowsAffected > 0) {
@@ -150,8 +152,8 @@ export default function Demo_database() {
               else
                 return true
             })
-            // this.setState({ item_data: newList })
-            this.setState(newList)
+            // setState({ item_data: newList })
+            setState(newList)
           }
         })
     })
