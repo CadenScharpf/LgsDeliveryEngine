@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-nati
 import ReactDOM from 'react-dom';
 import React, { Component } from "react";
 import getString from "../../StringsArray";
-import getAllProducts from "../../Database";
+import {getAllProducts, deleteProduct, addProduct} from "../../Database";
 
 class Demo_database extends Component {
   constructor(props) {
@@ -30,26 +30,32 @@ class Demo_database extends Component {
   }
 
   // event handler for new item creation
-  newItem = () => {
-    console.log('New Item Function Called');
+  addProduct = () => {
+    console.log('Add Product Function Called');
 
-    // TODO - call database to add
+    var defaultLabel = 'arugula';
+    var bestBeforeDays = 7;
+    var product_descriptions = [{language: 'english', content: 'Arugula'},{language: 'spanish', content: 'Rúcula'}];
+    var product_specifications = [{language: 'english', content: 'Arugula or rocket is an edible annual plant in the family Brassicaceae used as a leaf vegetable for its fresh, tart, bitter, and peppery flavor.'},{language: 'spanish', content: 'La rúcula o rúcula es una planta anual comestible de la familia Brassicaceae que se utiliza como verdura de hoja por su sabor fresco, agrio, amargo y picante.'}];
 
-    /*
-    fetchData();
-    console.log('Item Data: ' + state.item_data);
-    */
+    addProduct(defaultLabel, bestBeforeDays, product_descriptions, product_specifications).then((result) => {
+    console.log('Add Product Then: ' + result);
+      // fetch new data    
+      this.fetchData();
+    }).catch((error) => {
+      console.log('Add Product Catch Error: ' + error);
+    });
   }
 
-  deleteId = (id) => {
-    console.log('Delete Function Called');
-
-    // TODO - call database to delete
-
-    /*
-    fetchData();
-    console.log('Item Data: ' + state.item_data);
-    */
+  deleteProduct = async (product_id) => {
+    console.log('Delete Product Function Called');
+    deleteProduct(product_id).then((result) => {
+      console.log('Delete Product Then: ' + result);
+      // fetch new data    
+      this.fetchData();
+    }).catch((error) => {
+      console.log('Delete Product Catch Error: ' + error);
+    });
   }
 
   // Debugging:
@@ -60,7 +66,7 @@ class Demo_database extends Component {
       <Text style={styles.title}>{getString('demo_db_title', global.language)}</Text>
       <Text style={styles.black}>{getString('demo_db_description', global.language)}</Text>
       <Text style={styles.black}>{getString('demo_db_instructions', global.language)}</Text>
-      <TouchableOpacity onPress={this.newItem} style={styles.green}>
+      <TouchableOpacity onPress={this.addProduct} style={styles.green}>
         <Text style={styles.black}>{getString('demo_db_add', global.language)}</Text>
       </TouchableOpacity>
       <ScrollView>
@@ -72,7 +78,7 @@ class Demo_database extends Component {
               <Text style={styles.black}>{getString('demo_db_bestbefore', global.language)} {item_data.bestBeforeDays}</Text>
               <Text style={styles.black}>{item_data.product_description}</Text>
               <Text style={styles.black}>{item_data.product_specification}</Text>
-              <TouchableOpacity onPress={() => this.deleteId(item_data.id)}>
+              <TouchableOpacity onPress={() => this.deleteProduct(item_data.id)}>
                   <Text style={styles.red}>{getString('demo_db_delete', global.language)}</Text>
               </TouchableOpacity>
             </View>
