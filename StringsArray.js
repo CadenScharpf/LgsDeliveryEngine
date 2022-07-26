@@ -1,7 +1,7 @@
 var StringsDB = [];
 var content = [];
 initializeDatabase();
-const debugging_option = true;
+const debugging_option = false;
 
 function initializeDatabase() {
   if (debugging_option) {
@@ -44,15 +44,17 @@ function initializeDatabase() {
   StringsDB.push(content);
   
   // Demo - Database
-  content = {description:"demo_db_title", english: 'LGS Delivery Engine Demo', spanish: 'Demostración del motor de entrega de LGS'};
+  content = {description:"demo_db_title", english: 'LGS Database Demo', spanish: 'Demostración de la base de datos LGS'};
   StringsDB.push(content);
-  content = {description:"demo_db_description", english: 'Android + Database Demo', spanish: 'Android + demostración de base de datos'};
+  content = {description:"demo_db_description", english: 'Database Demo', spanish: 'Demostración de base de datos'};
   StringsDB.push(content);
-  content = {description:"demo_db_instructions", english: 'Add Random Name with Counts', spanish: 'Agregar nombre aleatorio con recuentos'};
+  content = {description:"demo_db_instructions", english: 'Add Random Product Name', spanish: 'Agregar producto nombre aleatorio'};
   StringsDB.push(content);
-  content = {description:"demo_db_add", english: 'Add New Item', spanish: 'Agregar ítem nuevo'};
+  content = {description:"demo_db_add", english: 'Add New Product', spanish: 'Agregar producto nuevo'};
   StringsDB.push(content);
   content = {description:"demo_db_delete", english: 'Delete', spanish: 'Borrar'};
+  StringsDB.push(content);
+  content = {description:"demo_db_bestbefore", english: 'Best Before Days: ', spanish: 'Mejor antes de los días: '};
   StringsDB.push(content);
 
   // TODO - add strings here

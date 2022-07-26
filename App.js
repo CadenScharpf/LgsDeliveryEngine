@@ -19,7 +19,9 @@ function SideBar() {
       <Drawer.Screen name={getString('drawer_dashboard', global.language)} component={Dashboard} />
       <Drawer.Screen name={getString('drawer_scanbarcode', global.language)} component={Scanner} />
       <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} />
-      <Drawer.Screen name={getString('drawer_demo_database', global.language)} component={Demo_database} />
+      <Drawer.Screen name={getString('drawer_demo_database', global.language)} children={() => (
+        <Demo_database />
+      )} />
     </Drawer.Navigator>
   );
 }
