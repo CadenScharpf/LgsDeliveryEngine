@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-nati
 import ReactDOM from 'react-dom';
 import React, { Component } from "react";
 import getString from "../../StringsArray";
-import {getAllProducts, deleteProduct, addProduct} from "../../Database";
+import {getAllProducts, deleteProduct, addProduct, getAllQRScans, getAllUsers, getPalletDetails, getBoxDetails, getProductDetails} from "../../Database";
 
 class Demo_database extends Component {
   constructor(props) {
@@ -12,21 +12,47 @@ class Demo_database extends Component {
 
     super(props);
     this.state={
-      item_data: [] 
+      item_data: [], 
+      qr_data: [], 
+      user_data: []
     }  
     
     this.fetchData();
   }
 
   fetchData = async () => {
-    console.log('Fetch Data Function Called');
+    // /*
+    console.log('Fetch Data Function Called - getAllProducts');
     getAllProducts(global.language).then((result) => {
-      console.log('Fetch Data Then: ' + result);
+      console.log('getAllProducts Fetch Data Then: ' + result);
       this.setState({ item_data: JSON.parse(result)});
     }).catch((error) => {
-      console.log('Fetch Data Catch Error: ' + error);
+      console.log('getAllProducts Fetch Data Catch Error: ' + error);
     });
-    console.log('After Fetch - Item Data: ' + JSON.stringify(this.state.item_data));
+    console.log('After getAllProducts Fetch - Item Data: ' + JSON.stringify(this.state.item_data));
+    // */
+
+    /*
+    console.log('Fetch Data Function Called - getAllQRScans');
+    getAllQRScans(1, 'product').then((result) => {
+      console.log('getAllQRScans Fetch Data Then: ' + result);
+      this.setState({ qr_data: JSON.parse(result)});
+    }).catch((error) => {
+      console.log('getAllQRScans Fetch Data Catch Error: ' + error);
+    });
+    console.log('After getAllQRScans Fetch - qr_data: ' + JSON.stringify(this.state.qr_data));
+    */
+
+    /*
+    console.log('Fetch Data Function Called - getAllUsers');
+    getAllUsers().then((result) => {
+      console.log('getAllUsers Scans Fetch Data Then: ' + result);
+      this.setState({ user_data: JSON.parse(result)});
+    }).catch((error) => {
+      console.log('getAllUsers Fetch Data Catch Error: ' + error);
+    });
+    console.log('After getAllUsers Fetch - user_data: ' + JSON.stringify(this.state.user_data));
+    */
   }
 
   // event handler for new item creation
