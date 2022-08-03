@@ -3,11 +3,31 @@ import React, { useState, useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Button } from "react-native";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import getString from "../../StringsArray";
+import getGlobalColors from '../../Colors';
+import ButtonPrimary from '../../components/input/Buttons';
+import QrData from './qrdata/QrData';
+import { createStackNavigator } from '@react-navigation/stack';
 
-export default function Scanner() {
+var colors = getGlobalColors();
+const Stack = createStackNavigator();
+Stack.Navigator.N
+
+export default function ScannerStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Scanner" component={Scanner} />
+        <Stack.Screen name="QrData" component={QrData} options={{ id: '0' }}/>
+      </Stack.Navigator>
+    );
+  }
+
+  function Scanner({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [text, setText] = useState('Not yet scanned')
+
+    const flipState = () => {
+        (async () => {setScanned(!scanned)})}
 
     const askForCameraPermission = () => {
         (async () => {
@@ -23,9 +43,10 @@ export default function Scanner() {
 
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
+        //setScanned(true);
         setText(data)
         console.log('Type: ' + type + '\nData: ' + data)
+        navigation.navigate('QrData', { id: '0' })
     };
 
     // Check permissions and return the screens
@@ -49,20 +70,16 @@ export default function Scanner() {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={scanned}
+                visible={false}
                 onRequestClose={() => {
                     setScanned(!scanned);
                 }}
+                style={StyleSheet.create({margin: 0})}
             >
                 <View style={styles.container}>
                     <View style={styles.modalView}>
-                    <Text style={styles.modalText}>{text + '\n\n' + getString('qrscanner_placeholder', global.language)}</Text>
-                        <Pressable
-                            style={[styles.button, styles.buttonClose]}
-                            onPress={() => setScanned(!scanned)}
-                        >
-                            <Text style={styles.textStyle}>getString('qrscanner_close', global.language)</Text>
-                        </Pressable>
+                        <QrData/>
+                        <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {setScanned(false); navigation.navigate('Scanner')}}><Text>Close</Text></Pressable>
                     </View>
                 </View>
             </Modal>
@@ -87,10 +104,10 @@ export default function Scanner() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.backgroundColor,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 22
+        marginTop: 0
     },
     maintext: {
         fontSize: 16,
@@ -106,10 +123,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'tomato'
     },
     modalView: {
-      margin: 20,
+      margin: 0,
+      flex: 1,
       backgroundColor: "white",
       borderRadius: 20,
-      padding: 35,
+      padding: 0,
       justifyContent: 'center',
       alignItems: 'center',
       shadowColor: "#000",
@@ -119,7 +137,10 @@ const styles = StyleSheet.create({
       }, 
       shadowOpacity: 0.25,
       shadowRadius: 4,
-      elevation: 5
+      elevation: 5,
+      marginTop: 150,
+      marginBottom: 150
+      
     },
     button: {
       borderRadius: 20,

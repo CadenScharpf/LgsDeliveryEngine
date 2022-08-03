@@ -1,0 +1,36 @@
+[{
+    "id": 1,
+    "type": "product",
+    "scans":[
+        {
+            "id": 4,
+            "date_time": "2022-07-31 12:00:00.000",
+            "geolocation_lat": 33.424564,
+            "geolocation_lon": -111.928001,
+            "user_id": 1,
+            "user_scanned": "Zale Tabakman",
+            "accountType": "consumer",
+            "company": "Consumer"
+        },
+        {
+            "id": 3,
+            "date_time": "2022-07-30 12:00:00.000",
+            "geolocation_lat": 33.39390852951677,
+            "geolocation_lon": -111.92761243213364,
+            "user_id": 2,
+            "user_scanned": "John Doe",
+            "accountType": "retailer",
+            "company": "Walmart"
+        },
+        {
+            "id": 2,
+            "date_time": "2022-07-25 12:00:00.000",
+            "geolocation_lat": 33.447612811244085,
+            "geolocation_lon": -112.07044719604862,
+            "user_id": 3,
+            "user_scanned": "Jane Smith",
+            "accountType": "distributor",
+            "company": "PHXDistribution"
+        }
+    ]
+}]
