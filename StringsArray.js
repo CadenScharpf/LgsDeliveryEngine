@@ -24,6 +24,8 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"drawer_demo_database", english: 'Demo - Database', spanish: 'Demostración - Base de datos'};
   StringsDB.push(content);
+  content = {description:"drawer_feedback", english: 'Feedback', spanish: 'Retroalimentación'};
+  StringsDB.push(content);
 
   // Dashboard
   content = {description:"dashboard_welcome", english: 'Dashboard', spanish: 'Tablero'};
@@ -54,8 +56,24 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"demo_db_delete", english: 'Delete', spanish: 'Borrar'};
   StringsDB.push(content);
-  content = {description:"demo_db_bestbefore", english: 'Best Before Days: ', spanish: 'Mejor antes de los días: '};
+
+  // feedback page
+  content = {description:"feedback_form", english: 'Feedback Form', spanish: 'Formulario de comentarios'};
   StringsDB.push(content);
+  content = {description:"feedback_productname", english: 'Product Name:', spanish: 'Nombre del producto:'};
+  StringsDB.push(content);
+  content = {description:"feedback_expirationdate", english: 'Product Expiration Date:', spanish: 'Fecha de vencimiento del producto:'};
+  StringsDB.push(content);
+  content = {description:"feedback_additionalcomment", english: 'Additional Comments:', spanish: 'Comentarios adicionales:'};
+  StringsDB.push(content);
+  content = {description:"feedback_rating", english: 'Rating:', spanish: 'Clasificación:'};
+  StringsDB.push(content);
+  content = {description:"feedback_submit", english: 'Submit', spanish: 'Enviar'};
+  StringsDB.push(content);
+  content = {description:"feedback_accessfeedbackform", english: 'Access Feedback Form', spanish: 'Acceder al formulario de comentarios'};
+  StringsDB.push(content);
+  content = {description:"feedback_close", english: 'Close', spanish: 'Cerca'};
+  StringsDB.push(content);  
 
   // TODO - add strings here
 

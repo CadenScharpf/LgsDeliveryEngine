@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, TextInput, Modal, Button, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-
-
-
+import getString from "../../StringsArray";
 
 export default function App() {
   const [todos, setTodos] = useState([
@@ -39,19 +37,19 @@ export default function App() {
     </View></Text>
     
    
-    <Button title = "Access Feedback Form" color = 'black' onPress = {() => setOpen(true)} >
+    <Button title = {getString('feedback_accessfeedbackform', global.language)} color = 'black' onPress = {() => setOpen(true)} >
           </Button>
       
       <Modal visible = {open}>
           <View style = {stylez.container}>
-          <Text style = {{textAlign:"center", fontWeight: "bold"}}> Feedback Form</Text>
+          <Text style = {{textAlign:"center", fontWeight: "bold"}}>{getString('feedback_form', global.language)}</Text>
             
             
             <Text> </Text>
 
 
 
-            <Button title = "Close" onPress = {() => setOpen(false)} />
+            <Button title = {getString('feedback_close', global.language)} onPress = {() => setOpen(false)} />
             <Text />
             <AddTodo submitHandler = {submitHandler}/>
             
@@ -104,27 +102,26 @@ function AddTodo({submitHandler}){
       <View>
           <TextInput 
               style = {stylesAddToDo.input}
-              placeholder ='Product Name:'
+              placeholder = {getString('feedback_productname', global.language)}
               onChangeText = {changeHandler}
               />  
             <TextInput 
               style = {stylesAddToDo.input}
-              placeholder ='Product Expiration Date:'
+              placeholder = {getString('feedback_expirationdate', global.language)}
               onChangeText = {changHandler}
               />
              <TextInput 
               style = {stylesAddToDo.input}
-              placeholder ='Additional Comments:'
+              placeholder = {getString('feedback_additionalcomment', global.language)}
               onChangeText = {chanHandler}
               />
               <TextInput 
               style = {stylesAddToDo.input}
-              placeholder ='Rating:'
+              placeholder = {getString('feedback_rating', global.language)}
               onChangeText = {chaHandler}
               />  
-
             
-          <Button onPress = {() => submitHandler(text, myText, meText, muText)} title = 'Submit' color = 'black' />
+          <Button onPress = {() => submitHandler(text, myText, meText, muText)} title = {getString('feedback_submit', global.language)} color = 'black' />
       </View>
   )
 }
