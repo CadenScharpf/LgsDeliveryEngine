@@ -9,6 +9,7 @@ import Settings from './components/settings/Settings'
 import Demo_database from './components/demo_database/Demo_database'
 import getString from "./StringsArray";
 import './global.js';
+import Feedback from './components/feedback/Feedback'
 
 const Drawer = createDrawerNavigator();
 const debugging_option = true;
@@ -22,6 +23,7 @@ function SideBar() {
       <Drawer.Screen name={getString('drawer_demo_database', global.language)} children={() => (
         <Demo_database />
       )} />
+      <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} />
     </Drawer.Navigator>
   );
 }
