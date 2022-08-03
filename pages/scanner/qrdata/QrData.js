@@ -22,7 +22,7 @@
        {
          time: this.processDescriptionString(this.scanData[0].user_id, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
          title: this.scanData[2].date_time, 
-         description: this.processDescriptionString(this.scanData[2].user_id, this.scanData[2].accountType , this.scanData[2].geolocation_lat, this.scanData[2].geolocation_lon, this.scanData[2].company),
+         description: this.processDescriptionString(this.scanData[2].user_scanned, this.scanData[2].accountType , this.scanData[2].geolocation_lat, this.scanData[2].geolocation_lon, this.scanData[2].company),
          lineColor:'#009688', 
          icon: require('./distributer.png'),
          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
@@ -30,14 +30,14 @@
        {
          time: this.processDateString(this.scanData[1]), 
          title: this.scanData[1].date_time, 
-         description: this.processDescriptionString(this.scanData[1].user_id, this.scanData[1].accountType, this.scanData[1].geolocation_lat, this.scanData[1].geolocation_lon, this.scanData[1].company), 
+         description: this.processDescriptionString(this.scanData[1].user_scanned, this.scanData[1].accountType, this.scanData[1].geolocation_lat, this.scanData[1].geolocation_lon, this.scanData[1].company), 
          icon: require('./retailer.png'),
          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
        },
        {
          time: this.processDateString(this.scanData[0]), 
          title: this.scanData[2].date_time, 
-         description: this.processDescriptionString(this.scanData[0].user_id, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
+         description: this.processDescriptionString(this.scanData[0].user_scanned, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
          icon: require('./consumer.png'),
          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
        }
@@ -105,7 +105,7 @@
    render() {
      return (
        <View style={styles.container}>
-         {this.renderSelected()}
+         {/* {this.renderSelected()} */}
          <Timeline 
            style={styles.list}
            data={this.data}
@@ -132,7 +132,7 @@
    container: {
      flex: 1,
      padding: 0,
-   paddingTop:65,
+   paddingTop:0,
      backgroundColor:'white'
    },
    list: {
