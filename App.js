@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import getGlobalColors from './Colors';
 import './global.js';
 import ScannerStack from './pages/scanner/Scanner';
+import Feedback from './components/feedback/Feedback'
 
 
 const Drawer = createDrawerNavigator();
@@ -37,6 +38,7 @@ function SideBar() {
           },
         }}/>
       <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} />
+      <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} />
       {/* <Drawer.Screen name='qrdata' component={QrData} /> */}
       {/* <Drawer.Screen name='drawer_demo_database' children={() => (
         <Demo_database />
