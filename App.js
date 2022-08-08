@@ -55,7 +55,7 @@ function SideBar() {
             fontWeight: 'bold',
           },
         }}/>
-      <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} 
+      <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} 
       options={{
         headerStyle: {
           backgroundColor: colors.backgroundColor,
@@ -65,7 +65,7 @@ function SideBar() {
           fontWeight: 'bold',
         },
       }}/>
-      <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} 
+      <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} 
       options={{
         headerStyle: {
           backgroundColor: colors.backgroundColor,
