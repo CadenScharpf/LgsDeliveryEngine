@@ -8,6 +8,9 @@
  } from 'react-native';
  import Timeline from 'react-native-timeline-flatlist'
  import { createStackNavigator } from '@react-navigation/stack';
+ import getGlobalColors from '../../../Colors';
+
+ var colors = getGlobalColors();
  
  export default class QrData extends Component {
    constructor(props){
@@ -36,7 +39,7 @@
        },
        {
          time: this.processDateString(this.scanData[0]), 
-         title: this.scanData[2].date_time, 
+         title: this.scanData[0].date_time, 
          description: this.processDescriptionString(this.scanData[0].user_scanned, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
          icon: require('./consumer.png'),
          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
@@ -133,7 +136,7 @@
      flex: 1,
      padding: 0,
    paddingTop:0,
-     backgroundColor:'white'
+   backgroundColor: colors.backgroundColor,
    },
    list: {
      flex: 1,
@@ -141,7 +144,8 @@
    },
    title:{
      fontSize:16,
-     fontWeight: 'bold'
+     fontWeight: 'bold',
+     color: colors.textColorPrimary
    },
    descriptionContainer:{
      flexDirection: 'row',
@@ -154,7 +158,7 @@
    },
    textDescription: {
      marginLeft: 10,
-     color: 'gray'
+     color: colors.textColorSecondary
    }
  });
  

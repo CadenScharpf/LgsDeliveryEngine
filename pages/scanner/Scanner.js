@@ -10,11 +10,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
-Stack.Navigator.N
+
 
 export default function ScannerStack() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerShown: false
+      }}>
         <Stack.Screen name="Scanner" component={Scanner} />
         <Stack.Screen name="QrData" component={QrData} options={{ id: '0' }}/>
       </Stack.Navigator>
@@ -112,6 +114,7 @@ const styles = StyleSheet.create({
     maintext: {
         fontSize: 16,
         margin: 20,
+        color: colors.textColor
     },
     barcodebox: {
         alignItems: 'center',
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
       backgroundColor: "#2196F3",
     },
     textStyle: {
-      color: "white",
+      color: colors.textColorPrimary,
       fontWeight: "bold",
       textAlign: "center"
     },

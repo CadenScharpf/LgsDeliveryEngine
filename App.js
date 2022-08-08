@@ -12,7 +12,9 @@ import './Colors';
 import QrData from './pages/scanner/qrdata/QrData';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import getGlobalColors from './Colors';
+import './global.js';
 import ScannerStack from './pages/scanner/Scanner';
+
 
 const Drawer = createDrawerNavigator();
 const debugging_option = true;
@@ -22,14 +24,23 @@ const colors = getGlobalColors();
 function SideBar() {
   return (
     <Drawer.Navigator >
-      <Drawer.Screen name='drawer_scanbarcode' component={ScannerStack} />
-      <Drawer.Screen name='drawer_dashboard' component={Dashboard} />
-      <Drawer.Screen name='drawer_settings' component={Settings} />
+      <Drawer.Screen name={getString('drawer_dashboard', global.language)}   component={Dashboard} />
+      <Drawer.Screen name={getString('drawer_scanbarcode', global.language)} component={ScannerStack} 
+      options={{
+          title: 'QR Scanner',
+          headerStyle: {
+            backgroundColor: colors.backgroundColor,
+          },
+          headerTintColor: colors.textColorPrimary,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
+      <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} />
       {/* <Drawer.Screen name='qrdata' component={QrData} /> */}
-      <Drawer.Screen name='drawer_demo_database' children={() => (
+      {/* <Drawer.Screen name='drawer_demo_database' children={() => (
         <Demo_database />
-      )} />
-      <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} />
+      )} /> */}
     </Drawer.Navigator>
   );
 }

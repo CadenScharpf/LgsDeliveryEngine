@@ -14,6 +14,8 @@ export default function getGlobalColors() {
             secondary: '#63321C',
             secondaryLight: '#735243',
             secondaryDark: '#170F0C',
+            textColorSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
+            textColorPrimary: DynamicColorIOS({light: '#282a36', dark: '#ffffff'}),
             backgroundColor: DynamicColorIOS({light: '#ffffff', dark: '#282a36'}),
         };
              
