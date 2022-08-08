@@ -2,11 +2,15 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, TextInput, Modal, Button, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import getString from "../../StringsArray";
+import getGlobalColors from '../../Colors';
+
+var colors = getGlobalColors();
 
 export default function App() {
   const [todos, setTodos] = useState([
     
   ]);
+
   
   const pressHandler = (key) => {
     setTodos((prevTodos) => {
@@ -166,7 +170,7 @@ const stylez = StyleSheet.create({
   container: {
     marginTop:30,
     padding:20,
-    backgroundColor: 'white'
+    backgroundColor: colors.backgroundColor
   },
 
   
@@ -175,7 +179,7 @@ const stylez = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.backgroundColor,
   
   },
   content:{
