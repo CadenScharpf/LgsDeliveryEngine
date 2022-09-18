@@ -136,7 +136,7 @@
      flex: 1,
      padding: 0,
    paddingTop:0,
-   backgroundColor: colors.backgroundColor,
+   backgroundColor: colors.background,
    },
    list: {
      flex: 1,
@@ -145,7 +145,7 @@
    title:{
      fontSize:16,
      fontWeight: 'bold',
-     color: colors.textColorPrimary
+     color: colors.backgroundTextPrimary
    },
    descriptionContainer:{
      flexDirection: 'row',
@@ -158,7 +158,7 @@
    },
    textDescription: {
      marginLeft: 10,
-     color: colors.textColorSecondary
+     color: colors.backgroundTextSecondary
    }
  });
  

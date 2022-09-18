@@ -605,12 +605,12 @@ const getProductDetails = async (product_id, inputLanguage) => {
         }
 
         if (debugging_option) {
-          console.log("Get All Product Details _array: " + JSON.stringify(results.rows._array));    
+         // console.log("Get All Product Details _array: " + JSON.stringify(results.rows._array));    
         }
 
         // what you resolve here is what will be the result of
         // await function call  
-        resolve(JSON.stringify(results.rows._array));
+        return resolve(JSON.stringify(results.rows._array));
       },
         (error) => {
         console.log("Get Product Details Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));

@@ -3,7 +3,6 @@ import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Dashboard from './pages/dashboard/Dashboard';
 import Scanner from './pages/scanner/Scanner'
 import Settings from './pages/settings/Settings'
 import Demo_database from './pages/demo_database/Demo_database'
@@ -15,6 +14,7 @@ import getGlobalColors from './Colors';
 import './global.js';
 import ScannerStack from './pages/scanner/Scanner';
 import Feedback from './components/feedback/Feedback'
+import ProductScroll from './pages/product_scroll/ProductScroll';
 
 
 const Drawer = createDrawerNavigator();
@@ -27,19 +27,19 @@ function SideBar() {
     <Drawer.Navigator
     screenOptions={{
       drawerStyle: {
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: colors.background,
       },
       drawerLabelStyle: {
-        color: colors.textColorPrimary
+        color: colors.backgroundTextPrimary
       }
     }}
     >
-      <Drawer.Screen name={getString('drawer_dashboard', global.language)}   component={Dashboard} 
+      <Drawer.Screen name={"Product Feed Demo"}   component={ProductScroll} 
       options={{
         headerStyle: {
-          backgroundColor: colors.backgroundColor,
+          backgroundColor: colors.background,
         },
-        headerTintColor: colors.textColorPrimary,
+        headerTintColor: colors.backgroundTextPrimary,
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -48,9 +48,9 @@ function SideBar() {
       options={{
           title: 'QR Scanner',
           headerStyle: {
-            backgroundColor: colors.backgroundColor,
+            backgroundColor: colors.background,
           },
-          headerTintColor: colors.textColorPrimary,
+          headerTintColor: colors.backgroundTextPrimary,
           headerTitleStyle: {
             fontWeight: 'bold',
           },
@@ -58,9 +58,9 @@ function SideBar() {
       <Drawer.Screen name={getString('drawer_feedback', global.language)} component={Feedback} 
       options={{
         headerStyle: {
-          backgroundColor: colors.backgroundColor,
+          backgroundColor: colors.background,
         },
-        headerTintColor: colors.textColorPrimary,
+        headerTintColor: colors.backgroundTextPrimary,
         headerTitleStyle: {
           fontWeight: 'bold',
         },
@@ -68,9 +68,9 @@ function SideBar() {
       <Drawer.Screen name={getString('drawer_settings', global.language)} component={Settings} 
       options={{
         headerStyle: {
-          backgroundColor: colors.backgroundColor,
+          backgroundColor: colors.background,
         },
-        headerTintColor: colors.textColorPrimary,
+        headerTintColor: colors.backgroundTextPrimary,
         headerTitleStyle: {
           fontWeight: 'bold',
         },

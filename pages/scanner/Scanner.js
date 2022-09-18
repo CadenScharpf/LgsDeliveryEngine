@@ -106,7 +106,7 @@ export default function ScannerStack() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.backgroundColor,
+        backgroundColor: colors.background,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 0
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
       backgroundColor: "#2196F3",
     },
     textStyle: {
-      color: colors.textColorPrimary,
+      color: colors.backgroundTextPrimary,
       fontWeight: "bold",
       textAlign: "center"
     },

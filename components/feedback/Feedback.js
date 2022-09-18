@@ -170,7 +170,7 @@ const stylez = StyleSheet.create({
   container: {
     marginTop:30,
     padding:20,
-    backgroundColor: colors.backgroundColor
+    backgroundColor: colors.background
   },
 
   
@@ -179,7 +179,7 @@ const stylez = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background,
   
   },
   content:{

@@ -8,8 +8,8 @@ var colors = getGlobalColors();
 
 function Settings() {  
   return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.backgroundColor }}>
-      <Text style={{color: colors.textColorPrimary}}>{getString('settings_welcome', global.language)}</Text>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+      <Text style={{color: colors.backgroundTextPrimary}}>{getString('settings_welcome', global.language)}</Text>
     </View>
       
   );

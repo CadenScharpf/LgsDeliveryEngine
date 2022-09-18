@@ -8,37 +8,33 @@ export default function getGlobalColors() {
 
     if (Platform.OS === 'ios') {
         return {
-            primary: '#FFBB0B',
-            primaryLight: '#FFDF8E',
-            primaryDark: '#CB9303',
-            secondary: '#63321C',
-            secondaryLight: '#735243',
-            secondaryDark: '#170F0C',
-            textColorSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
-            textColorPrimary: DynamicColorIOS({light: '#282a36', dark: '#ffffff'}),
-            backgroundColor: DynamicColorIOS({light: '#ffffff', dark: '#282a36'}),
+            background: DynamicColorIOS({light: '#ffffff', dark: '#282a36'}),
+            backgroundTextPrimary: DynamicColorIOS({light: '#282a36', dark: '#ffffff'}),
+            backgroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
+
+            foreground: DynamicColorIOS({light: '#EEEEEE', dark: '#44475a'}),
+            foregroundTextPrimary: DynamicColorIOS({light: '#000000', dark: '#f8f8f2'}),
+            foregroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
         };
-             
     } else if (Platform.OS === 'android') {
         return {
-            primary: '#FFBB0B',
-            primaryLight: '#FFDF8E',
-            primaryDark: '#CB9303',
-            secondary: '#63321C',
-            secondaryLight: '#735243',
-            secondaryDark: '#170F0C',
-            backgroundColor:'#5d67a8',
+            background: '#ffffff',
+            backgroundTextSecondary: '#8a8888',
+            backgroundTextPrimary: '#282a36',
+            foreground: '#EEEEEE',
+            foregroundTextPrimary: '#000000',
+            foregroundTextSecondary: '#8a8888',
         };
     } else {
         return {
-            primary: '#FFBB0B',
-            primaryLight: '#FFDF8E',
-            primaryDark: '#CB9303',
-            secondary: '#63321C',
-            secondaryLight: '#735243',
-            secondaryDark: '#170F0C',
-            backgroundColor: '',
+            background: '#ffffff',
+            backgroundTextSecondary: '#8a8888',
+            backgroundTextPrimary: '#282a36',
+            foreground: '#EEEEEE',
+            foregroundTextPrimary: DynamicColorIOS({light: '#000000', dark: '#000000'}),
+            foregroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
         };
     }
+    
 }
 
