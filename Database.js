@@ -553,6 +553,35 @@ function InitializeDB() {
 // DEFINE ACCESSOR FUNCTIONS
 // ---------------------------------------------------------------------
 
+const getQRCodeDetails = async (qrcode_id) => {
+  return new Promise((resolve, reject) => {    
+    sqlQuery = "SELECT \
+                  qrcode.content_type, \
+                  qrcode.content_id \
+                FROM qrcode \
+                WHERE \
+                  qrcode.id = " + lot_id + "\
+              ";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get QR Code Details Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get QR Code Details Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  }); 
+}
+
 const getLotDetails = async (lot_id) => {
   return new Promise((resolve, reject) => {    
     sqlQuery = "SELECT \
@@ -1051,7 +1080,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
