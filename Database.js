@@ -13,6 +13,7 @@ let user_id = -1;
 let geolocation_lat = -1;
 let geolocation_lon = -1;
 let content_id = -1;
+let qrcode_id = -1;
 
 let firstName = '';
 let lastName = '';
@@ -34,20 +35,19 @@ function InitializeDB() {
 
   params = [];
 
-  // TODO - do we need an item table that uses product as a type and includes a harvest date so we can know best before date based on standard best before days for product?
 
   sqlQuery = "DROP TABLE IF EXISTS product;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, bestBeforeDays DATE)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, photoURL TEXT, productPageURL TEXT)";
   executeQuery(sqlQuery, params);
 
 
   
-  sqlQuery = "DROP TABLE IF EXISTS product_descriptions;";
+  sqlQuery = "DROP TABLE IF EXISTS product_names;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS product_descriptions (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS product_names (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
   executeQuery(sqlQuery, params);
 
   
@@ -60,10 +60,18 @@ function InitializeDB() {
 
   
 
+  sqlQuery = "DROP TABLE IF EXISTS qrcode;";
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS qrcode (id INTEGER PRIMARY KEY AUTOINCREMENT, content_id INTEGER, content_type TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+
   sqlQuery = "DROP TABLE IF EXISTS qrscan;";
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, content_id INTEGER, content_type TEXT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)";
   executeQuery(sqlQuery, params);
 
 
@@ -87,7 +95,7 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS box_contents;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, product_id INTEGER, quantity INT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, product_id INTEGER, quantity_of_products INT, lot_id INTEGER)";
   executeQuery(sqlQuery, params);
 
 
@@ -103,7 +111,15 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS pallet_contents;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, box_id INTEGER, quantity INT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, box_id INTEGER, quantity_of_boxes INT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS lot;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS lot (id INTEGER PRIMARY KEY AUTOINCREMENT, harvest_date DATE, harvested_by_user_id INTEGER, best_before_date DATE)";
   executeQuery(sqlQuery, params);
 
   // ---------------------------------------------------------------------
@@ -162,51 +178,98 @@ function InitializeDB() {
   // ---------------------------------------------------------------------
 
   currentId = 1;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, bestBeforeDays) values (?, ?, ?)"
-  params = [currentId, 'tomato', '14'];
+  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
+  params = [currentId, 'Blade Oakleaf Lettuce', 'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/015-Blade-Oakleaf-Lettuce-Web.jpg?fit=1500%2C1000&ssl=1', 'https://localgrownsalads.com/product/blade-oakleaf-lettuce/'];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_descriptions (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Tomato'];
+  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
+  params = [currentId, 'english', 'Blade Oakleaf Lettuce'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Tomate'];
+  params = [currentId, 'spanish', 'Hoja de Lechuga de Hoja de Roble'];
   executeQuery(sqlQuery, params);    
   sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'The tomato is the edible berry of the plant Solanum lycopersicum, commonly known as the tomato plant.'];
+  params = [currentId, 'english', 'An Oakleaf Lettuce in the shape of a blade, this lettuce\'s leaves are long and thin, and they fit perfectly, whole, in large salads, or, chopped, in regular salads. Blade Oakleaf Lettuce has its own distinct, bold flavour compared to staple lettuces, and that\'s why you\'ll find it in stronger flavoured salads.'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'El tomate es la baya comestible de la planta Solanum lycopersicum, comúnmente conocida como planta de tomate.'];
+  params = [currentId, 'spanish', 'Una Lechuga Hoja de Roble en forma de cuchilla, las hojas de esta lechuga son largas y finas, y encajan perfectamente, enteras, en ensaladas grandes, o, picadas, en ensaladas regulares. Blade Oakleaf Lettuce tiene su propio sabor distintivo y audaz en comparación con las lechugas básicas, y es por eso que la encontrará en ensaladas de sabores más fuertes.'];
   executeQuery(sqlQuery, params);
 
   currentId = 2;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, bestBeforeDays) values (?, ?, ?)"
-  params = [currentId, 'cucumber', '28'];
+  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
+  params = [currentId, 'Curly Kale', 'https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1','https://localgrownsalads.com/product/curly-kale/'];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_descriptions (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Cucumber'];
+  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
+  params = [currentId, 'english', 'Curly Kale'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Pepino'];
+  params = [currentId, 'spanish', 'Col Rizada'];
   executeQuery(sqlQuery, params);    
   sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Cucumber (Cucumis sativus) is a widely-cultivated creeping vine plant in the Cucurbitaceae family that bears usually cylindrical fruits.'];
+  params = [currentId, 'english', 'A salad favourite, Curly Kale gets its name from its wavy leaves. When young, their edges have a slight curl, but as they grow, so do the amount of curls. This variety of kale is particularly nice in salads, thanks in large part to its appearance and texture adding a different look than your average lettuce-based salad.'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'El pepino (Cucumis sativus) es una planta de enredadera rastrera ampliamente cultivada de la familia de las cucurbitáceas que suele dar frutos cilíndricos.'];
+  params = [currentId, 'spanish', 'Una ensalada favorita, Curly Kale recibe su nombre de sus hojas onduladas. Cuando son jóvenes, sus bordes tienen un ligero rizo, pero a medida que crecen, también aumenta la cantidad de rizos. Esta variedad de col rizada es particularmente agradable en ensaladas, gracias en gran parte a su apariencia y textura que le da un aspecto diferente al de una ensalada promedio a base de lechuga.'];
   executeQuery(sqlQuery, params);
 
   currentId = 3;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, bestBeforeDays) values (?, ?, ?)"
-  params = [currentId, 'crouton', '28'];
+  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
+  params = [currentId, 'Pesto Basil', 'https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1', 'https://localgrownsalads.com/product/pesto-basil/'];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_descriptions (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Crouton'];
+  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
+  params = [currentId, 'english', 'Pesto Basil'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Crutones'];
+  params = [currentId, 'spanish', 'Pesto de Albahaca'];
   executeQuery(sqlQuery, params);    
   sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'A crouton is a piece of rebaked bread, often cubed and seasoned.'];
+  params = [currentId, 'english', 'Sweet Basil. St. Joseph\'s Wort. Ocimum Basilicum. Genovese Basil. Delicious. Whatever you call it, this popular variety of basil is a fragrant and flavourful herb that is most commonly found in its own saucy paste-type dish, pesto, which pairs beautifully from everything from pastas and pizzas to fish and even as a dip for breads and crackers.'];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Un picatostes es un trozo de pan horneado, a menudo cortado en cubos y sazonado.'];
+  params = [currentId, 'spanish', 'Albahaca. Hierba de San José. Ocimum Basilicum. Albahaca Genovesa. Delicioso. Como sea que la llames, esta popular variedad de albahaca es una hierba aromática y sabrosa que se encuentra más comúnmente en su propio plato tipo pasta picante, el pesto, que combina a la perfección con todo, desde pastas y pizzas hasta pescado e incluso como salsa para panes. y galletas.'];
   executeQuery(sqlQuery, params);
 
   // TODO - add more products here
+
+  
+  // ---------------------------------------------------------------------
+  // ADD ALL LOTS HERE 
+  // ---------------------------------------------------------------------
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-15'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-16'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-17'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-18'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-19'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-09-26', 4, '2022-10-20'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-10-26', 4, '2022-11-15'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-10-26', 4, '2022-11-15'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-10-26', 4, '2022-11-21'];  
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
+  params = ['2022-10-26', 4, '2022-11-21'];  
+  executeQuery(sqlQuery, params);
+  
+  // TODO - add more lots here
 
   // ---------------------------------------------------------------------
   // ADD ALL BOXES HERE 
@@ -216,34 +279,34 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity) values (?, ?, ?)"
-  params = [currentId, 1, 3];
+  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
+  params = [currentId, 1, 3, 1];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 1];
+  params = [currentId, 2, 1, 2];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 5];  
+  params = [currentId, 3, 5, 3];  
   executeQuery(sqlQuery, params);
   
   currentId = 2;
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
+  executeQuery(sqlQuery, params);  
+  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
+  params = [currentId, 1, 1, 4];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity) values (?, ?, ?)"
-  params = [currentId, 1, 1];
-  executeQuery(sqlQuery, params);    
-  params = [currentId, 3, 2];  
+  params = [currentId, 3, 2, 5];  
   executeQuery(sqlQuery, params);
   
   currentId = 3;
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity) values (?, ?, ?)"
-  params = [currentId, 1, 5];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 3];
+  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
+  params = [currentId, 1, 5, 6];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 1];  
+  params = [currentId, 2, 3, 7];
+  executeQuery(sqlQuery, params);   
+  params = [currentId, 3, 1, 8];  
   executeQuery(sqlQuery, params);
 
   // TODO - add more boxes here
@@ -256,7 +319,7 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO pallet (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity) values (?, ?, ?)"
+  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
   params = [currentId, 1, 3];
   executeQuery(sqlQuery, params);   
   params = [currentId, 2, 1];
@@ -268,7 +331,7 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO pallet (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity) values (?, ?, ?)"
+  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
   params = [currentId, 1, 1];
   executeQuery(sqlQuery, params);    
   params = [currentId, 3, 2];  
@@ -278,7 +341,7 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO pallet (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity) values (?, ?, ?)"
+  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
   params = [currentId, 1, 5];
   executeQuery(sqlQuery, params);   
   params = [currentId, 2, 3];
@@ -291,161 +354,195 @@ function InitializeDB() {
   // ---------------------------------------------------------------------
   // ADD ALL QR SCANS HERE 
   // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type) values (?, ?, ?, ?, ?, ?)"
 
   content_id = 1;
   content_type = 'product';
+  qrcode_id = 1;
+
+  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
+  params = [content_id, content_type];
+  executeQuery(sqlQuery, params);  
+
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
 
   user_id = 4; // Farmer - QuartzsiteFarming
   date_time = '2022-07-21 12:00:00.000';
   geolocation_lat = 33.695;
   geolocation_lon = -114.204;
-  params = [1, 'test', 'test'];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 3; // Distributor - PHXDistribution
   date_time = '2022-07-25 12:00:00.000';
   geolocation_lat = 33.447612811244085;
   geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 2; // Retailer - Walmart
   date_time = '2022-07-30 12:00:00.000';
   geolocation_lat = 33.39390852951677;
   geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 1; // Consumer - Zale
   date_time = '2022-07-31 12:00:00.000';
   geolocation_lat = 33.424564;
   geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
 
   content_id = 2;
   content_type = 'product';
+  qrcode_id = 2;
+  
+  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
+  params = [content_id, content_type];
+  executeQuery(sqlQuery, params); 
+  
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
 
   user_id = 4; // Farmer - QuartzsiteFarming
   date_time = '2022-08-21 12:00:00.000';
   geolocation_lat = 33.694877853650866;
   geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 3; // Distributor - PHXDistribution
   date_time = '2022-08-25 12:00:00.000';
   geolocation_lat = 33.447612811244085;
   geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 2; // Retailer - Walmart
   date_time = '2022-08-30 12:00:00.000';
   geolocation_lat = 33.39390852951677;
   geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 1; // Consumer - Zale
   date_time = '2022-08-31 12:00:00.000';
   geolocation_lat = 33.424564;
   geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
 
   content_id = 3;
   content_type = 'product';
+  qrcode_id = 3;
+  
+  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
+  params = [content_id, content_type];
+  executeQuery(sqlQuery, params);  
+  
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
 
   user_id = 4; // Farmer - QuartzsiteFarming
   date_time = '2022-05-21 12:00:00.000';
   geolocation_lat = 33.694877853650866;
   geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 3; // Distributor - PHXDistribution
   date_time = '2022-05-25 12:00:00.000';
   geolocation_lat = 33.447612811244085;
   geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 2; // Retailer - Walmart
   date_time = '2022-05-30 12:00:00.000';
   geolocation_lat = 33.39390852951677;
   geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 1; // Consumer - Zale
   date_time = '2022-05-31 12:00:00.000';
   geolocation_lat = 33.424564;
   geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
 
   content_id = 1;
   content_type = 'pallet';
+  qrcode_id = 4;
+  
+  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
+  params = [content_id, content_type];
+  executeQuery(sqlQuery, params);  
+  
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
 
   user_id = 4; // Farmer - QuartzsiteFarming
   date_time = '2022-05-21 12:00:00.000';
   geolocation_lat = 33.694877853650866;
   geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 3; // Distributor - PHXDistribution
   date_time = '2022-05-25 12:00:00.000';
   geolocation_lat = 33.447612811244085;
   geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 2; // Retailer - Walmart
   date_time = '2022-05-30 12:00:00.000';
   geolocation_lat = 33.39390852951677;
   geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 1; // Consumer - Zale
   date_time = '2022-05-31 12:00:00.000';
   geolocation_lat = 33.424564;
   geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
 
   content_id = 2;
   content_type = 'box';
+  qrcode_id = 5;
+  
+  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
+  params = [content_id, content_type];
+  executeQuery(sqlQuery, params);  
+  
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
 
   user_id = 4; // Farmer - QuartzsiteFarming
   date_time = '2022-05-21 12:00:00.000';
   geolocation_lat = 33.694877853650866;
   geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 3; // Distributor - PHXDistribution
   date_time = '2022-05-25 12:00:00.000';
   geolocation_lat = 33.447612811244085;
   geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 2; // Retailer - Walmart
   date_time = '2022-05-30 12:00:00.000';
   geolocation_lat = 33.39390852951677;
   geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   user_id = 1; // Consumer - Zale
   date_time = '2022-05-31 12:00:00.000';
   geolocation_lat = 33.424564;
   geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, content_id, content_type];
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
   
   // TODO - add more QR scans here
@@ -456,7 +553,39 @@ function InitializeDB() {
 // DEFINE ACCESSOR FUNCTIONS
 // ---------------------------------------------------------------------
 
-const getAllQRScans = async (content_id, content_type) => {
+const getLotDetails = async (lot_id) => {
+  return new Promise((resolve, reject) => {    
+    sqlQuery = "SELECT \
+                  lot.harvest_date as harvestDate, \
+                  lot.best_before_date as bestBeforeDate, \
+                  user.firstName || ' ' || user.lastName as harvestedBy, \
+                  user.company as Farm \
+                FROM lot \
+                  LEFT JOIN user ON lot.harvested_by_user_id = user.id \
+                WHERE \
+                  lot.id = " + lot_id + "\
+              ";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get Lot Details Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get Lot Details Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  }); 
+}
+
+const getAllQRScans = async (qrcode_id) => {
   return new Promise((resolve, reject) => {    
     sqlQuery = "SELECT \
                   qrscan.id, \
@@ -470,8 +599,7 @@ const getAllQRScans = async (content_id, content_type) => {
                 FROM qrscan \
                   LEFT JOIN user ON qrscan.user_id = user.id \
                 WHERE \
-                  qrscan.content_id = " + content_id + "\
-                  AND qrscan.content_type like '" + content_type + "'\
+                  qrscan.qrcode_id = " + qrcode_id + "\
                 ORDER BY \
                   qrscan.date_time DESC \
               ";
@@ -493,14 +621,72 @@ const getAllQRScans = async (content_id, content_type) => {
         }
 
         // what you resolve here is what will be the result of
-        // await function call  
-        resolve(JSON.stringify(results.rows._array));
+        // await function call
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get All QR Scans Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
         console.log("Get All QR Scans Execute Error: " + error);
 
-        reject(error)
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const checkSignIn = async (email_input, password_input) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT * FROM user WHERE email like \"" + email_input + "\" AND password = '" + password_input + "'";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        if (debugging_option) {
+          console.log("Get All Users By Account Type _array: " + JSON.stringify(results.rows._array));    
+        }
+
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get All Users Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get All Users Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const getAllUsersByAccountType = async (accountType) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT * FROM user WHERE accountType like \"" + accountType + "\"";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        if (debugging_option) {
+          console.log("Get All Users By Account Type _array: " + JSON.stringify(results.rows._array));    
+        }
+
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get All Users Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get All Users Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -517,15 +703,17 @@ const getAllUsers = async () => {
           console.log("Get All Users _array: " + JSON.stringify(results.rows._array));    
         }
 
-        // what you resolve here is what will be the result of
-        // await function call  
-        resolve(JSON.stringify(results.rows._array));
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get All Users Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
         console.log("Get All Users Execute Error: " + error);
 
-        reject(error)
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -543,11 +731,16 @@ const getPalletDetails = async (pallet_id) => {
 
     DatabaseDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => { 
-        resolve(JSON.stringify(results.rows._array));
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get getPalletDetails Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
-        reject(error)
+        
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -559,17 +752,22 @@ const getBoxDetails = async (box_id) => {
                   * \
                 FROM box_contents \
                 WHERE \
-                box_contents.box_id = " + box_id + "\
+                  box_contents.box_id = " + box_id + "\
               ";
     params = [];  
 
     DatabaseDB.transaction((txn) => {
-      txn.executeSql(sqlQuery, params, (trans, results) => { 
-        resolve(JSON.stringify(results.rows._array));
+      txn.executeSql(sqlQuery, params, (trans, results) => {         
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get getBoxDetails Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
-        reject(error)
+        
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -580,15 +778,16 @@ const getProductDetails = async (product_id, inputLanguage) => {
     sqlQuery = "SELECT \
                   product.id, \
                   product.defaultLabel, \
-                  product.bestBeforeDays, \
-                  product_descriptions.content AS product_description, \
+                  product.photoURL, \
+                  product.productPageURL, \
+                  product_names.content AS product_name, \
                   product_specifications.content AS product_specification \
                 FROM product \
-                  LEFT JOIN product_descriptions ON product.id = product_descriptions.product_id \
+                  LEFT JOIN product_names ON product.id = product_names.product_id \
                   LEFT JOIN product_specifications ON product.id = product_specifications.product_id \
                 WHERE \
                   product.id = " + product_id + "\
-                  AND product_descriptions.language like '" + inputLanguage + "'\
+                  AND product_names.language like '" + inputLanguage + "'\
                   AND product_specifications.language like '" + inputLanguage + "'\
               ";
     params = [];  
@@ -605,18 +804,20 @@ const getProductDetails = async (product_id, inputLanguage) => {
         }
 
         if (debugging_option) {
-         // console.log("Get All Product Details _array: " + JSON.stringify(results.rows._array));    
+          console.log("Get All Product Details _array: " + JSON.stringify(results.rows._array));    
         }
 
-        // what you resolve here is what will be the result of
-        // await function call  
-        return resolve(JSON.stringify(results.rows._array));
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get Product Details Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
         console.log("Get Product Details Execute Error: " + error);
-
-        reject(error)
+        
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -627,14 +828,15 @@ const getAllProducts = async (inputLanguage) => {
     sqlQuery = "SELECT \
                   product.id, \
                   product.defaultLabel, \
-                  product.bestBeforeDays, \
-                  product_descriptions.content AS product_description, \
+                  product.photoURL, \
+                  product.productPageURL, \
+                  product_names.content AS product_name, \
                   product_specifications.content AS product_specification \
                 FROM product \
-                  LEFT JOIN product_descriptions ON product.id = product_descriptions.product_id \
+                  LEFT JOIN product_names ON product.id = product_names.product_id \
                   LEFT JOIN product_specifications ON product.id = product_specifications.product_id \
                 WHERE \
-                  product_descriptions.language like '" + inputLanguage + "'\
+                  product_names.language like '" + inputLanguage + "'\
                   AND product_specifications.language like '" + inputLanguage + "'\
               ";
     params = [];  
@@ -654,15 +856,17 @@ const getAllProducts = async (inputLanguage) => {
           console.log("Get All Products _array: " + JSON.stringify(results.rows._array));    
         }
 
-        // what you resolve here is what will be the result of
-        // await function call  
-        resolve(JSON.stringify(results.rows._array));
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get All Products Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
         console.log("Get All Products Execute Error: " + error);
 
-        reject(error)
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
@@ -689,19 +893,42 @@ const getProductId = async (defaultLabel) => {
           console.log("Get Product ID results: " + JSON.stringify(results));    
         }
 
-        // what you resolve here is what will be the result of
-        // await function call  
-        resolve(JSON.stringify(results.rows._array[0].id));
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array[0].id) + "}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Get Product ID Execute Error: |" + sqlQueryProductId + "|" + params + "|" + JSON.stringify(error));
         console.log("Get Product ID Execute Error: " + error);
 
-        reject(error)
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
   }
+
+  const getUserId = async (email_input) => {
+    return new Promise((resolve, reject) => {
+      var sqlQueryUserId = "SELECT \
+                    user.id \
+                  FROM user \
+                  WHERE \
+                    user.email like '" + email_input + "'\
+                ";
+      params = [];  
+  
+      DatabaseDB.transaction((txn) => {
+        txn.executeSql(sqlQueryUserId, params, (trans, results) => {
+          resolve(results.rows._array[0].id);
+        },
+          (error) => {
+          reject(error)
+        });
+      });
+    });  
+    }
 
 const deleteProduct = async (product_id) => {
   return new Promise((resolve, reject) => {
@@ -715,29 +942,46 @@ const deleteProduct = async (product_id) => {
       txn.executeSql(sqlQueryDeleteProduct, params, (trans, results) => {      
         // what you resolve here is what will be the result of
         // await function call  
-        resolve('success');
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+        resolve(ReturnObject);
       },
         (error) => {
         console.log("Delete Product Execute Error: |" + sqlQueryDeleteProduct + "|" + params + "|" + JSON.stringify(error));
         console.log("Delete Product Execute Error: " + error);
 
-        reject(error)
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
 }
 
-const addProduct = async (defaultLabel, bestBeforeDays, product_descriptions, product_specifications) => {
+const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_lon, user_id) => {
 
-  sqlQuery = "INSERT INTO product (defaultLabel, bestBeforeDays) values (?, ?)"
-  params = [defaultLabel, bestBeforeDays];
+  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
+  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
+  executeQuery(sqlQuery, params);    
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
+
+const addProduct = async (defaultLabel, photoURL, productPageURL, product_names, product_specifications) => {
+
+  sqlQuery = "INSERT INTO product (defaultLabel, photoURL, productPageURL) values (?, ?)"
+  params = [defaultLabel, photoURL, productPageURL];
   executeQuery(sqlQuery, params);  
 
   // get product id from default label
   currentId = -1;
   await getProductId(defaultLabel).then((result) => {
     console.log('Get Product ID Then: ' + result);
-    currentId = result;
+    currentId = result.output;
   }).catch((error) => {
     console.log('Get Product ID Error: ' + error);
   });
@@ -746,15 +990,15 @@ const addProduct = async (defaultLabel, bestBeforeDays, product_descriptions, pr
   var subArray;
   var language = '';
   var content = '';
-  for (var key in product_descriptions) {
-    subArray = product_descriptions[key];
+  for (var key in product_names) {
+    subArray = product_names[key];
     language = subArray.language;
     content = subArray.content;
     if (debugging_option) {
       console.log("language " + language + " has value " + content);
     }
 
-    sqlQuery = "INSERT INTO product_descriptions (product_id, language, content) values (?, ?, ?)"
+    sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
     params = [currentId, language, content];
     executeQuery(sqlQuery, params);   
   }  
@@ -778,7 +1022,27 @@ const addProduct = async (defaultLabel, bestBeforeDays, product_descriptions, pr
   });  
 }
 
+const addUser = async (firstName_input, lastName_input, email_input, password_input, accountType_input, language_input, company_input) => {
 
+  sqlQuery = "INSERT INTO user (firstName, lastName, email, password, accountType, language, company) values (?, ?, ?, ?, ?, ?, ?)"
+  params = [firstName_input, lastName_input, email_input, password_input, accountType_input, language_input, company_input];
+  executeQuery(sqlQuery, params);
+
+  currentId = -1;
+  await getUserId(email_input).then((result) => {
+    console.log('Get User ID Then: ' + result);
+    currentId = result.output;
+  }).catch((error) => {
+    console.log('Get User ID Error: ' + error);
+  });
+
+  // NOTE: no longer returning user ID (currentId) because of a sync issue
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
 
 // TODO - define additional accessors here
 
@@ -786,8 +1050,8 @@ const addProduct = async (defaultLabel, bestBeforeDays, product_descriptions, pr
 // EXPORT ACCESSOR FUNCTIONS HERE
 // ---------------------------------------------------------------------
 
-// TODO - export additionla accessors here
-export {getAllProducts, deleteProduct, addProduct, getAllQRScans, getAllUsers, getPalletDetails, getBoxDetails, getProductDetails};
+// TODO - export additional accessors here
+export {addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
