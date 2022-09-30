@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,43 +11,39 @@ import {
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../Colors';
-import { getAllProducts, getProductDetails } from '../../Database';
+import { getAllProducts, getProductDetails, getLotDetails } from '../../Database';
+import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import LotInformation from '../LotInformation/LotInformation';
 
 var colors = getGlobalColors();
-var defaultThumbnail = require("./tomato.jpg")
-var tomatoImg = require("./lettuce.webp")
-var cucumnerImg = require("./chives.webp")
-var croutonImg = require("./cilantro.webp")
-var thumbs = [tomatoImg, cucumnerImg, croutonImg]
+
 var urls = ["https://localgrownsalads.com/product/blade-oakleaf-lettuce/","https://localgrownsalads.com/product/chives/", "https://localgrownsalads.com/product/cilantro/"]
 
 
 
-export default class Product extends Component {
-  constructor(props){
-    super()
-    this.label = props.src.product_description
-    this.shelfLife = props.src.bestBeforeDays
-    this.desc = props.src.product_specification
-    this.id = props.src.id
-  } 
+export default function Product(props) {
+  const [lotInfo, setLotInfo] = useState();
 
+  useEffect(() => {
+   getLotDetails(props.src.id).then((result) => {
+      var queryResults = JSON.parse(result);
+      setLotInfo(queryResults.output)
+    })
+}, [])
 
-  render() {
         return (
-          <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( urls[this.id-1] );}}>
+          <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( props.src.productPageURL );}}>
             <Image
             resizeMode={'cover'}
               style={styles.thumb}
-              source={thumbs[this.id-1]}            />
+              source={{uri:props.src.photoURL}}/>
             <View style={styles.infoContainer}>
-              <Text style={styles.name}>{this.label}</Text>
-              <Text style={styles.sub}>Shelf life: {this.shelfLife} days</Text>
-              <Text style={styles.sub}>Description: {this.desc}</Text>
+              <Text style={styles.name}>{props.src.defaultLabel}</Text>
+              <Text style={styles.sub}>Description: {props.src.product_specification}</Text>
             </View>
+            {lotInfo && <LotInformation src={lotInfo[0]}/>}
     </TouchableOpacity>
     );
-  }
 }
 
 const styles = StyleSheet.create({
