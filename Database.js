@@ -9,7 +9,8 @@ let params = '';
 let date_time = '';
 let content_type = '';
 let currentId = -1;
-let user_id = -1;  
+let user_id = -1;
+let lot_id = -1;  
 let geolocation_lat = -1;
 let geolocation_lon = -1;
 let content_id = -1;
@@ -22,6 +23,8 @@ let password = '';
 let accountType = '';
 let language = '';
 let company = '';
+
+let feedback_text = '';
 
 const debugging_option = true;
 const debugging_option_detailed = false;
@@ -95,7 +98,7 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS box_contents;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, product_id INTEGER, quantity_of_products INT, lot_id INTEGER)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, quantity_of_products INT, lot_id INTEGER)";
   executeQuery(sqlQuery, params);
 
 
@@ -119,7 +122,15 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS lot;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS lot (id INTEGER PRIMARY KEY AUTOINCREMENT, harvest_date DATE, harvested_by_user_id INTEGER, best_before_date DATE)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS lot (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, harvest_date DATE, harvested_by_user_id INTEGER, best_before_date DATE)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS feedback;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, lot_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
   executeQuery(sqlQuery, params);
 
   // ---------------------------------------------------------------------
@@ -229,44 +240,35 @@ function InitializeDB() {
   // ADD ALL LOTS HERE 
   // ---------------------------------------------------------------------
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-15'];  
+  sqlQuery = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
+  params = [1, '2022-09-26', 4, '2022-10-15'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-16'];  
+  params = [2, '2022-09-26', 4, '2022-10-16'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-17'];  
+  params = [3, '2022-09-26', 4, '2022-10-17'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-18'];  
+  params = [1, '2022-09-26', 4, '2022-10-18'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-19'];  
+  params = [3, '2022-09-26', 4, '2022-10-19'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-09-26', 4, '2022-10-20'];  
+  params = [1, '2022-09-26', 4, '2022-10-20'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-10-26', 4, '2022-11-15'];  
+  params = [2, '2022-10-26', 4, '2022-11-15'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-10-26', 4, '2022-11-15'];  
+  params = [3, '2022-10-26', 4, '2022-11-15'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-10-26', 4, '2022-11-21'];  
+  params = [1, '2022-10-26', 4, '2022-11-21'];  
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "INSERT INTO lot (harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?)"
-  params = ['2022-10-26', 4, '2022-11-21'];  
+  params = [2, '2022-10-26', 4, '2022-11-21'];  
   executeQuery(sqlQuery, params);
   
   // TODO - add more lots here
@@ -279,34 +281,34 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
-  params = [currentId, 1, 3, 1];
+  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
+  params = [currentId, 3, 1];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 1, 2];
+  params = [currentId, 1, 2];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 5, 3];  
+  params = [currentId, 5, 3];  
   executeQuery(sqlQuery, params);
   
   currentId = 2;
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);  
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
-  params = [currentId, 1, 1, 4];
+  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
+  params = [currentId, 1, 4];
   executeQuery(sqlQuery, params);    
-  params = [currentId, 3, 2, 5];  
+  params = [currentId, 2, 5];  
   executeQuery(sqlQuery, params);
   
   currentId = 3;
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);   
-  sqlQuery = "INSERT INTO box_contents (box_id, product_id, quantity_of_products, lot_id) values (?, ?, ?, ?)"
-  params = [currentId, 1, 5, 6];
+  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
+  params = [currentId, 5, 6];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 3, 7];
+  params = [currentId, 3, 7];
   executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 1, 8];  
+  params = [currentId, 1, 8];  
   executeQuery(sqlQuery, params);
 
   // TODO - add more boxes here
@@ -547,6 +549,54 @@ function InitializeDB() {
   
   // TODO - add more QR scans here
 
+  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, lot_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
+  
+  // ---------------------------------------------------------------------
+  // ADD ALL FEEDBACK HERE 
+  // ---------------------------------------------------------------------
+  sqlQuery = "INSERT INTO feedback (user_id, lot_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?)"
+
+  user_id = 1; 
+  lot_id = 1; 
+  date_time = '2022-05-31 12:00:00.000';
+  rating = 5;
+  feedback_text = "great!";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  user_id = 2; 
+  lot_id = 1; 
+  date_time = '2022-05-30 12:00:00.000';
+  rating = 5;
+  feedback_text = "looked great";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  user_id = 2; 
+  lot_id = 2; 
+  date_time = '2022-06-01 12:00:00.000';
+  rating = 5;
+  feedback_text = "delicious!";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  user_id = 3; 
+  lot_id = 3; 
+  date_time = '2022-06-02 12:00:00.000';
+  rating = 3;
+  feedback_text = "looked wilty";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  user_id = 1; 
+  lot_id = 4; 
+  date_time = '2022-06-03 12:00:00.000';
+  rating = 1;
+  feedback_text = "tasted bad";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  // TODO - add more Feedback here
 }
 
 // ---------------------------------------------------------------------
@@ -585,6 +635,7 @@ const getQRCodeDetails = async (qrcode_id) => {
 const getLotDetails = async (lot_id) => {
   return new Promise((resolve, reject) => {    
     sqlQuery = "SELECT \
+                  lot.product_id, \
                   lot.harvest_date as harvestDate, \
                   lot.best_before_date as bestBeforeDate, \
                   user.firstName || ' ' || user.lastName as harvestedBy, \
@@ -592,8 +643,8 @@ const getLotDetails = async (lot_id) => {
                 FROM lot \
                   LEFT JOIN user ON lot.harvested_by_user_id = user.id \
                 WHERE \
-                  lot.id = " + lot_id + "\
-              ";
+                  lot.id = " + lot_id
+              ;
     params = [];  
 
     DatabaseDB.transaction((txn) => {
@@ -669,7 +720,12 @@ const getAllQRScans = async (qrcode_id) => {
 
 const checkSignIn = async (email_input, password_input) => {
   return new Promise((resolve, reject) => {
-    sqlQuery = "SELECT * FROM user WHERE email like \"" + email_input + "\" AND password = '" + password_input + "'";
+    sqlQuery = "SELECT \
+                    * \
+                  FROM user \
+                  WHERE \
+                    email like \"" + email_input + "\" \
+                    AND password = '" + password_input + "'";
     params = [];  
 
     DatabaseDB.transaction((txn) => {
@@ -696,7 +752,11 @@ const checkSignIn = async (email_input, password_input) => {
 
 const getAllUsersByAccountType = async (accountType) => {
   return new Promise((resolve, reject) => {
-    sqlQuery = "SELECT * FROM user WHERE accountType like \"" + accountType + "\"";
+    sqlQuery = "SELECT \
+                    * \
+                  FROM user \
+                    WHERE \
+                      accountType like \"" + accountType + "\"";
     params = [];  
 
     DatabaseDB.transaction((txn) => {
@@ -908,10 +968,10 @@ const getProductId = async (defaultLabel) => {
 
   return new Promise((resolve, reject) => {
     var sqlQueryProductId = "SELECT \
-                  product.id \
-                FROM product \
-                WHERE \
-                  product.defaultLabel = '" + defaultLabel + "'\
+                                product.id \
+                              FROM product \
+                              WHERE \
+                                product.defaultLabel = '" + defaultLabel + "'\
               ";
     params = [];  
 
@@ -941,10 +1001,10 @@ const getProductId = async (defaultLabel) => {
   const getUserId = async (email_input) => {
     return new Promise((resolve, reject) => {
       var sqlQueryUserId = "SELECT \
-                    user.id \
-                  FROM user \
-                  WHERE \
-                    user.email like '" + email_input + "'\
+                              user.id \
+                            FROM user \
+                            WHERE \
+                              user.email like '" + email_input + "'\
                 ";
       params = [];  
   
@@ -962,8 +1022,8 @@ const getProductId = async (defaultLabel) => {
 const deleteProduct = async (product_id) => {
   return new Promise((resolve, reject) => {
     var sqlQueryDeleteProduct = "DELETE FROM product \
-                WHERE \
-                  id = " + product_id + "\
+                                  WHERE \
+                                    id = " + product_id + "\
               ";
     params = [];  
 
@@ -979,6 +1039,105 @@ const deleteProduct = async (product_id) => {
         console.log("Delete Product Execute Error: |" + sqlQueryDeleteProduct + "|" + params + "|" + JSON.stringify(error));
         console.log("Delete Product Execute Error: " + error);
 
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const addFeedback = async (user_id, lot_id, date_time, rating, feedback_text) => {
+
+  sqlQuery = "INSERT INTO feedback (user_id, lot_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?)";
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);    
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
+
+const updateFeedback = async (feedback_id, user_id, lot_id, date_time, rating, feedback_text) => {
+
+  sqlQuery = "UPDATE feedback \
+                SET \
+                  user_id = "+ user_id + ",\
+                  lot_id = "+ lot_id + ",\
+                  date_time = '"+ date_time + "',\
+                  rating = "+ rating + ",\
+                  feedback_text = '" + feedback_text + "'\
+                WHERE \
+                  feedback.id = " + feedback_id;
+  params = [user_id, lot_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);    
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
+
+const getFeedbackByLotId = async (lot_id) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT \
+                  feedback.id as feedback_id, \
+                  feedback.user_id, \
+                  feedback.lot_id, \
+                  lot.product_id, \
+                  feedback.date_time, \
+                  feedback.rating, \
+                  feedback.feedback_text \
+                FROM feedback \
+                  LEFT JOIN lot ON feedback.lot_id = lot.id \
+                WHERE \
+                  feedback.lot_id = " + lot_id
+              ;
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const getFeedbackByLotIdUserId = async (lot_id, user_id) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT \
+                  feedback.id as feedback_id, \
+                  feedback.user_id, \
+                  feedback.lot_id, \
+                  lot.product_id, \
+                  feedback.date_time, \
+                  feedback.rating, \
+                  feedback.feedback_text \
+                FROM feedback \
+                  LEFT JOIN lot ON feedback.lot_id = lot.id \
+                WHERE \
+                  feedback.lot_id = " + lot_id + "\
+                  AND feedback.user_id = " + user_id
+              ;
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
         let response_code = "400";
         var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
         reject(ReturnObject)
@@ -1080,7 +1239,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
