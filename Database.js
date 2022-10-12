@@ -133,6 +133,24 @@ function InitializeDB() {
   sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, lot_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
   executeQuery(sqlQuery, params);
 
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS settings;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, appVersion TEXT, companyName TEXT, photoURLBanner TEXT, photoURLIcon TEXT, fontAndroid TEXT, fontiOS TEXT, colorPrimary TEXT, colorSecondary TEXT, colorTertiary TEXT, colorBackgroundLight TEXT, colorBackgroundDark TEXT)";
+  executeQuery(sqlQuery, params);
+
+  // ---------------------------------------------------------------------
+  // ADD ALL SETTINGS HERE 
+  // ---------------------------------------------------------------------
+  sqlQuery = "INSERT INTO settings (appVersion, companyName, photoURLBanner, photoURLIcon, fontAndroid, fontiOS, colorPrimary, colorSecondary, colorTertiary, colorBackgroundLight, colorBackgroundDark) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+
+  params = ["1.0","LGS","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/cropped-cropped-lfs-logo0-1-2-e1649170913225.png?fit=71%2C71&ssl=1","Roboto","San Francisco","282A36","8A8888","EEEEEE","FFFFFF","282A36"];
+  executeQuery(sqlQuery, params);
+
+  // TODO - add more settings
+
   // ---------------------------------------------------------------------
   // ADD ALL USERS HERE 
   // ---------------------------------------------------------------------
@@ -781,6 +799,37 @@ const getAllUsersByAccountType = async (accountType) => {
   });  
 }
 
+const getAppSettings = async (appVersion) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT \
+                    * \
+                  FROM settings \
+                    WHERE \
+                      appVersion like \"" + appVersion + "\"";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        if (debugging_option) {
+          console.log("Get Settings Type _array: " + JSON.stringify(results.rows._array));    
+        }
+
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get Settings Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get Settings Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
 const getAllUsers = async () => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT * FROM user";
@@ -1239,7 +1288,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {getAppSettings, addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
