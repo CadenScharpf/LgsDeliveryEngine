@@ -170,7 +170,7 @@ function InitializeDB() {
   user_id = 2; 
   firstName = 'John';
   lastName = 'Doe';
-  email = 'a@b.com';
+  email = 'johndoe@walmart.com';
   password = 'LGS2';
   accountType = 'retailer';
   language = 'english';
@@ -1211,17 +1211,17 @@ const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_
 const getUserDetails = async (email) => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
-    * \
-  FROM user \
-  WHERE \
-    user.email like '" + email + "'\
-"; + email;
+                    * \
+                  FROM user \
+                  WHERE \
+                    user.email like '" + email + "'\
+    ";
     params = [];  
 
     DatabaseDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => {        
         if (debugging_option) {
-          console.log("Get All Users _array: " + JSON.stringify(results.rows._array));    
+          console.log("Get User Details _array: " + JSON.stringify(results.rows._array));    
         }
 
         let response_code = "200";
@@ -1229,7 +1229,12 @@ const getUserDetails = async (email) => {
         resolve(ReturnObject);
       },
         (error) => {
-        resolve("DNE")
+        console.log("Get User Details Execute Error: |" + sqlQueryProductId + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get User Details Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
       });
     });
   });  
