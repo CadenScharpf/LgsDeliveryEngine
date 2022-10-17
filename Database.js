@@ -130,7 +130,7 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS feedback;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, lot_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, content_type TEXT, content_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
   executeQuery(sqlQuery, params);
 
 
@@ -566,52 +566,103 @@ function InitializeDB() {
   executeQuery(sqlQuery, params);    
   
   // TODO - add more QR scans here
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, lot_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
-  
+ 
   // ---------------------------------------------------------------------
   // ADD ALL FEEDBACK HERE 
   // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO feedback (user_id, lot_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?)"
+  sqlQuery = "INSERT INTO feedback (user_id, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)"
+
+  // pallet/box feedback matching QR Scans test data above
+
+  content_id = 1;
+  content_type = 'pallet';
+
+  user_id = 4; // Farmer - QuartzsiteFarming
+  date_time = '2022-05-21 12:00:00.000';
+  rating = 5;
+  feedback_text = "great pallet";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+  
+  user_id = 3; // Distributor - PHXDistribution
+  date_time = '2022-05-25 12:00:00.000';
+  rating = 5;
+  feedback_text = "speed delivery of pallet";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+  
+  user_id = 2; // Retailer - Walmart
+  date_time = '2022-05-30 12:00:00.000';
+  rating = 4;
+  feedback_text = "took longer than expected to arrive";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  content_id = 2;
+  content_type = 'box';  
+
+  user_id = 4; // Farmer - QuartzsiteFarming
+  date_time = '2022-05-21 12:00:00.000';
+  rating = 5;
+  feedback_text = "sending out a great box";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+  
+  user_id = 3; // Distributor - PHXDistribution
+  date_time = '2022-05-25 12:00:00.000';
+  rating = 3;
+  feedback_text = "smelled weird";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+  
+  user_id = 2; // Retailer - Walmart
+  date_time = '2022-05-30 12:00:00.000';
+  rating = 5;
+  feedback_text = "good condition box";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  executeQuery(sqlQuery, params);
+
+  // lot feedback
+  content_type = 'lot';
 
   user_id = 1; 
-  lot_id = 1; 
+  content_id = 1; 
   date_time = '2022-05-31 12:00:00.000';
   rating = 5;
   feedback_text = "great!";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   user_id = 2; 
-  lot_id = 1; 
+  content_id = 1; 
   date_time = '2022-05-30 12:00:00.000';
   rating = 5;
   feedback_text = "looked great";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   user_id = 2; 
-  lot_id = 2; 
+  content_id = 2; 
   date_time = '2022-06-01 12:00:00.000';
   rating = 5;
   feedback_text = "delicious!";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   user_id = 3; 
-  lot_id = 3; 
+  content_id = 3; 
   date_time = '2022-06-02 12:00:00.000';
   rating = 3;
   feedback_text = "looked wilty";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   user_id = 1; 
-  lot_id = 4; 
+  content_id = 4; 
   date_time = '2022-06-03 12:00:00.000';
   rating = 1;
   feedback_text = "tasted bad";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   // TODO - add more Feedback here
@@ -1096,10 +1147,10 @@ const deleteProduct = async (product_id) => {
   });  
 }
 
-const addFeedback = async (user_id, lot_id, date_time, rating, feedback_text) => {
+const addFeedback = async (user_id, content_type, content_id, date_time, rating, feedback_text) => {
 
-  sqlQuery = "INSERT INTO feedback (user_id, lot_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?)";
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  sqlQuery = "INSERT INTO feedback (user_id, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)";
+  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);    
 
   return new Promise((resolve, reject) => {
@@ -1109,12 +1160,10 @@ const addFeedback = async (user_id, lot_id, date_time, rating, feedback_text) =>
   });  
 }
 
-const updateFeedback = async (feedback_id, user_id, lot_id, date_time, rating, feedback_text) => {
+const updateFeedback = async (feedback_id, user_id, date_time, rating, feedback_text) => {
 
   sqlQuery = "UPDATE feedback \
                 SET \
-                  user_id = "+ user_id + ",\
-                  lot_id = "+ lot_id + ",\
                   date_time = '"+ date_time + "',\
                   rating = "+ rating + ",\
                   feedback_text = '" + feedback_text + "'\
@@ -1130,20 +1179,20 @@ const updateFeedback = async (feedback_id, user_id, lot_id, date_time, rating, f
   });  
 }
 
-const getFeedbackByLotIdUserId = async (lot_id, user_id) => {
+const getFeedbackByContentUserId = async (content_type, content_id, user_id) => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   feedback.id as feedback_id, \
                   feedback.user_id, \
-                  feedback.lot_id, \
-                  lot.product_id, \
+                  feedback.content_type, \
+                  feedback.content_id, \
                   feedback.date_time, \
                   feedback.rating, \
                   feedback.feedback_text \
                 FROM feedback \
-                  LEFT JOIN lot ON feedback.lot_id = lot.id \
                 WHERE \
-                  feedback.lot_id = " + lot_id + "\
+                  feedback.content_type = '" + content_type + "'\
+                  AND feedback.content_id = " + content_id + "\
                   AND feedback.user_id = " + user_id
               ;
     params = [];  
@@ -1288,7 +1337,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
