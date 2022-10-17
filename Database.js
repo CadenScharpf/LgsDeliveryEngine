@@ -1130,38 +1130,6 @@ const updateFeedback = async (feedback_id, user_id, lot_id, date_time, rating, f
   });  
 }
 
-const getFeedbackByLotId = async (lot_id) => {
-  return new Promise((resolve, reject) => {
-    sqlQuery = "SELECT \
-                  feedback.id as feedback_id, \
-                  feedback.user_id, \
-                  feedback.lot_id, \
-                  lot.product_id, \
-                  feedback.date_time, \
-                  feedback.rating, \
-                  feedback.feedback_text \
-                FROM feedback \
-                  LEFT JOIN lot ON feedback.lot_id = lot.id \
-                WHERE \
-                  feedback.lot_id = " + lot_id
-              ;
-    params = [];  
-
-    DatabaseDB.transaction((txn) => {
-      txn.executeSql(sqlQuery, params, (trans, results) => {        
-        let response_code = "200";
-        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
-        resolve(ReturnObject);
-      },
-        (error) => {
-        let response_code = "400";
-        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
-        reject(ReturnObject)
-      });
-    });
-  });  
-}
-
 const getFeedbackByLotIdUserId = async (lot_id, user_id) => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
@@ -1320,7 +1288,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
