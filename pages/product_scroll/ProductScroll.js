@@ -5,16 +5,21 @@ import getString from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import Product from '../../components/product/Product';
 import { getAllProducts } from '../../Database';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { withNavigation } from 'react-navigation';
 
 var colors = getGlobalColors();
 
 
-function ProductsPage() {
+function ProductsPage(props) {
+  global.gotofeedback = ()=>{global.feedbackId = ""; props.navigation.navigate("feedback")}
+  global.goto
   const [productDetails, setProductDetails] = useState();
   useEffect(() => {
      getAllProducts(global.language).then((result) => {
         var queryResults = JSON.parse(result);
         setProductDetails(queryResults.output)
+        
       }).catch((error) => {
         console.log('getAllProductsOperation failed');
       });
@@ -51,5 +56,5 @@ const styles = StyleSheet.create({
     fontSize: 42,
   },
 });
-export default ProductsPage;
+export default withNavigation(ProductsPage) ;
 

@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity, 
   WebView, 
-  Linking
+  Linking, Button
 } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,15 +15,14 @@ import { getAllProducts, getProductDetails, getLotDetails } from '../../Database
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import LotInformation from '../LotInformation/LotInformation';
 
-var colors = getGlobalColors();
 
-var urls = ["https://localgrownsalads.com/product/blade-oakleaf-lettuce/","https://localgrownsalads.com/product/chives/", "https://localgrownsalads.com/product/cilantro/"]
+var colors = getGlobalColors();
+const stack =  createStackNavigator()
 
 
 
 export default function Product(props) {
   const [lotInfo, setLotInfo] = useState();
-
   useEffect(() => {
    getLotDetails(props.src.id).then((result) => {
       var queryResults = JSON.parse(result);
@@ -42,6 +41,8 @@ export default function Product(props) {
               <Text style={styles.sub}>Description: {props.src.product_specification}</Text>
             </View>
             {lotInfo && <LotInformation src={lotInfo[0]}/>}
+            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.defaultLabel; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title="Leave Feedback"/>
+
     </TouchableOpacity>
     );
 }

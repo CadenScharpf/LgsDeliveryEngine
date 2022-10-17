@@ -170,7 +170,7 @@ function InitializeDB() {
   user_id = 2; 
   firstName = 'John';
   lastName = 'Doe';
-  email = 'johndoe@walmart.com';
+  email = 'a@b.com';
   password = 'LGS2';
   accountType = 'retailer';
   language = 'english';
@@ -1208,6 +1208,33 @@ const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_
   });  
 }
 
+const getUserDetails = async (email) => {
+  return new Promise((resolve, reject) => {
+    sqlQuery = "SELECT \
+    * \
+  FROM user \
+  WHERE \
+    user.email like '" + email + "'\
+"; + email;
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        if (debugging_option) {
+          console.log("Get All Users _array: " + JSON.stringify(results.rows._array));    
+        }
+
+        let response_code = "200";
+        var ReturnObject = results.rows._array;
+        resolve(ReturnObject);
+      },
+        (error) => {
+        resolve("DNE")
+      });
+    });
+  });  
+}
+
 const addProduct = async (defaultLabel, photoURL, productPageURL, product_names, product_specifications) => {
 
   sqlQuery = "INSERT INTO product (defaultLabel, photoURL, productPageURL) values (?, ?)"
@@ -1288,7 +1315,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {getAppSettings, addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByLotId, getFeedbackByLotIdUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
