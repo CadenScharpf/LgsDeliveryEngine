@@ -8,7 +8,7 @@ import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
 import { getUserDetails } from '../../Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import getString from "../../StringsArray";
  
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
