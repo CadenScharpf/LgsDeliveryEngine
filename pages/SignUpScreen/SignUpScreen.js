@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, Image, useWindowDimensions, TextInput } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
@@ -8,8 +8,7 @@ import SocialSignUpButtons from '../../components/SocialSignInButtons/SocialSign
 import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import getGlobalColors from '../../Colors';
-
-
+import {getAppSettings} from "../../Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
@@ -19,6 +18,23 @@ function SignUpScreen({ navigation }){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
+
+    const [appSettings, setAppSettings] = useState();
+    useEffect(() => {
+        getAppSettings(global.appVersion).then((result)  => {
+            var queryResults = JSON.parse(result);
+            console.log('Query Results: ');
+            console.log(queryResults.output);
+
+            setAppSettings(queryResults.output); 
+            console.log('appSettings: ');
+            console.log(appSettings);
+            // console.log('appSettings.photoURLBanner: ');
+            // console.log(appSettings[0].photoURLBanner);
+        }).catch((error) => {
+            console.log('getAppSettings failed');
+        });
+    }, []);
 
     const {height} = useWindowDimensions();
 
@@ -42,11 +58,18 @@ function SignUpScreen({ navigation }){
     <ScrollView>
         <View style={styles.container}>
         <Image 
-                source={Logo} 
+                // /* hardcoded
+                // appVersion 1.0
+                source={{uri:'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1'}}
+                // appVersion 2.0
+                // source={{uri:'https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg'}}
+                // */
+                /* TODO - need to make this dynamic, need to await async above otherwise this isn't defined the first time the app loads
+                source={{uri:appSettings[0].photoURLBanner}}
+                */
                 style={[styles.logo, {height: height * 0.3}]} 
                 resizeMode = "contain" 
             />
-            
 
             <TextInput  
                 placeholder="Username" 

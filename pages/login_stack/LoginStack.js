@@ -10,12 +10,7 @@ import SignInScreen from '../SignInScreen/SignInScreen';
 
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
-var products = [
-  { "id": 1, "defaultLabel": "tomato", "bestBeforeDays": 14, "product_description": "Tomato", "product_specification": "The tomato is the edible berry of the plant Solanum lycopersicum, commonly known as the tomato plant." }, 
-  { "id": 2, "defaultLabel": "cucumber", "bestBeforeDays": 28, "product_description": "Cucumber", "product_specification": "Cucumber (Cucumis sativus) is a widely-cultivated creeping vine plant in the Cucurbitaceae family that bears usually cylindrical fruits." }, 
-  { "id": 3, "defaultLabel": "crouton", "bestBeforeDays": 28, "product_description": "Crouton", "product_specification": "A crouton is a piece of rebaked bread, often cubed and seasoned." }]
-
-  const ThemeContext = createContext('');
+const ThemeContext = createContext('');
 
 function LoginStack({navigation}) {  
 

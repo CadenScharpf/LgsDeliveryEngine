@@ -75,6 +75,10 @@ function initializeDatabase() {
   content = {description:"feedback_close", english: 'Close', spanish: 'Cerca'};
   StringsDB.push(content);  
 
+  // sign in page
+  content = {description:"signinscreen_emailplaceholder", english: 'Email', spanish: 'Correo electrónico'};
+  StringsDB.push(content);
+
   // TODO - add strings here
 
 
