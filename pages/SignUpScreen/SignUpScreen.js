@@ -8,7 +8,7 @@ import SocialSignUpButtons from '../../components/SocialSignInButtons/SocialSign
 import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import getGlobalColors from '../../Colors';
-
+import SelectList from 'react-native-dropdown-select-list';
 
 
 var colors = getGlobalColors();
@@ -19,6 +19,13 @@ function SignUpScreen({ navigation }){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
+    const [selected, setSelected] = React.useState('');
+
+    const languageData = [  //data for dropdown menu for language choice in sign up
+        {key: '1', value: 'English'},
+        {key: '2', value: 'Spanish'}
+    ];
+
 
     const {height} = useWindowDimensions();
 
@@ -79,6 +86,12 @@ function SignUpScreen({ navigation }){
                 setValue={setPasswordRepeat}
                 secureTextEntry
             />
+
+            <SelectList 
+                data={languageData} 
+                setSelected={setSelected}
+            />
+
 
             <CustomButton
                 text="Register" 

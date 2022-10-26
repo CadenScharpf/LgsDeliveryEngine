@@ -18,7 +18,7 @@ const SignInScreen = ({navigation, authNav}) => {
     const [password, setPassword] = useState('');
     const [userDetails, setUserDetails] = useState('');
     const {height} = useWindowDimensions();
-
+   
     const onSignInPressed = () => {
         getUserDetails(username).then((result) => {
             console.warn(result);
@@ -56,7 +56,7 @@ const SignInScreen = ({navigation, authNav}) => {
                 resizeMode = "contain" 
             />
             <CustomInput 
-                placeholder="Username" 
+                placeholder="Email" 
                 value={username} 
                 setValue={setUsername}
             />
