@@ -7,18 +7,24 @@ import LogoDark from '../../assets/images/lgs-logo-dark.png'
 import SocialSignUpButtons from '../../components/SocialSignInButtons/SocialSignUpButtons';
 import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import SelectDropdown from 'react-native-select-dropdown';
 import getGlobalColors from '../../Colors';
 
-import {getAppSettings} from "../../Database";
+import {getAllUsersByAccountType, getAppSettings} from "../../Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
 
 function SignUpScreen({ navigation }){
-    const [username, setUsername] = useState();
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
+    
+    const languages = ["English", "Spanish"];
+    const accountType = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
+    const company = ["Consumer", "Walmart", "PHXDistribution"];
 
     const [appSettings, setAppSettings] = useState();
     useEffect(() => {
@@ -72,24 +78,25 @@ function SignUpScreen({ navigation }){
                 resizeMode = "contain" 
             />
 
-            <TextInput  
-                placeholder="Username" 
-                value={username} 
-                onChangeText={setUsername}
-                style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    color: colors.backgroundTextPrimary
-                }}
+            <CustomInput 
+                placeholder="First name" 
+                value={firstName} 
+                setValue={setFirstName}
             />
 
             <CustomInput 
+                placeholder="Last name" 
+                value={lastName} 
+                setValue={setLastName}
+            />
+
+            <CustomInput 
+                style={[styles.input]}
                 placeholder="Email" 
                 value={email} 
                 setValue={setEmail}
             />
+
             <CustomInput 
                 placeholder="Password" 
                 value={password} 
@@ -102,6 +109,66 @@ function SignUpScreen({ navigation }){
                 value={passwordRepeat} 
                 setValue={setPasswordRepeat}
                 secureTextEntry
+            />
+            
+            <SelectDropdown
+                data={accountType}
+                defaultButtonText={'Company'}
+                onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
+
+            <SelectDropdown
+                data={accountType}
+                defaultButtonText={'Account type'}
+                onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
+
+            <SelectDropdown
+                data={languages}
+                defaultButtonText={'Select language'}
+                onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
             />
 
             <CustomButton
@@ -157,7 +224,20 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: colors.background,
-        flex: 1,
+        flex: 1
+    },
+    dropdownButtonStyle: {
+        backgroundColor: 'transparent',
+        height: 40,
+        width: '94%',
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+    dropdownTextStyle: {
+        color: 'gray', 
+        textAlign: 'auto',
+        fontSize: 14
     },
 });
 

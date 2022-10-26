@@ -28,7 +28,7 @@ const SignInScreen = ({navigation, authNav}) => {
                 global.email = user.email ? user.email : ""
                 global.accountType = user.accountType ? user.accountType :""
                 global.language = user.language ? user.language : ""
-                global.company = user.company ?user.company : ""
+                global.company = user.company ? user.company : ""
                 global.lastName = user.lastName ? user.company : ""
                 global.firstName = user.firstName ? user.firstName : ""
                 global.password = user.password ? user.password : ""
