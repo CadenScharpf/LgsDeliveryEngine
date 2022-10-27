@@ -10,7 +10,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
 import getGlobalColors from '../../Colors';
 
-import {getAllUsersByAccountType, getAppSettings} from "../../Database";
+import {addUser, getAllUsersByAccountType, getAppSettings} from "../../Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
@@ -49,8 +49,23 @@ function SignUpScreen({ navigation }){
         console.warn("Register button pressed");
     };
     
-    const onSignInPressed = () => {
-        console.warn("Sign in pressed");
+    const onSignUpPressed = () => {
+        addUser(firstName, lastName, email, password, accountType, languages, company).then((result) => {
+            console.warn(result);
+            if(result[0] != "DNE" &&  result[0].password && result[0].password == password ) {
+                AsyncStorage.setItem("userToken", JSON.stringify(result[0]) )
+                var user = result[0]
+                global.email = user.email ? user.email : ""
+                global.accountType = user.accountType ? user.accountType :""
+                global.language = user.language ? user.language : ""
+                global.company = user.company ? user.company : ""
+                global.lastName = user.lastName ? user.company : ""
+                global.firstName = user.firstName ? user.firstName : ""
+                global.password = user.password ? user.password : ""
+                //
+                global.gotoapp()
+            }
+          })
     };
 
     const onTermsOfUsePressed = () => {
@@ -173,7 +188,8 @@ function SignUpScreen({ navigation }){
 
             <CustomButton
                 text="Register" 
-                onPress={() => {navigation.navigate('SignInScreen')}} 
+                //onPress={() => {navigation.navigate('SignInScreen')}} 
+                onPress={() => { onSignUpPressed()}} 
             />
 
             <CustomButton
