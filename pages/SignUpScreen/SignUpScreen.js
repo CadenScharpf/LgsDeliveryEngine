@@ -21,10 +21,15 @@ function SignUpScreen({ navigation }){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
+    const[accountType, setAccountType] = useState('');
+    const[language, setLanguage] = useState('');
+    const[company, setCompany] = useState('');
+
+
     
     const languages = ["English", "Spanish"];
-    const accountType = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
-    const company = ["Consumer", "Walmart", "PHXDistribution"];
+    const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
+    const companies = ["Consumer", "Walmart", "PHXDistribution"];
 
     const [appSettings, setAppSettings] = useState();
     useEffect(() => {
@@ -50,7 +55,7 @@ function SignUpScreen({ navigation }){
     };
     
     const onSignUpPressed = () => {
-        addUser(firstName, lastName, email, password, accountType, languages, company).then((result) => {
+        addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
             console.warn(result);
             if(result[0] != "DNE" &&  result[0].password && result[0].password == password ) {
                 AsyncStorage.setItem("userToken", JSON.stringify(result[0]) )
@@ -127,10 +132,10 @@ function SignUpScreen({ navigation }){
             />
             
             <SelectDropdown
-                data={accountType}
+                data={companies}
                 defaultButtonText={'Company'}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    setCompany(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     // text represented after item is selected
@@ -147,10 +152,10 @@ function SignUpScreen({ navigation }){
             />
 
             <SelectDropdown
-                data={accountType}
+                data={accountTypes}
                 defaultButtonText={'Account type'}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    setAccountType(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     // text represented after item is selected
@@ -170,7 +175,7 @@ function SignUpScreen({ navigation }){
                 data={languages}
                 defaultButtonText={'Select language'}
                 onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index)
+                    setLanguage(selectedItem)
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     // text represented after item is selected
