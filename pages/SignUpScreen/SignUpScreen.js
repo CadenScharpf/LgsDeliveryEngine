@@ -32,8 +32,10 @@ function SignUpScreen({ navigation }){
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution"];
 
+    // bannerURL = '';
     const [appSettings, setAppSettings] = useState();
     useEffect(() => {
+        bannerURL = '';
         getAppSettings(global.appVersion).then((result)  => {
             var queryResults = JSON.parse(result);
             console.log('Query Results: ');
@@ -42,6 +44,9 @@ function SignUpScreen({ navigation }){
             setAppSettings(queryResults.output); 
             console.log('appSettings: ');
             console.log(appSettings);
+            // console.log('bannerURL: ');
+            // bannerURL = appSettings[0].photoURLBanner;
+            // console.log(bannerURL);
             // console.log('appSettings.photoURLBanner: ');
             // console.log(appSettings[0].photoURLBanner);
         }).catch((error) => {
@@ -54,7 +59,7 @@ function SignUpScreen({ navigation }){
     const onRegisterPressed = () => {
         console.warn("Register button pressed");
     };
-    
+     
     const onSignUpPressed = () => {
         addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
             console.warn(result);
@@ -93,9 +98,10 @@ function SignUpScreen({ navigation }){
                 // source={{uri:'https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg'}}
                 // */
                 /* TODO - need to make this dynamic, need to await async above otherwise this isn't defined the first time the app loads
-                source={{uri:appSettings[0].photoURLBanner}}
+                source={{uri:bannerURL}}
+                // source={{uri:appSettings[0].photoURLBanner}}
                 */
-                style={[styles.logo, {height: height * 0.3}]} 
+                style={[styles.logo, {height: height * 0.05}]} 
                 resizeMode = "contain" 
             />
 
@@ -134,7 +140,7 @@ function SignUpScreen({ navigation }){
             
             <SelectDropdown
                 data={companies}
-                defaultButtonText={{getString('signupscreen_company', global.language)}}
+                defaultButtonText={getString('signupscreen_company', global.language)}
                 onSelect={(selectedItem, index) => {
                     setCompany(selectedItem)
                 }}
@@ -154,7 +160,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={accountTypes}
-                defaultButtonText={{getString('signupscreen_accountType', global.language)}}
+                defaultButtonText={getString('signupscreen_accountType', global.language)}
                 onSelect={(selectedItem, index) => {
                     setAccountType(selectedItem)
                 }}
@@ -174,7 +180,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={languages}
-                defaultButtonText={{getString('signupscreen_selectLanguage', global.language)}}
+                defaultButtonText={getString('signupscreen_selectLanguage', global.language)}
                 onSelect={(selectedItem, index) => {
                     setLanguage(selectedItem)
                 }}
@@ -218,7 +224,7 @@ function SignUpScreen({ navigation }){
 const styles = StyleSheet.create({
     root: {
         alignSelf: 'center',
-        padding: 20,
+        padding: 10,
     },
     title: {
         alignSelf: 'center',
@@ -230,7 +236,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'gray',
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 20,
         textAlign: 'center'
     },
@@ -254,7 +260,7 @@ const styles = StyleSheet.create({
         width: '94%',
         margin: 12,
         borderWidth: 1,
-        padding: 10,
+        padding: 5,
     },
     dropdownTextStyle: {
         color: 'gray', 

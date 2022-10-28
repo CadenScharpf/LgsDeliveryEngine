@@ -15,6 +15,30 @@ function initializeDatabase() {
   // -------------------------------------------------------------------------------------------------
   // -------------------------------------------------------------------------------------------------
 
+  // app
+  content = {description:"app_title_demo", english: 'Product Feed Demo', spanish: 'Demostración de alimentación de productos'};
+  StringsDB.push(content);
+  content = {description:"app_qrscanner", english: 'QR Scanner', spanish: 'Escáner QR'};
+  StringsDB.push(content);
+  content = {description:"app_feedback", english: 'Feedback', spanish: 'Retroalimentación'};
+  StringsDB.push(content);
+
+  // Lot Information
+  content = {description:"lotinformation_title", english: 'Harvest Information', spanish: 'Información de cosecha'};
+  StringsDB.push(content);
+  content = {description:"lotinformation_farm", english: 'Farm', spanish: 'Granja'};
+  StringsDB.push(content);
+  content = {description:"lotinformation_harvestdate", english: 'Harvest date', spanish: 'Fecha de cosecha'};
+  StringsDB.push(content);
+  content = {description:"lotinformation_harvestby", english: 'Harvest by', spanish: 'Cosecha por'};
+  StringsDB.push(content);
+  content = {description:"lotinformation_bestbefore", english: 'Best before', spanish: 'Consúmase antes de'};
+  StringsDB.push(content);
+
+  // Product
+  content = {description:"product_leavefeedback", english: 'Leave Feedback', spanish: 'Deja un comentario'};
+  StringsDB.push(content);  
+
   // Drawer
   content = {description:"drawer_settings", english: 'Settings', spanish: 'Ajustes'};
   StringsDB.push(content);
