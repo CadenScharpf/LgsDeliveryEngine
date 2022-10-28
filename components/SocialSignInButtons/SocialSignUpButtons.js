@@ -21,8 +21,9 @@ const SocialSignUpButtons = () => {
     return (
         <View>
         
-            <FacebookSocialButton onPress={() => {onSignUpFacebook()}} buttonViewStyle={styles.button} buttonText={"Sign up with facebook"} />
-            <AppleSocialButton onPress={() => {onSignUpApple()}} buttonViewStyle={styles.button} buttonText={"Sign up with apple"} />
+            <FacebookSocialButton onPress={() => {onSignUpFacebook()}} buttonViewStyle={styles.button} buttonText={"Sign up with Facebook"} />
+            <GoogleSocialButton onPress={() => {onSignUpGoogle()}} buttonViewStyle={styles.gbutton} buttonText={"Sign up with Google"} />
+            <AppleSocialButton onPress={() => {onSignUpApple()}} buttonViewStyle={styles.button} buttonText={"Sign up with Apple"} />
         </View>
     )
 };
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {alignSelf: 'center', margin: 5, flex: 1, justifyContent: "center", paddingBottom: 0, paddingTop: 0, borderRadius: 10,borderWidth: 1, borderColor: colors.backgroundTextSecondary },
-    gbutton: {},
+    gbutton: {marginBottom: 1, alignSelf: 'center'},
     buttonLogo: {margin: 0},
     buttonText: {}
 })
