@@ -26,6 +26,10 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"drawer_feedback", english: 'Feedback', spanish: 'Retroalimentación'};
   StringsDB.push(content);
+  content = { description: "drawer_app", english: 'App', spanish: 'aplicación'};
+  StringsDB.push(content);
+  content = { description: "drawer_auth", english: 'Auth', spanish: 'Autorización' };
+  StringsDB.push(content);
 
   // Dashboard
   content = {description:"dashboard_welcome", english: 'Dashboard', spanish: 'Tablero'};
@@ -76,16 +80,46 @@ function initializeDatabase() {
   StringsDB.push(content);  
 
   // sign in page
-  content = {description:"signinscreen_emailplaceholder", english: 'Email', spanish: 'Correo electrónico'};
-  StringsDB.push(content);
+    content = { description:"signinscreen_email", english: 'Email', spanish: 'Correo electrónico'};
+    StringsDB.push(content);
+    content = { description: "signinscreen_password", english: 'Password', spanish: 'Clave' };
+    StringsDB.push(content);
+    content = { description: "signinscreen_signIn", english: 'Sign In', spanish: 'Registrarse' };
+    StringsDB.push(content);
+    content = { description: "signinscreen_forgotPassword?", english: 'Forgot password?', spanish: '¿Se te olvidó tu contraseña?' };
+    StringsDB.push(content);
+    content = { description: "signinscreen_needAccount?", english: 'Do you need an account? Create one.', spanish: '¿Necesitas una cuenta? Crea uno.' };
+    StringsDB.push(content);
+
+  // confirm email screen page
+    content = { description: "confirmEmail_verification", english: 'Enter your verification code', spanish: 'Ingrese su código de verificación' };
+    StringsDB.push(content);
+    content = { description: "confirmEmail_confirm", english: 'Confirm', spanish: 'Confirmar' };
+    StringsDB.push(content);
+    content = { description: "confirmEmail_resendCode", english: 'Resend code', spanish: 'Reenviar codigo' };
+    StringsDB.push(content);
+    content = { description: "confirmEmail_backToSignIn", english: 'Back to sign in', spanish: 'Volver para iniciar sesión' };
+    StringsDB.push(content);
+
+  // forgot password page
+    content = { description: "forgotPassword_username", english: 'Username', spanish: 'Nombre de usuario' };
+    StringsDB.push(content);
+    content = { description: "forgotPassword_send", english: 'Send', spanish: 'Enviar' };
+    StringsDB.push(content);
+    content = { description: "forgotPassword_backToSignIn", english: 'Back to sign in', spanish: 'Volver para iniciar sesión' };
+    StringsDB.push(content);
+
+  // new password page
+    content = { description: "newPassword_code", english: 'Code', spanish: 'Código' };
+    StringsDB.push(content)
+    content = { description: "newPassword_newPassword", english: 'Enter your new password', spanish: 'Introduzca su nueva contraseña' };
+    StringsDB.push(content)
+    content = { description: "newPassword_submit", english: 'Submit', spanish: 'Enviar' };
+    StringsDB.push(content)
+    content = { description: "newPassword_backToSignIn", english: 'Back to sign in', spanish: 'Volver para iniciar sesión' };
+    StringsDB.push(content)
 
   // TODO - add strings here
-
-
-
-
-
-
 
 
   // -------------------------------------------------------------------------------------------------
