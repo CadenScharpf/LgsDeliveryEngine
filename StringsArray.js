@@ -90,6 +90,28 @@ function initializeDatabase() {
     StringsDB.push(content);
     content = { description: "signinscreen_needAccount?", english: 'Do you need an account? Create one.', spanish: '¿Necesitas una cuenta? Crea uno.' };
     StringsDB.push(content);
+    
+    // sign up page
+    content = { description:"signupscreen_firstName", english: 'First name', spanish: 'Nombre de pila'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_lastName", english: 'Last name', spanish: 'Apellido'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_email", english: 'Email', spanish: 'Correo electrónico'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_password", english: 'Password', spanish: 'Clave'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_repeatPassword", english: 'Repeat Password', spanish: 'Repita la contraseña'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_company", english: 'Company', spanish: 'Compañía'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_accountType", english: 'Account type', spanish: 'Tipo de cuenta'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_selectLanguage", english: 'Select Language', spanish: 'Seleccione el idioma'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_register", english: 'Register', spanish: 'Registro'};
+    StringsDB.push(content);
+    content = { description:"signupscreen_hasAccount", english: 'Have an account? Sign in', spanish: '¿Tener una cuenta? Iniciar sesión'};
+    StringsDB.push(content);
 
   // confirm email screen page
     content = { description: "confirmEmail_verification", english: 'Enter your verification code', spanish: 'Ingrese su código de verificación' };
