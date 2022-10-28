@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, Image, useWindowDimensions, TextInput } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
@@ -7,18 +7,46 @@ import LogoDark from '../../assets/images/lgs-logo-dark.png'
 import SocialSignUpButtons from '../../components/SocialSignInButtons/SocialSignUpButtons';
 import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import SelectDropdown from 'react-native-select-dropdown';
 import getGlobalColors from '../../Colors';
 
-
+import {addUser, getAllUsersByAccountType, getAppSettings} from "../../Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
 
 function SignUpScreen({ navigation }){
-    const [username, setUsername] = useState();
+    const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
+    const[accountType, setAccountType] = useState('');
+    const[language, setLanguage] = useState('');
+    const[company, setCompany] = useState('');
+
+
+    
+    const languages = ["English", "Spanish"];
+    const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
+    const companies = ["Consumer", "Walmart", "PHXDistribution"];
+
+    const [appSettings, setAppSettings] = useState();
+    useEffect(() => {
+        getAppSettings(global.appVersion).then((result)  => {
+            var queryResults = JSON.parse(result);
+            console.log('Query Results: ');
+            console.log(queryResults.output);
+
+            setAppSettings(queryResults.output); 
+            console.log('appSettings: ');
+            console.log(appSettings);
+            // console.log('appSettings.photoURLBanner: ');
+            // console.log(appSettings[0].photoURLBanner);
+        }).catch((error) => {
+            console.log('getAppSettings failed');
+        });
+    }, []);
 
     const {height} = useWindowDimensions();
 
@@ -26,8 +54,23 @@ function SignUpScreen({ navigation }){
         console.warn("Register button pressed");
     };
     
-    const onSignInPressed = () => {
-        console.warn("Sign in pressed");
+    const onSignUpPressed = () => {
+        addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
+            console.warn(result);
+            if(result[0] != "DNE" &&  result[0].password && result[0].password == password ) {
+                AsyncStorage.setItem("userToken", JSON.stringify(result[0]) )
+                var user = result[0]
+                global.email = user.email ? user.email : ""
+                global.accountType = user.accountType ? user.accountType :""
+                global.language = user.language ? user.language : ""
+                global.company = user.company ? user.company : ""
+                global.lastName = user.lastName ? user.company : ""
+                global.firstName = user.firstName ? user.firstName : ""
+                global.password = user.password ? user.password : ""
+                //
+                global.gotoapp()
+            }
+          })
     };
 
     const onTermsOfUsePressed = () => {
@@ -42,30 +85,38 @@ function SignUpScreen({ navigation }){
     <ScrollView>
         <View style={styles.container}>
         <Image 
-                source={Logo} 
+                // /* hardcoded
+                // appVersion 1.0
+                source={{uri:'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1'}}
+                // appVersion 2.0
+                // source={{uri:'https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg'}}
+                // */
+                /* TODO - need to make this dynamic, need to await async above otherwise this isn't defined the first time the app loads
+                source={{uri:appSettings[0].photoURLBanner}}
+                */
                 style={[styles.logo, {height: height * 0.3}]} 
                 resizeMode = "contain" 
             />
-            
 
-            <TextInput  
-                placeholder="Username" 
-                value={username} 
-                onChangeText={setUsername}
-                style={{
-                    height: 40,
-                    margin: 12,
-                    borderWidth: 1,
-                    padding: 10,
-                    color: colors.backgroundTextPrimary
-                }}
+            <CustomInput 
+                placeholder="First name" 
+                value={firstName} 
+                setValue={setFirstName}
             />
 
             <CustomInput 
+                placeholder="Last name" 
+                value={lastName} 
+                setValue={setLastName}
+            />
+
+            <CustomInput 
+                style={[styles.input]}
                 placeholder="Email" 
                 value={email} 
                 setValue={setEmail}
             />
+
             <CustomInput 
                 placeholder="Password" 
                 value={password} 
@@ -79,10 +130,71 @@ function SignUpScreen({ navigation }){
                 setValue={setPasswordRepeat}
                 secureTextEntry
             />
+            
+            <SelectDropdown
+                data={companies}
+                defaultButtonText={'Company'}
+                onSelect={(selectedItem, index) => {
+                    setCompany(selectedItem)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
+
+            <SelectDropdown
+                data={accountTypes}
+                defaultButtonText={'Account type'}
+                onSelect={(selectedItem, index) => {
+                    setAccountType(selectedItem)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
+
+            <SelectDropdown
+                data={languages}
+                defaultButtonText={'Select language'}
+                onSelect={(selectedItem, index) => {
+                    setLanguage(selectedItem)
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
 
             <CustomButton
                 text="Register" 
-                onPress={() => {navigation.navigate('SignInScreen')}} 
+                //onPress={() => {navigation.navigate('SignInScreen')}} 
+                onPress={() => { onSignUpPressed()}} 
             />
 
             <CustomButton
@@ -133,7 +245,20 @@ const styles = StyleSheet.create({
     },
     container: {
         backgroundColor: colors.background,
-        flex: 1,
+        flex: 1
+    },
+    dropdownButtonStyle: {
+        backgroundColor: 'transparent',
+        height: 40,
+        width: '94%',
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+    },
+    dropdownTextStyle: {
+        color: 'gray', 
+        textAlign: 'auto',
+        fontSize: 14
     },
 });
 

@@ -22,6 +22,7 @@ const SocialSignInButtons = () => {
         <View>
         
             <FacebookSocialButton onPress={() => {onSignInFacebook()}} buttonViewStyle={styles.button}  />
+            <GoogleSocialButton onPress={() => {onSignInGoogle()}} buttonViewStyle={styles.gbutton}  />
             <AppleSocialButton onPress={() => {onSignInApple()}} buttonViewStyle={styles.button}  />
         </View>
     )
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {alignSelf: 'center', margin: 5, flex: 1, justifyContent: "center", paddingBottom: 0, paddingTop: 0, borderRadius: 10,borderWidth: 1, borderColor: colors.backgroundTextSecondary },
-    gbutton: {},
+    gbutton: {marginBottom: 1, alignSelf: 'center'},
     buttonLogo: {margin: 0},
     buttonText: {}
 })

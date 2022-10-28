@@ -141,6 +141,14 @@ function InitializeDB() {
   sqlQuery = "CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, appVersion TEXT, companyName TEXT, photoURLBanner TEXT, photoURLIcon TEXT, fontAndroid TEXT, fontiOS TEXT, colorPrimary TEXT, colorSecondary TEXT, colorTertiary TEXT, colorBackgroundLight TEXT, colorBackgroundDark TEXT)";
   executeQuery(sqlQuery, params);
 
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS recall;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS recall (id INTEGER PRIMARY KEY AUTOINCREMENT, lot_id INTEGER, date_issued DATE, description TEXT, reference_code TEXT)";
+  executeQuery(sqlQuery, params);
+
   // ---------------------------------------------------------------------
   // ADD ALL SETTINGS HERE 
   // ---------------------------------------------------------------------
@@ -149,7 +157,28 @@ function InitializeDB() {
   params = ["1.0","LGS","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/cropped-cropped-lfs-logo0-1-2-e1649170913225.png?fit=71%2C71&ssl=1","Roboto","San Francisco","282A36","8A8888","EEEEEE","FFFFFF","282A36"];
   executeQuery(sqlQuery, params);
 
+  params = ["2.0","Philly's Farm","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJYbEvXUTDdZ-f6eqGOMcR_KmEDSDcCBsRMQ&usqp=CAU","Montserrat","Montserrat","F54021","EFA94A","EEEEEE","FFFFFF","F54021"];
+  executeQuery(sqlQuery, params);
+  
+  params = ["3.0","Hardee Greens","https://images.squarespace-cdn.com/content/v1/5f5a93f868913475d06130f4/1601663134422-WFW88W9AZ04T55WTTIG6/HF_LOGO_KO.png?format=1500w","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","Open Sans","Open Sans","8ABB50","006681","EEEEEE","FFFFFF","8ABB50"];
+  executeQuery(sqlQuery, params);
+
   // TODO - add more settings
+
+  // ---------------------------------------------------------------------
+  // ADD ALL RECALLED LOTS HERE 
+  // ---------------------------------------------------------------------
+  sqlQuery = "INSERT INTO recall (lot_id, date_issued, description, reference_code) values (?, ?, ?, ?)"
+
+  lot_id = 1;
+  params = [lot_id, '2022-10-01', 'E. coli detected', 'XYZ123'];
+  executeQuery(sqlQuery, params);
+
+  lot_id = 3;
+  params = [lot_id, '2022-11-01', 'Salmonella detected', 'ABC456'];
+  executeQuery(sqlQuery, params);
+
+  // TODO - add more recalls
 
   // ---------------------------------------------------------------------
   // ADD ALL USERS HERE 
@@ -692,6 +721,34 @@ const getQRCodeDetails = async (qrcode_id) => {
         (error) => {
         console.log("Get QR Code Details Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
         console.log("Get QR Code Details Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  }); 
+}
+
+const checkForRecall = async (lot_id) => {
+  return new Promise((resolve, reject) => {    
+    sqlQuery = "SELECT \
+                  * \
+                FROM recall \
+                WHERE \
+                  lot_id = " + lot_id
+              ;
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuery, params, (trans, results) => {        
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Check for Recall Execute Error: |" + sqlQuery + "|" + params + "|" + JSON.stringify(error));
+        console.log("Check for Recall Execute Error: " + error);
 
         let response_code = "400";
         var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
@@ -1337,7 +1394,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {checkForRecall, getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY

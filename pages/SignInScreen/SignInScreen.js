@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Button, TouchableOpacity } from 'react-native';
 import LogoLight from '../../assets/images/lgs-logo.png';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
@@ -8,7 +8,9 @@ import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
 import { getUserDetails } from '../../Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import getString from "../../StringsArray";
 
+import { MaterialCommunityIcons } from '@expo/vector-icons';
  
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
@@ -18,7 +20,9 @@ const SignInScreen = ({navigation, authNav}) => {
     const [password, setPassword] = useState('');
     const [userDetails, setUserDetails] = useState('');
     const {height} = useWindowDimensions();
-
+    const [show, setShow] = React.useState(false);
+    const [visible, setVisible] = React.useState(true);
+   
     const onSignInPressed = () => {
         getUserDetails(username).then((result) => {
             console.warn(result);
@@ -28,7 +32,7 @@ const SignInScreen = ({navigation, authNav}) => {
                 global.email = user.email ? user.email : ""
                 global.accountType = user.accountType ? user.accountType :""
                 global.language = user.language ? user.language : ""
-                global.company = user.company ?user.company : ""
+                global.company = user.company ? user.company : ""
                 global.lastName = user.lastName ? user.company : ""
                 global.firstName = user.firstName ? user.firstName : ""
                 global.password = user.password ? user.password : ""
@@ -49,24 +53,42 @@ const SignInScreen = ({navigation, authNav}) => {
 
   return (
     <ScrollView style={styles.container}>
-        <View >
+        <View>
             <Image 
                 source={Logo} 
                 style={[styles.logo, {height: height * 0.3}]} 
                 resizeMode = "contain" 
             />
             <CustomInput 
-                placeholder="Username" 
+                placeholder="Email" 
                 value={username} 
                 setValue={setUsername}
             />
+        </View>
+
+        <View>
             <CustomInput 
                 placeholder="Password" 
                 value={password} 
                 setValue={setPassword}
-                secureTextEntry
+                secureTextEntry={visible}
             />
 
+            <TouchableOpacity style={styles.eyeIcon} onPress={
+                () => {
+                    setVisible(!visible)
+                    setShow(!show)
+                }
+            }>
+                <MaterialCommunityIcons
+                    name={show === false ? 'eye-outline' : 'eye-off-outline' }
+                    size={20}
+                    color={'rgba(255,255,255,0.7)'}
+                />
+            </TouchableOpacity>
+        </View>
+
+        <View>
             <CustomButton 
                 text="Sign In" 
                 onPress={() => { onSignInPressed()}} 
@@ -85,7 +107,6 @@ const SignInScreen = ({navigation, authNav}) => {
 
             <SocialSignInButtons />
 
-            
         </View>
     </ScrollView>
   );
@@ -106,6 +127,11 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.background,
         flex: 1
+    },
+    eyeIcon: {
+        position: 'absolute',
+        right: 25,
+        top: 22
     },
 });
 
