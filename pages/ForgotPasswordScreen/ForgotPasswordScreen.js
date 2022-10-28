@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
+import getString from "../../StringsArray";
 
 const ForgotPasswordScreen = () => {
     const [username, setUsername] = useState('');
@@ -25,18 +26,18 @@ const ForgotPasswordScreen = () => {
             <Text style={styles.title}>Reset your password</Text>
 
             <CustomInput 
-                placeholder="Username" 
+                placeholder={getString('forgotPassword_username', global.language)}
                 value={username} 
                 setValue={setUsername}
             />
 
             <CustomButton 
-                text="Send" 
+                text={getString('forgotPassword_send', global.language)}
                 onPress={onSendPressed} 
             />
 
             <CustomButton 
-                text="Back to sign in" 
+                text={getString('forgotPassword_backToSignIn', global.language)}
                 onPress={onSignInPressed}
                 type="TERTIARY"
             />
