@@ -22,36 +22,28 @@ function SignUpScreen({ navigation }){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
-    const[accountType, setAccountType] = useState('');
+    const[accountType, setAccountType] = useState(''); 
     const[language, setLanguage] = useState('');
     const[company, setCompany] = useState('');
 
 
-    
-    const languages = ["English", "Spanish"];
+       
+    const languages = ["English", "Spanish"]; 
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
-    const companies = ["Consumer", "Walmart", "PHXDistribution"];
+    const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
 
-    // bannerURL = '';
+    const [bannerURL, setBannerURL] = useState('');
+
     const [appSettings, setAppSettings] = useState();
-    useEffect(() => {
-        bannerURL = '';
-        getAppSettings(global.appVersion).then((result)  => {
+    useEffect(() => {  
+        getAppSettings(global.appVersion).then((result)  => { 
             var queryResults = JSON.parse(result);
-            console.log('Query Results: ');
-            console.log(queryResults.output);
-
             setAppSettings(queryResults.output); 
-            console.log('appSettings: ');
-            console.log(appSettings);
-            // console.log('bannerURL: ');
-            // bannerURL = appSettings[0].photoURLBanner;
-            // console.log(bannerURL);
-            // console.log('appSettings.photoURLBanner: ');
-            // console.log(appSettings[0].photoURLBanner);
-        }).catch((error) => {
-            console.log('getAppSettings failed');
-        });
+            setBannerURL(appSettings[0].photoURLBanner);
+            setCompany(appSettings[0].companyName); 
+        }).catch((error) => { 
+            console.log('getAppSettings failed');  
+        }); 
     }, []);
 
     const {height} = useWindowDimensions();
@@ -91,17 +83,8 @@ function SignUpScreen({ navigation }){
     <ScrollView>
         <View style={styles.container}>
         <Image 
-                // /* hardcoded
-                // appVersion 1.0
-                source={{uri:'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1'}}
-                // appVersion 2.0
-                // source={{uri:'https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg'}}
-                // */
-                /* TODO - need to make this dynamic, need to await async above otherwise this isn't defined the first time the app loads
                 source={{uri:bannerURL}}
-                // source={{uri:appSettings[0].photoURLBanner}}
-                */
-                style={[styles.logo, {height: height * 0.05}]} 
+                style={[styles.logo, {height: height * 0.2}]} 
                 resizeMode = "contain" 
             />
 
