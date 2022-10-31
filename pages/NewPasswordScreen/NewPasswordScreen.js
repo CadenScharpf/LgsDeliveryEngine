@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
+import getString from "../../StringsArray";
 
 const NewPasswordScreen = () => {
     const [code, setCode] = useState('');
@@ -21,25 +22,25 @@ const NewPasswordScreen = () => {
             <Text style={styles.title}>Confirm your email</Text>
 
             <CustomInput 
-                placeholder="Code" 
+                  placeholder={getString('newPassword_code', global.language)}
                 value={code} 
                 setValue={setCode}
             />
 
             <CustomInput 
-                placeholder="Enter your new password" 
+                  placeholder={getString('newPassword_newPassword', global.language)}
                 value={newPassword} 
                 setValue={setNewPassword}
                 secureTextEntry
             />
 
             <CustomButton 
-                text="Submit" 
+                  text={getString('newPassword_submit', global.language)}
                 onPress={onSubmitPressed} 
             />
 
             <CustomButton 
-                text="Back to sign in" 
+                  text={getString('newPassword_backToSignIn', global.language)}
                 onPress={onSignInPressed}
                 type="TERTIARY"
             />

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
+import getString from "./StringsArray";
 
 
 const ConfirmEmailScreen = () => {
@@ -25,24 +26,24 @@ const ConfirmEmailScreen = () => {
             <Text style={styles.title}>Confirm your email</Text>
 
             <CustomInput 
-                placeholder="Enter your verification code" 
+                  placeholder={getString('confirmEmail_verification', global.language)}
                 value={code} 
                 setValue={setCode}
             />
 
             <CustomButton 
-                text="Confirm" 
+                  text={getString('confirmEmail_confirm', global.language)}
                 onPress={onConfirmPressed} 
             />
 
             <CustomButton 
-                text="Resend code" 
+                  text={getString('confirmEmail_resendCode', global.language)}
                 onPress={onResendPressed}
                 type="SECONDARY"
             />
 
             <CustomButton 
-                text="Back to sign in" 
+                  text={getString('confirmEmail_backToSignIn', global.language)}
                 onPress={onSignInPressed}
                 type="SECONDARY"
             />

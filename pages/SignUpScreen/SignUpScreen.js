@@ -9,6 +9,7 @@ import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
 import getGlobalColors from '../../Colors';
+import getString from "../../StringsArray";
 
 import {addUser, getAllUsersByAccountType, getAppSettings} from "../../Database";
 
@@ -21,31 +22,28 @@ function SignUpScreen({ navigation }){
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
-    const[accountType, setAccountType] = useState('');
+    const[accountType, setAccountType] = useState(''); 
     const[language, setLanguage] = useState('');
     const[company, setCompany] = useState('');
 
 
-    
-    const languages = ["English", "Spanish"];
+       
+    const languages = ["English", "Spanish"]; 
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
-    const companies = ["Consumer", "Walmart", "PHXDistribution"];
+    const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
+
+    const [bannerURL, setBannerURL] = useState('');
 
     const [appSettings, setAppSettings] = useState();
-    useEffect(() => {
-        getAppSettings(global.appVersion).then((result)  => {
+    useEffect(() => {  
+        getAppSettings(global.appVersion).then((result)  => { 
             var queryResults = JSON.parse(result);
-            console.log('Query Results: ');
-            console.log(queryResults.output);
-
             setAppSettings(queryResults.output); 
-            console.log('appSettings: ');
-            console.log(appSettings);
-            // console.log('appSettings.photoURLBanner: ');
-            // console.log(appSettings[0].photoURLBanner);
-        }).catch((error) => {
-            console.log('getAppSettings failed');
-        });
+            setBannerURL(appSettings[0].photoURLBanner);
+            setCompany(appSettings[0].companyName); 
+        }).catch((error) => { 
+            console.log('getAppSettings failed');  
+        }); 
     }, []);
 
     const {height} = useWindowDimensions();
@@ -53,7 +51,7 @@ function SignUpScreen({ navigation }){
     const onRegisterPressed = () => {
         console.warn("Register button pressed");
     };
-    
+     
     const onSignUpPressed = () => {
         addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
             console.warn(result);
@@ -85,47 +83,39 @@ function SignUpScreen({ navigation }){
     <ScrollView>
         <View style={styles.container}>
         <Image 
-                // /* hardcoded
-                // appVersion 1.0
-                source={{uri:'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1'}}
-                // appVersion 2.0
-                // source={{uri:'https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg'}}
-                // */
-                /* TODO - need to make this dynamic, need to await async above otherwise this isn't defined the first time the app loads
-                source={{uri:appSettings[0].photoURLBanner}}
-                */
-                style={[styles.logo, {height: height * 0.3}]} 
+                source={{uri:bannerURL}}
+                style={[styles.logo, {height: height * 0.2}]} 
                 resizeMode = "contain" 
             />
 
             <CustomInput 
-                placeholder="First name" 
+                placeholder={getString('signupscreen_firstName', global.language)}
                 value={firstName} 
                 setValue={setFirstName}
             />
 
             <CustomInput 
-                placeholder="Last name" 
+                placeholder={getString('signupscreen_lastName', global.language)}
                 value={lastName} 
                 setValue={setLastName}
             />
 
             <CustomInput 
                 style={[styles.input]}
-                placeholder="Email" 
+                placeholder={getString('signupscreen_email', global.language)}
                 value={email} 
                 setValue={setEmail}
             />
 
             <CustomInput 
-                placeholder="Password" 
+                placeholder={getString('signupscreen_password', global.language)}
                 value={password} 
                 setValue={setPassword}
                 secureTextEntry
             />
 
             <CustomInput 
-                placeholder="Repeat Password" 
+                placeholder={getString('signupscreen_repeatPassword', global.language)}
                 value={passwordRepeat} 
                 setValue={setPasswordRepeat}
                 secureTextEntry
@@ -133,7 +123,7 @@ function SignUpScreen({ navigation }){
             
             <SelectDropdown
                 data={companies}
-                defaultButtonText={'Company'}
+                defaultButtonText={getString('signupscreen_company', global.language)}
                 onSelect={(selectedItem, index) => {
                     setCompany(selectedItem)
                 }}
@@ -153,7 +143,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={accountTypes}
-                defaultButtonText={'Account type'}
+                defaultButtonText={getString('signupscreen_accountType', global.language)}
                 onSelect={(selectedItem, index) => {
                     setAccountType(selectedItem)
                 }}
@@ -173,7 +163,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={languages}
-                defaultButtonText={'Select language'}
+                defaultButtonText={getString('signupscreen_selectLanguage', global.language)}
                 onSelect={(selectedItem, index) => {
                     setLanguage(selectedItem)
                 }}
@@ -192,13 +182,13 @@ function SignUpScreen({ navigation }){
             />
 
             <CustomButton
-                text="Register" 
+                text={getString('signupscreen_register', global.language)}
                 //onPress={() => {navigation.navigate('SignInScreen')}} 
                 onPress={() => { onSignUpPressed()}} 
             />
 
             <CustomButton
-                text="Have an account? Sign in" 
+                text={getString('signupscreen_hasAccount', global.language)}
                 onPress={() => {navigation.navigate('SignInScreen')}}
                 type="TERTIARY"
             />
@@ -217,7 +207,7 @@ function SignUpScreen({ navigation }){
 const styles = StyleSheet.create({
     root: {
         alignSelf: 'center',
-        padding: 20,
+        padding: 10,
     },
     title: {
         alignSelf: 'center',
@@ -229,7 +219,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'gray',
-        marginVertical: 10,
+        marginVertical: 5,
         marginHorizontal: 20,
         textAlign: 'center'
     },
@@ -253,7 +243,7 @@ const styles = StyleSheet.create({
         width: '94%',
         margin: 12,
         borderWidth: 1,
-        padding: 10,
+        padding: 5,
     },
     dropdownTextStyle: {
         color: 'gray', 

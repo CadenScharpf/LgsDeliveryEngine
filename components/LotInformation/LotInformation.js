@@ -13,17 +13,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../Colors';
 import { getAllProducts, getProductDetails, getLotDetails } from '../../Database';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import getString from "../../StringsArray";
 
 var colors = getGlobalColors();
 
 export default function LotInformation(props) {
 const state = {
-    tableHead:  ['Harvest Information'],
+    tableHead:  [getString('lotinformation_title', global.language)],
     tableData: [
-        ['Farm:', props.src.Farm],
-        ['Harvest date:', props.src.harvestDate],
-        ['Harvested by:', props.src.harvestedBy],
-        ['Best before:', props.src.bestBeforeDate]
+        [getString('lotinformation_farm', global.language) + ':', props.src.Farm],
+        [getString('lotinformation_harvestdate', global.language) + ':', props.src.harvestDate],
+        [getString('lotinformation_harvestby', global.language) + ':', props.src.harvestedBy],
+        [getString('lotinformation_bestbefore', global.language) + ':', props.src.bestBeforeDate]
     ]
 }
     

@@ -13,7 +13,7 @@ import getGlobalColors from '../../Colors';
 import { getAllProducts, getProductDetails, getLotDetails } from '../../Database';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import LotInformation from '../LotInformation/LotInformation';
-
+import getString from "../../StringsArray";
 
 var colors = getGlobalColors();
 const stack =  createStackNavigator()
@@ -36,11 +36,11 @@ export default function Product(props) {
               style={styles.thumb}
               source={{uri:props.src.photoURL}}/>
             <View style={styles.infoContainer}>
-              <Text style={styles.name}>{props.src.defaultLabel}</Text>
+              <Text style={styles.name}>{props.src.product_name}</Text>
               <Text style={styles.sub}>Description: {props.src.product_specification}</Text>
             </View>
             {lotInfo && <LotInformation src={lotInfo[0]}/>}
-            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.defaultLabel; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title="Leave Feedback"/>
+            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.defaultLabel; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback', global.language)}/>
 
     </TouchableOpacity>
     );

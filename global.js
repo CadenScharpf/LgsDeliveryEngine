@@ -2,4 +2,4 @@
 global.language = 'english'; // TODO - make this a user setting
 global.userToken = ""
 global.accountType = ""
-global.appVersion = "1.0";
+global.appVersion = "3.0";
