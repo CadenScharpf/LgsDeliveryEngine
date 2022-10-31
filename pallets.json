@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "pallet_id": 1
+    },
+    {
+        "id": 2,
+        "pallet_id": 1,
+        "box_id": 2,
+        "quantity_of_boxes": 1
+    },
+    {
+        "id": 3,
+        "pallet_id": 1,
+        "box_id": 3,
+        "quantity_of_boxes": 5
+    }
+]

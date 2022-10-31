@@ -8,11 +8,11 @@ export default function getGlobalColors() {
 
     if (Platform.OS === 'ios') {
         return {
-            background: DynamicColorIOS({light: '#ffffff', dark: '#282a36'}),
+            background: DynamicColorIOS({light: '#ffffff', dark: '#141414'}),
             backgroundTextPrimary: DynamicColorIOS({light: '#282a36', dark: '#ffffff'}),
             backgroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
 
-            foreground: DynamicColorIOS({light: '#EEEEEE', dark: '#44475a'}),
+            foreground: DynamicColorIOS({light: '#EEEEEE', dark: '#282828'}),
             foregroundTextPrimary: DynamicColorIOS({light: '#000000', dark: '#f8f8f2'}),
             foregroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
         };

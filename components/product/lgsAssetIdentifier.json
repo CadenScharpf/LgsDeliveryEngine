@@ -1,0 +1,9 @@
+[
+    { "lgsAssetIdentifier": {"type":"pallet", "id":1} },
+    { "lgsAssetIdentifier": {"type":"pallet", "id":2} },
+    { "lgsAssetIdentifier": {"type":"pallet", "id":3} },
+
+    { "lgsAssetIdentifier": {"type":"box", "id":1} },
+    { "lgsAssetIdentifier": {"type":"box", "id":2} },
+    { "lgsAssetIdentifier": {"type":"box", "id":3} }
+]

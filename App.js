@@ -5,19 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createAppContainer } from 'react-navigation';
 import { createSwitchNavigator } from 'react-navigation';
-import Scanner from './pages/scanner/Scanner'
 import Settings from './pages/settings/Settings'
-import Demo_database from './pages/demo_database/Demo_database'
 import getString from "./StringsArray";
 import './Colors';
-import QrData from './pages/scanner/qrdata/QrData';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import getGlobalColors from './Colors';
 import './global.js';
 import ScannerStack from './pages/scanner/Scanner';
 import Feedback from './components/feedback/Feedback'
 import ProductScroll from './pages/product_scroll/ProductScroll';
-import SignUpScreen from './pages/SignUpScreen';
 import LoginStack from './pages/login_stack/LoginStack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -49,16 +44,6 @@ function SideBar() {
       }
     }}
     >
-      <Drawer.Screen name={"Product Feed Demo"}   component={ProductScroll} 
-      options={{
-        headerStyle: {
-          backgroundColor: colors.background,
-        },
-        headerTintColor: colors.backgroundTextPrimary,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}/>
       <Drawer.Screen name={getString('drawer_scanbarcode', global.language)} component={ScannerStack} 
       options={{
           title: 'QR Scanner',
@@ -70,6 +55,17 @@ function SideBar() {
             fontWeight: 'bold',
           },
         }}/>
+      <Drawer.Screen name={"Product Feed Demo"}   component={ProductScroll} 
+      options={{
+        headerStyle: {
+          backgroundColor: colors.background,
+        },
+        headerTintColor: colors.backgroundTextPrimary,
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}/>
+      
       <Drawer.Screen name={"feedback"} component={Feedback} 
       options={{
         headerStyle: {
@@ -99,8 +95,6 @@ function SideBar() {
   );
 }
 function AuthLoadingScreen({navigation}) {
-
-
   const [userToken, setUserToken] = useState();
   global.gotoapp = ()=>{navigation.navigate("App")};
   global.logout = ()=>{AsyncStorage.removeItem('userToken'); navigation.navigate("Auth")}

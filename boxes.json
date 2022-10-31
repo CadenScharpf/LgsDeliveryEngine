@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "box_id": 1,
+        "quantity_of_products": 3,
+        "lot_id": 1
+    },
+    {
+        "id": 2,
+        "box_id": 1,
+        "quantity_of_products": 1,
+        "lot_id": 2
+    },
+    {
+        "id": 3,
+        "box_id": 1,
+        "quantity_of_products": 5,
+        "lot_id": 3
+    }
+]

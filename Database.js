@@ -114,7 +114,7 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS pallet_contents;";
   executeQuery(sqlQuery, params); 
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, box_id INTEGER, quantity_of_boxes INT)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, enclosed_box_ids TINYTEXT)";
   executeQuery(sqlQuery, params);
 
 
@@ -221,8 +221,8 @@ function InitializeDB() {
   user_id = 4; 
   firstName = 'Jose';
   lastName = 'Rodriguez';
-  email = 'jose@QuartzsiteFarming.com';
-  password = 'LGS4';
+  email = 'a@b.com';
+  password = 'a';
   accountType = 'farmer';
   language = 'spanish';
   company = 'QuartzsiteFarming';
@@ -363,40 +363,12 @@ function InitializeDB() {
   // ---------------------------------------------------------------------
   // ADD ALL PALLETS HERE 
   // ---------------------------------------------------------------------
-
-  currentId = 1;
-  sqlQuery = "INSERT INTO pallet (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
-  params = [currentId, 1, 3];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 1];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 5];  
-  executeQuery(sqlQuery, params);
+  box_ids_arr = ["1,2,3", "1,2", "1"]
+  for(i=1; i < box_ids_arr.length+1; i++) {
+    executeQuery("INSERT INTO pallet (id) values (?)", [i]);    
+    executeQuery("INSERT INTO pallet_contents (pallet_id, enclosed_box_ids) values (?, ?)", [i, box_ids_arr[i-1]]); 
+  }
   
-  currentId = 2;
-  sqlQuery = "INSERT INTO pallet (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
-  params = [currentId, 1, 1];
-  executeQuery(sqlQuery, params);    
-  params = [currentId, 3, 2];  
-  executeQuery(sqlQuery, params);
-  
-  currentId = 3;
-  sqlQuery = "INSERT INTO pallet (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO pallet_contents (pallet_id, box_id, quantity_of_boxes) values (?, ?, ?)"
-  params = [currentId, 1, 5];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 2, 3];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 1];  
-  executeQuery(sqlQuery, params);
 
   // TODO - add more pallets here
 

@@ -13,7 +13,6 @@ var colors = getGlobalColors();
 
 function ProductsPage(props) {
   global.gotofeedback = ()=>{global.feedbackId = ""; props.navigation.navigate("feedback")}
-  global.goto
   const [productDetails, setProductDetails] = useState();
   useEffect(() => {
      getAllProducts(global.language).then((result) => {

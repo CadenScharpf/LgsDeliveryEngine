@@ -5,7 +5,8 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import getString from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import ButtonPrimary from '../../components/input/Buttons';
-import QrData from './qrdata/QrData';
+import PalletScan from './PalletScan/PalletScan';
+import BoxWrapper from './BoxScan/BoxScan';
 import { createStackNavigator } from '@react-navigation/stack';
 
 var colors = getGlobalColors();
@@ -18,7 +19,8 @@ export default function ScannerStack() {
         headerShown: false
       }}>
         <Stack.Screen name="Scanner" component={Scanner} />
-        <Stack.Screen name="QrData" component={QrData} options={{ id: '0' }}/>
+        <Stack.Screen name="Pallet" component={PalletScan} initialParams={{ id: '' }}/>
+        <Stack.Screen name="Box" component={BoxWrapper} initialParams={{ id: '' }}/>
       </Stack.Navigator>
     );
   }
@@ -46,9 +48,15 @@ export default function ScannerStack() {
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
         //setScanned(true);
-        setText(data)
-        console.log('Type: ' + type + '\nData: ' + data)
-        navigation.navigate('QrData', { id: '0' })
+        obj = JSON.parse(data)
+        if(obj && obj.lgsAssetIdentifier && obj.lgsAssetIdentifier.type && obj.lgsAssetIdentifier.id)
+        {
+          setText(data)
+          global.SCANNERSTACKNAV = navigation
+          if(obj.lgsAssetIdentifier.type == "pallet") {navigation.navigate('Pallet', { id: obj.lgsAssetIdentifier.id })}
+          else if(obj.lgsAssetIdentifier.type == "box") {navigation.navigate('Box', { id: obj.lgsAssetIdentifier.id })}
+        }
+        
     };
 
     // Check permissions and return the screens
@@ -80,7 +88,7 @@ export default function ScannerStack() {
             >
                 <View style={styles.container}>
                     <View style={styles.modalView}>
-                        <QrData/>
+                        <PalletScan/>
                         <Pressable style={[styles.button, styles.buttonClose]} onPress={() => {setScanned(false); navigation.navigate('Scanner')}}><Text>Close</Text></Pressable>
                     </View>
                 </View>

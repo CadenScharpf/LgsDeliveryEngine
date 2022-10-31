@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, T
 import { MaterialIcons } from '@expo/vector-icons';
 import getString from "../../StringsArray";
 import getGlobalColors from '../../Colors';
+import { AirbnbRating } from "@rneui/themed";
 
 var colors = getGlobalColors();
 
@@ -50,6 +51,7 @@ export default function App() {
               numberOfLines={4}
               value={additionalcomments}
               />
+              <AirbnbRating />
                
             
           <Button onPress = {()=>{}} title = {getString('feedback_submit', global.language)} color = 'black' />

@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "defaultLabel": "Blade Oakleaf Lettuce",
+        "photoURL": "https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/015-Blade-Oakleaf-Lettuce-Web.jpg?fit=1500%2C1000&ssl=1",
+        "productPageURL": "https://localgrownsalads.com/product/blade-oakleaf-lettuce/",
+        "product_name": "Blade Oakleaf Lettuce",
+        "product_specification": "An Oakleaf Lettuce in the shape of a blade, this lettuce's leaves are long and thin, and they fit perfectly, whole, in large salads, or, chopped, in regular salads. Blade Oakleaf Lettuce has its own distinct, bold flavour compared to staple lettuces, and that's why you'll find it in stronger flavoured salads."
+    },
+    {
+        "id": 2,
+        "defaultLabel": "Curly Kale",
+        "photoURL": "https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1",
+        "productPageURL": "https://localgrownsalads.com/product/curly-kale/",
+        "product_name": "Curly Kale",
+        "product_specification": "A salad favourite, Curly Kale gets its name from its wavy leaves. When young, their edges have a slight curl, but as they grow, so do the amount of curls. This variety of kale is particularly nice in salads, thanks in large part to its appearance and texture adding a different look than your average lettuce-based salad."
+    },
+    {
+        "id": 3,
+        "defaultLabel": "Pesto Basil",
+        "photoURL": "https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1",
+        "productPageURL": "https://localgrownsalads.com/product/pesto-basil/",
+        "product_name": "Pesto Basil",
+        "product_specification": "Sweet Basil. St. Joseph's Wort. Ocimum Basilicum. Genovese Basil. Delicious. Whatever you call it, this popular variety of basil is a fragrant and flavourful herb that is most commonly found in its own saucy paste-type dish, pesto, which pairs beautifully from everything from pastas and pizzas to fish and even as a dip for breads and crackers."
+    }
+]

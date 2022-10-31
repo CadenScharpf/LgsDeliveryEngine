@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TouchableOpacity, 
-  WebView, 
   Linking, Button
 } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
@@ -29,8 +28,8 @@ export default function Product(props) {
       setLotInfo(queryResults.output)
     })
 }, [])
-
-        return (
+        if(lotInfo) {
+          return (
           <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( props.src.productPageURL );}}>
             <Image
             resizeMode={'cover'}
@@ -45,6 +44,8 @@ export default function Product(props) {
 
     </TouchableOpacity>
     );
+        } else {return null}
+        
 }
 
 const styles = StyleSheet.create({
