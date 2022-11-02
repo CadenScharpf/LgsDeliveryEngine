@@ -25,13 +25,13 @@ function SignUpScreen({ navigation }){
     const[accountType, setAccountType] = useState(''); 
     const[language, setLanguage] = useState('');
     const[company, setCompany] = useState('');
-       
+    
+    // TODO - pull these via API
     const languages = ["English", "Spanish"]; 
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
 
     const [bannerURL, setBannerURL] = useState('');
-
     const [appSettings, setAppSettings] = useState();
     useEffect(() => {  
         getAppSettings(global.appVersion).then((result)  => { 
@@ -57,7 +57,7 @@ function SignUpScreen({ navigation }){
         // given asynchronous nature of API call
         if (typeof appSettings !== 'undefined') {
             // appSettings is defined
-            // set necessary variables
+            // set necessary variable(s)
 
             setBannerURL(appSettings[0].photoURLBanner);
             console.log('setBannerURL called');
@@ -103,7 +103,7 @@ function SignUpScreen({ navigation }){
   return (
     <ScrollView>
         <View style={styles.container}>
-        <Image 
+            <Image 
                 source={{uri:bannerURL}}
                 style={[styles.logo, {height: height * 0.2}]} 
                 resizeMode = "contain" 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, Button, TouchableOpacity } from 'react-native';
 import LogoLight from '../../assets/images/lgs-logo.png';
 import CustomButton from '../../components/CustomButton';
@@ -6,22 +6,55 @@ import CustomInput from '../../components/CustomInput';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
-import { getUserDetails } from '../../Database';
+import { getUserDetails, getAppSettings} from '../../Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import getString from "../../StringsArray";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
- 
+
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
 
 const SignInScreen = ({navigation, authNav}) => {
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState(''); 
     const [userDetails, setUserDetails] = useState('');
     const {height} = useWindowDimensions();
     const [show, setShow] = React.useState(false);
     const [visible, setVisible] = React.useState(true);
+
+    const [bannerURL, setBannerURL] = useState('');
+    const [appSettings, setAppSettings] = useState();
+    useEffect(() => {  
+        getAppSettings(global.appVersion).then((result)  => { 
+            console.log('getAppSettings result: ');
+            console.log(result);
+
+            var queryResults = JSON.parse(result);
+             
+            console.log('getAppSettings queryResults: ');
+            console.log(queryResults);
+
+            setAppSettings(queryResults.output); 
+            console.log('setAppSettings called');
+        }).catch((error) => { 
+            console.log('getAppSettings failed, error: ');  
+            console.log(error); 
+        }); 
+    }, []);
+
+    useEffect(() => {  
+        // check if appSettings is defined
+        // NOTE: on the first run, it may not be 
+        // given asynchronous nature of API call
+        if (typeof appSettings !== 'undefined') {
+            // appSettings is defined
+            // set necessary variable(s)
+
+            setBannerURL(appSettings[0].photoURLBanner);
+            console.log('setBannerURL called');
+        }
+    }, [appSettings]);
    
     const onSignInPressed = () => {
         getUserDetails(username).then((result) => {
@@ -55,8 +88,8 @@ const SignInScreen = ({navigation, authNav}) => {
     <ScrollView style={styles.container}>
         <View>
             <Image 
-                source={Logo} 
-                style={[styles.logo, {height: height * 0.3}]} 
+                source={{uri:bannerURL}}
+                style={[styles.logo, {height: height * 0.2}]} 
                 resizeMode = "contain" 
             />
             <CustomInput 

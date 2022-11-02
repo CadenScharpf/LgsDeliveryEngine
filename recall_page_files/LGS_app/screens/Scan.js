@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { useRoute, useIsFocused } from "@react-navigation/native";
+import getString from "../../StringsArray";
 
 export default function Scan({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
@@ -36,13 +37,13 @@ export default function Scan({ navigation }) {
             navigation.navigate('Recall', { data })
         }
        
-    };
+    }; 
 
     if (hasPermission === null) {
-        return <Text>Requesting for camera permission</Text>;
+        return <Text>getString('scan_requestingpermission', global.language)</Text>;
     }
     if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
+        return <Text>getString('scan_noaccess', global.language)</Text>;
     }
 
     return (

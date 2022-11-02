@@ -12,11 +12,12 @@ import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import BoxCard from './BoxCard';
 import Timeline from 'react-native-timeline-flatlist';
 import QrData from '../../../components/qrdata/QrData';
+import getString from "../../StringsArray";
 
 var colors = getGlobalColors()
 
 function PalletWrapper(props) {
-  if (props.route.params.id == '') { return <Text>Nothing to show</Text> }
+  if (props.route.params.id == '') { return <Text>{getString('palletscan_nothing', global.language)}</Text> }
   const [palletDetails, setPalletDetails] = useState();
 
   useEffect(() => {
@@ -25,12 +26,12 @@ function PalletWrapper(props) {
       setPalletDetails(queryResults.output[0])
 
     }).catch((error) => {
-      return <Text>The requested resource could not be found.</Text>
+      return <Text>{getString('palletscan_resource', global.language)}</Text>
     });
   }, [])
   if (palletDetails) {
     return <PalletScan src={palletDetails} />
-  } else { return <Text style={styles.baseText}>loading...</Text> }
+  } else { return <Text style={styles.baseText}>{getString('palletscan_loading', global.language)}</Text> }
 }
 
 class PalletScan extends Component {
@@ -49,8 +50,8 @@ class PalletScan extends Component {
     return (
       <View style={styles.container} onPress={() => { }}>
         <View style={styles.card}>
-          <Text style={styles.titleText} >Pallet #{state.id}</Text>
-          <Text style={styles.textDescription}>Contains a total of {state.enclosed_box_ids.length} box(es)</Text>
+          <Text style={styles.titleText} >{getString('palletscan_pallet', global.language)} #{state.id}</Text>
+          <Text style={styles.textDescription}>{getString('palletscan_contains', global.language)} {state.enclosed_box_ids.length} {getString('palletscan_boxes', global.language)}</Text>
           <ScrollView horizontal={true}>
             {state.enclosed_box_ids.map((id, index) => { return <BoxCard key={index} id={id} status="Good" /> })}
           </ScrollView>

@@ -9,6 +9,7 @@
  import Timeline from 'react-native-timeline-flatlist'
  import { createStackNavigator } from '@react-navigation/stack';
  import getGlobalColors from '../../Colors';
+ import getString from "../../StringsArray";
 
  var colors = getGlobalColors();
  
@@ -58,16 +59,16 @@
     var line1, line2, line3 = "";
     switch(type){
       case "consumer":
-        return "Delivered to consumer " + usr + " at location [" + lat + "," + lon + "]";
+        return getString('qrdata_consumer', global.language) + " " + usr + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]";
         break;
       case "retailer":
-        line1 = "Recieved by retailer " + company + " at location [" + lat + "," + lon + "]\n";
-        line2 = "Collected by user: " + usr;
+        line1 = getString('qrdata_retailer', global.language) + " " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
+        line2 = getString('qrdata_user_collected', global.language) + ": " + usr;
         return line1 + line2;
         break;
         case "distributor":
-          line1 = "Product left distributer " + company + " at location [" + lat + "," + lon + "]\n";
-          line2 = "Dispatched by user: " + usr;
+          line1 = "Product left distributer " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
+          line2 = getString('qrdata_user_dispatched', global.language) + ": " + usr;
           return line1 + line2;
         break;
     }
@@ -109,7 +110,7 @@
      return (
        <View style={styles.container}>
          {/* {this.renderSelected()} */}
-         <Text style={styles.baseText}>Scan History:</Text>
+         <Text style={styles.baseText}>{getString('qrdata_history', global.language)}:</Text>
          <Timeline 
            style={styles.list}
            data={this.data}

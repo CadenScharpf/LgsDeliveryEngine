@@ -46,8 +46,8 @@ function SideBar() {
     >
       <Drawer.Screen name={getString('drawer_scanbarcode', global.language)} component={ScannerStack} 
       options={{
-          title: 'QR Scanner',
-          headerStyle: {
+        title: getString('app_qrscanner', global.language),
+        headerStyle: {
             backgroundColor: colors.background,
           },
           headerTintColor: colors.backgroundTextPrimary,
@@ -55,7 +55,7 @@ function SideBar() {
             fontWeight: 'bold',
           },
         }}/>
-      <Drawer.Screen name={"Product Feed Demo"}   component={ProductScroll} 
+      <Drawer.Screen name={getString('app_title_demo', global.language)}   component={ProductScroll} 
       options={{
         headerStyle: {
           backgroundColor: colors.background,
@@ -66,7 +66,7 @@ function SideBar() {
         },
       }}/>
       
-      <Drawer.Screen name={"feedback"} component={Feedback} 
+      <Drawer.Screen name={getString('app_feedback', global.language)} component={Feedback} 
       options={{
         headerStyle: {
           backgroundColor: colors.background,

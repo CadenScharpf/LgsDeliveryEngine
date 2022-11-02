@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import CustomButton from '../CustomButton';
 import { FacebookSocialButton, GoogleSocialButton, AppleSocialButton, MicrosoftSocialButton } from "react-native-social-buttons";
 import getGlobalColors from '../../Colors';
+import getString from "../../StringsArray";
 
 var colors = getGlobalColors();
 const SocialSignInButtons = () => {
@@ -20,10 +21,9 @@ const SocialSignInButtons = () => {
 
     return (
         <View>
-        
-            <FacebookSocialButton onPress={() => {onSignInFacebook()}} buttonViewStyle={styles.button}  />
-            <GoogleSocialButton onPress={() => {onSignInGoogle()}} buttonViewStyle={styles.gbutton}  />
-            <AppleSocialButton onPress={() => {onSignInApple()}} buttonViewStyle={styles.button}  />
+            <FacebookSocialButton onPress={() => {onSignInFacebook()}} buttonViewStyle={styles.button} buttonText={getString('signin_facebook', global.language)} />
+            <GoogleSocialButton onPress={() => {onSignInGoogle()}} buttonViewStyle={styles.gbutton} buttonText={getString('signin_google', global.language)}/>
+            <AppleSocialButton onPress={() => {onSignInApple()}} buttonViewStyle={styles.button} buttonText={getString('signin_apple', global.language)}/>
         </View>
     )
 };

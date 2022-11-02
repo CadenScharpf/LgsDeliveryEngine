@@ -7,7 +7,6 @@ import SignUpScreen from '../SignUpScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import SignInScreen from '../SignInScreen/SignInScreen';
 
-
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
 const ThemeContext = createContext('');
@@ -28,8 +27,8 @@ function LoginStack({navigation}) {
         },
       }}>
         
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: 'Sign Up'}} style={styles.container}/>
-            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: 'Sign In' }}/>
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title', global.language)}} style={styles.container}/>
+            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title', global.language) }}/>
           
             
            

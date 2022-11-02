@@ -10,7 +10,7 @@ function Settings() {
   return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
       <Text style={{color: colors.backgroundTextPrimary}}>{getString('settings_welcome', global.language)}</Text>
-      <Button onPress={global.logout} title="Logout"/>
+      <Button onPress={global.logout} title={getString('settings_logout', global.language)}/>
       
     </View>
       

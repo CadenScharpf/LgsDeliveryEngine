@@ -14,10 +14,11 @@ import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import { Card } from "@rneui/themed";
 import ProductDetails from './ProductDetails';
 import Product from '../../../components/product/Product';
+import getString from "../../StringsArray";
 
 var colors = getGlobalColors()
 function BoxWrapper(props) {
-  if (props.route.params.id == '') { return <Text>Nothing to show</Text> }
+  if (props.route.params.id == '') { return <Text>{getString('boxscan_nothing', global.language)}</Text> }
   const [boxDetails, setBoxDetails] = useState();
   const [lotDetails, setLotDetails] = useState();
   const [productDetails, setProductDetails] = useState()
@@ -34,18 +35,18 @@ function BoxWrapper(props) {
           setProductDetails(queryResults.output[0])
           
         }).catch((error) => {
-          return <Text>Something went wrong</Text>
+          return <Text>{getString('boxscan_error', global.language)}</Text>
         })
       }).catch((error) => {
-        return <Text>Something went wrong</Text>
+        return <Text>{getString('boxscan_error', global.language)}</Text>
       })
     }).catch((error) => {
-      return <Text>Something went wrong</Text>
+      return <Text>{getString('boxscan_error', global.language)}</Text>
     });
   }, [])
   if (boxDetails && lotDetails && productDetails) {
     return <BoxScan src={boxDetails} pd={productDetails}/>
-  } else { return <Text style={styles.baseText}>The requested resource could not be found.</Text> }
+  } else { return <Text style={styles.baseText}>{getString('boxscan_resource', global.language)}</Text> }
 }
 
 class BoxScan extends Component {
@@ -67,9 +68,9 @@ class BoxScan extends Component {
       <View style={styles.container}>
         <View style={styles.card} onPress={() => { }}>
         <View >
-          <Text style={styles.titleText} >Box #{this.state.id}</Text>
-          <Text style={styles.baseText}>Quantity: {this.state.quantity}</Text>
-          <Text style={styles.baseText}>Product Information:</Text>
+          <Text style={styles.titleText}>{getString('boxscan_box', global.language)} #{this.state.id}</Text>
+          <Text style={styles.baseText}>{getString('boxscan_quantity', global.language)}: {this.state.quantity}</Text>
+          <Text style={styles.baseText}>{getString('boxscan_productinfo', global.language)}:</Text>
           <ProductDetails src={this.state.pd}/>
           
         </View>
