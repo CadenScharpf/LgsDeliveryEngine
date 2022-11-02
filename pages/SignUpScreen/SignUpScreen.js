@@ -25,8 +25,6 @@ function SignUpScreen({ navigation }){
     const[accountType, setAccountType] = useState(''); 
     const[language, setLanguage] = useState('');
     const[company, setCompany] = useState('');
-
-
        
     const languages = ["English", "Spanish"]; 
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
@@ -37,14 +35,37 @@ function SignUpScreen({ navigation }){
     const [appSettings, setAppSettings] = useState();
     useEffect(() => {  
         getAppSettings(global.appVersion).then((result)  => { 
+            console.log('getAppSettings result: ');
+            console.log(result);
+
             var queryResults = JSON.parse(result);
+             
+            console.log('getAppSettings queryResults: ');
+            console.log(queryResults);
+
             setAppSettings(queryResults.output); 
-            setBannerURL(appSettings[0].photoURLBanner);
-            setCompany(appSettings[0].companyName); 
+            console.log('setAppSettings called');
         }).catch((error) => { 
-            console.log('getAppSettings failed');  
+            console.log('getAppSettings failed, error: ');  
+            console.log(error); 
         }); 
     }, []);
+
+    useEffect(() => {  
+        // check if appSettings is defined
+        // NOTE: on the first run, it may not be 
+        // given asynchronous nature of API call
+        if (typeof appSettings !== 'undefined') {
+            // appSettings is defined
+            // set necessary variables
+
+            setBannerURL(appSettings[0].photoURLBanner);
+            console.log('setBannerURL called');
+
+            setCompany(appSettings[0].companyName); 
+            console.log('setCompany called');
+        }
+    }, [appSettings]);
 
     const {height} = useWindowDimensions();
 
