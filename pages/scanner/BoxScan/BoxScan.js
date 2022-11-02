@@ -14,7 +14,7 @@ import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import { Card } from "@rneui/themed";
 import ProductDetails from './ProductDetails';
 import Product from '../../../components/product/Product';
-import getString from "../../StringsArray";
+import getString from "../../../StringsArray";
 
 var colors = getGlobalColors()
 function BoxWrapper(props) {

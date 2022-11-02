@@ -88,6 +88,8 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"settings_logout", english: 'Logout', spanish: 'Cerrar sesión'};
   StringsDB.push(content);  
+  content = { description:"settings_selectLanguage", english: 'Select Language', spanish: 'Seleccione el idioma'};
+  StringsDB.push(content);
   
   // Demo - Database
   content = {description:"demo_db_title", english: 'LGS Database Demo', spanish: 'Demostración de la base de datos LGS'};
