@@ -112,7 +112,7 @@ export default function ScannerStack() {
                       // TODO - simulate QR Code scan 
                        handleBarCodeScanned({type:"",data:boxScanData})
                   }} 
-                  title={getString('scan_simulate', global.language)}
+                  title="box simulation"
             />
             {
             /* {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />} */}
