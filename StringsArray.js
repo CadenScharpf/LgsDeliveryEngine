@@ -268,7 +268,9 @@ function initializeDatabase() {
   }
 }
 
-function getString(inputDescription, inputLanguage) {
+function getString(inputDescription) {
+  // TODO - convert to asyncStorage
+  inputLanguage = global.language;
   if (debugging_option) {
     console.log('Get String Function Call');
     console.log('-------------------------------------');

@@ -26,18 +26,18 @@ const ForgotPasswordScreen = () => {
             <Text style={styles.title}>Reset your password</Text>
 
             <CustomInput 
-                placeholder={getString('forgotPassword_username', global.language)}
+                placeholder={getString('forgotPassword_username')}
                 value={username} 
                 setValue={setUsername}
             />
 
             <CustomButton 
-                text={getString('forgotPassword_send', global.language)}
+                text={getString('forgotPassword_send')}
                 onPress={onSendPressed} 
             />
 
             <CustomButton 
-                text={getString('forgotPassword_backToSignIn', global.language)}
+                text={getString('forgotPassword_backToSignIn')}
                 onPress={onSignInPressed}
                 type="TERTIARY"
             />

@@ -59,16 +59,16 @@
     var line1, line2, line3 = "";
     switch(type){
       case "consumer":
-        return getString('qrdata_consumer', global.language) + " " + usr + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]";
+        return getString('qrdata_consumer') + " " + usr + " " + getString('qrdata_atlocation') + " [" + lat + "," + lon + "]";
         break;
       case "retailer":
-        line1 = getString('qrdata_retailer', global.language) + " " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
-        line2 = getString('qrdata_user_collected', global.language) + ": " + usr;
+        line1 = getString('qrdata_retailer') + " " + company + " " + getString('qrdata_atlocation') + " [" + lat + "," + lon + "]\n";
+        line2 = getString('qrdata_user_collected') + ": " + usr;
         return line1 + line2;
         break;
         case "distributor":
-          line1 = getString('qrdata_distributor', global.language) + " " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
-          line2 = getString('qrdata_user_dispatched', global.language) + ": " + usr;
+          line1 = getString('qrdata_distributor') + " " + company + " " + getString('qrdata_atlocation') + " [" + lat + "," + lon + "]\n";
+          line2 = getString('qrdata_user_dispatched') + ": " + usr;
           return line1 + line2;
         break;
     }
@@ -110,7 +110,7 @@
      return (
        <View style={styles.container}>
          {/* {this.renderSelected()} */}
-         <Text style={styles.baseText}>{getString('qrdata_history', global.language)}:</Text>
+         <Text style={styles.baseText}>{getString('qrdata_history')}:</Text>
          <Timeline 
            style={styles.list}
            data={this.data}

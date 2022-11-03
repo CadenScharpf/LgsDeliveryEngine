@@ -13,7 +13,7 @@ var products = [
 function ProductScroll() {  
   return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-      {/* <Text style={{color: colors.textColorPrimary}}>{getString('dashboard_welcome', global.language)}</Text> */}
+      {/* <Text style={{color: colors.textColorPrimary}}>{getString('dashboard_welcome')}</Text> */}
       <Product src={products[0]} />
     </View>
       

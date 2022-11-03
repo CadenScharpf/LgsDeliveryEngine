@@ -22,25 +22,25 @@ const NewPasswordScreen = () => {
             <Text style={styles.title}>Confirm your email</Text>
 
             <CustomInput 
-                  placeholder={getString('newPassword_code', global.language)}
+                  placeholder={getString('newPassword_code')}
                 value={code} 
                 setValue={setCode}
             />
 
             <CustomInput 
-                  placeholder={getString('newPassword_newPassword', global.language)}
+                  placeholder={getString('newPassword_newPassword')}
                 value={newPassword} 
                 setValue={setNewPassword}
                 secureTextEntry
             />
 
             <CustomButton 
-                  text={getString('newPassword_submit', global.language)}
+                  text={getString('newPassword_submit')}
                 onPress={onSubmitPressed} 
             />
 
             <CustomButton 
-                  text={getString('newPassword_backToSignIn', global.language)}
+                  text={getString('newPassword_backToSignIn')}
                 onPress={onSignInPressed}
                 type="TERTIARY"
             />

@@ -21,9 +21,9 @@ const SocialSignUpButtons = () => {
  
     return (
         <View>        
-            <FacebookSocialButton onPress={() => {onSignUpFacebook()}} buttonViewStyle={styles.button} buttonText={getString('signin_facebook', global.language)} />
-            <GoogleSocialButton onPress={() => {onSignUpGoogle()}} buttonViewStyle={styles.gbutton} buttonText={getString('signin_google', global.language)} />
-            <AppleSocialButton onPress={() => {onSignUpApple()}} buttonViewStyle={styles.button} buttonText={getString('signin_apple', global.language)} />
+            <FacebookSocialButton onPress={() => {onSignUpFacebook()}} buttonViewStyle={styles.button} buttonText={getString('signin_facebook')} />
+            <GoogleSocialButton onPress={() => {onSignUpGoogle()}} buttonViewStyle={styles.gbutton} buttonText={getString('signin_google')} />
+            <AppleSocialButton onPress={() => {onSignUpApple()}} buttonViewStyle={styles.button} buttonText={getString('signin_apple')} />
         </View>
     )
 };

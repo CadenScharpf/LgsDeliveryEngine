@@ -19,10 +19,10 @@ class Demo_database extends Component {
     // getAllQRScans(1)
     // getAllUsersByAccountType('consumer')
     // getAllUsers()
-    // getAllProducts('english')
+    // getAllProducts()
     // getPalletDetails(1)
     // getBoxDetails(2)
-    // getProductDetails(3, 'english')
+    // getProductDetails(3)
     // getProductId('Pesto Basil')
     // getLotDetails(1)
     // checkSignIn('zale@localgrownsalads.com','LGS2'), 

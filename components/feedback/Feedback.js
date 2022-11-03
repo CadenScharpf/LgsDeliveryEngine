@@ -103,7 +103,7 @@ function AddTodo({submitHandler}){
       <View>
           <TextInput 
               style = {stylesAddToDo.input}
-              placeholder = {getString('feedback_productname', global.language)}
+              placeholder = {getString('feedback_productname')}
               onChangeText = {setProductName}
               value={productName}
               />  
@@ -115,13 +115,13 @@ function AddTodo({submitHandler}){
               />
              <TextInput 
               style = {stylesAddToDo.input}
-              placeholder = {getString('feedback_expirationdate', global.language)}
+              placeholder = {getString('feedback_expirationdate')}
               onChangeText = {setProductExpirationDate}
               value={productExpirationDate}
               />
               <TextInput 
               style = {stylesAddToDo.input}
-              placeholder = {getString('feedback_rating', global.language)}
+              placeholder = {getString('feedback_rating')}
               onChangeText = {setProductRating}
               numberOfLines={4}
               value={productRating}
@@ -129,7 +129,7 @@ function AddTodo({submitHandler}){
               <TextInput 
               multiline
               style = {stylesAddToDo.input}
-              placeholder = {getString('feedback_additionalcomment', global.language)}
+              placeholder = {getString('feedback_additionalcomment')}
               onChangeText = {setAdditionalComments}
               numberOfLines={4}
               value={additionalcomments}

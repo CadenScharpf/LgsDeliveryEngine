@@ -991,7 +991,9 @@ const getBoxDetails = async (box_id) => {
   });  
 }
 
-const getProductDetails = async (product_id, inputLanguage) => {
+const getProductDetails = async (product_id) => {
+  // TODO - convert to asyncStorage
+  inputLanguage = global.language;
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   product.id, \
@@ -1041,7 +1043,9 @@ const getProductDetails = async (product_id, inputLanguage) => {
   });  
 }
 
-const getAllProducts = async (inputLanguage) => {
+const getAllProducts = async () => {
+  // TODO - convert to asyncStorage
+  inputLanguage = global.language;
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   product.id, \

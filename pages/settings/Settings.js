@@ -34,10 +34,10 @@ function Settings() {
 
   return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-        <Text style={{color: colors.backgroundTextPrimary}}>{getString('settings_welcome', global.language)}</Text>
+        <Text style={{color: colors.backgroundTextPrimary}}>{getString('settings_welcome')}</Text>
         <SelectDropdown
           data={languages}
-          defaultButtonText={getString('settings_selectLanguage', global.language)}
+          defaultButtonText={getString('settings_selectLanguage')}
           onSelect={(selectedItem, index) => {
               setLanguage(selectedItem)
           }}
@@ -50,7 +50,7 @@ function Settings() {
           buttonStyle={styles.dropdownButtonStyle}
           buttonTextStyle={styles.dropdownTextStyle}
         />
-        <Button onPress={global.logout} title={getString('settings_logout', global.language)}/>
+        <Button onPress={global.logout} title={getString('settings_logout')}/>
     </View>      
   );
 }

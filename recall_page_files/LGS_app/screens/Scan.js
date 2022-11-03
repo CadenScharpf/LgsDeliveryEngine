@@ -40,10 +40,10 @@ export default function Scan({ navigation }) {
     }; 
 
     if (hasPermission === null) {
-        return <Text>getString('scan_requestingpermission', global.language)</Text>;
+        return <Text>getString('scan_requestingpermission')</Text>;
     }
     if (hasPermission === false) {
-        return <Text>getString('scan_noaccess', global.language)</Text>;
+        return <Text>getString('scan_noaccess')</Text>;
     }
 
     return (

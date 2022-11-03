@@ -18,7 +18,7 @@ import getString from "../../../StringsArray";
 
 var colors = getGlobalColors()
 function BoxWrapper(props) {
-  if (props.route.params.id == '') { return <Text>{getString('boxscan_nothing', global.language)}</Text> }
+  if (props.route.params.id == '') { return <Text>{getString('boxscan_nothing')}</Text> }
   const [boxDetails, setBoxDetails] = useState();
   const [lotDetails, setLotDetails] = useState();
   const [productDetails, setProductDetails] = useState()
@@ -30,23 +30,23 @@ function BoxWrapper(props) {
       getLotDetails(queryResults.output[0].lot_id).then((result) => {
         var queryResults = JSON.parse(result);
         setLotDetails(queryResults.output[0])
-        getProductDetails(queryResults.output[0].product_id, global.language).then((result) => {
+        getProductDetails(queryResults.output[0].product_id).then((result) => {
           var queryResults = JSON.parse(result);
           setProductDetails(queryResults.output[0])
           
         }).catch((error) => {
-          return <Text>{getString('boxscan_error', global.language)}</Text>
+          return <Text>{getString('boxscan_error')}</Text>
         })
       }).catch((error) => {
-        return <Text>{getString('boxscan_error', global.language)}</Text>
+        return <Text>{getString('boxscan_error')}</Text>
       })
     }).catch((error) => {
-      return <Text>{getString('boxscan_error', global.language)}</Text>
+      return <Text>{getString('boxscan_error')}</Text>
     });
   }, [])
   if (boxDetails && lotDetails && productDetails) {
     return <BoxScan src={boxDetails} pd={productDetails}/>
-  } else { return <Text style={styles.baseText}>{getString('boxscan_resource', global.language)}</Text> }
+  } else { return <Text style={styles.baseText}>{getString('boxscan_resource')}</Text> }
 }
 
 class BoxScan extends Component {
@@ -68,9 +68,9 @@ class BoxScan extends Component {
       <View style={styles.container}>
         <View style={styles.card} onPress={() => { }}>
         <View >
-          <Text style={styles.titleText}>{getString('boxscan_box', global.language)} #{this.state.id}</Text>
-          <Text style={styles.baseText}>{getString('boxscan_quantity', global.language)}: {this.state.quantity}</Text>
-          <Text style={styles.baseText}>{getString('boxscan_productinfo', global.language)}:</Text>
+          <Text style={styles.titleText}>{getString('boxscan_box')} #{this.state.id}</Text>
+          <Text style={styles.baseText}>{getString('boxscan_quantity')}: {this.state.quantity}</Text>
+          <Text style={styles.baseText}>{getString('boxscan_productinfo')}:</Text>
           <ProductDetails src={this.state.pd}/>
           
         </View>

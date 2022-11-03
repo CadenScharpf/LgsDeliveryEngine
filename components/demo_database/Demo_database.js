@@ -23,7 +23,7 @@ class Demo_database extends Component {
   fetchData = async () => {
     // /*
     console.log('Fetch Data Function Called - getAllProducts');
-    getAllProducts(global.language).then((result) => {
+    getAllProducts().then((result) => {
       console.log('getAllProducts Fetch Data Then: ' + result);
       this.setState({ item_data: JSON.parse(result)});
     }).catch((error) => {
@@ -89,11 +89,11 @@ class Demo_database extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Text style={styles.title}>{getString('demo_db_title', global.language)}</Text>
-      <Text style={styles.black}>{getString('demo_db_description', global.language)}</Text>
-      <Text style={styles.black}>{getString('demo_db_instructions', global.language)}</Text>
+      <Text style={styles.title}>{getString('demo_db_title')}</Text>
+      <Text style={styles.black}>{getString('demo_db_description')}</Text>
+      <Text style={styles.black}>{getString('demo_db_instructions')}</Text>
       <TouchableOpacity onPress={this.addProduct} style={styles.green}>
-        <Text style={styles.black}>{getString('demo_db_add', global.language)}</Text>
+        <Text style={styles.black}>{getString('demo_db_add')}</Text>
       </TouchableOpacity>
       <ScrollView>
       {
@@ -101,11 +101,11 @@ class Demo_database extends Component {
         (
             <View key={item_data.id} style={styles.list}>
               <Text style={styles.black}>{item_data.defaultLabel}</Text>
-              <Text style={styles.black}>{getString('demo_db_bestbefore', global.language)} {item_data.bestBeforeDays}</Text>
+              <Text style={styles.black}>{getString('demo_db_bestbefore')} {item_data.bestBeforeDays}</Text>
               <Text style={styles.black}>{item_data.product_description}</Text>
               <Text style={styles.black}>{item_data.product_specification}</Text>
               <TouchableOpacity onPress={() => this.deleteProduct(item_data.id)}>
-                  <Text style={styles.red}>{getString('demo_db_delete', global.language)}</Text>
+                  <Text style={styles.red}>{getString('demo_db_delete')}</Text>
               </TouchableOpacity>
             </View>
         )

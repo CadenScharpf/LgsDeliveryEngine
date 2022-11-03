@@ -19,12 +19,12 @@ var colors = getGlobalColors();
 
 export default function LotInformation(props) {
 const state = {
-    tableHead:  [getString('lotinformation_title', global.language)],
+    tableHead:  [getString('lotinformation_title')],
     tableData: [
-        [getString('lotinformation_farm', global.language) + ':', props.src.Farm],
-        [getString('lotinformation_harvestdate', global.language) + ':', props.src.harvestDate],
-        [getString('lotinformation_harvestby', global.language) + ':', props.src.harvestedBy],
-        [getString('lotinformation_bestbefore', global.language) + ':', props.src.bestBeforeDate]
+        [getString('lotinformation_farm') + ':', props.src.Farm],
+        [getString('lotinformation_harvestdate') + ':', props.src.harvestDate],
+        [getString('lotinformation_harvestby') + ':', props.src.harvestedBy],
+        [getString('lotinformation_bestbefore') + ':', props.src.bestBeforeDate]
     ]
 }
     

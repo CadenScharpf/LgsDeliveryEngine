@@ -110,33 +110,33 @@ function SignUpScreen({ navigation }){
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_firstName', global.language)}
+                placeholder={getString('signupscreen_firstName')}
                 value={firstName} 
                 setValue={setFirstName}
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_lastName', global.language)}
+                placeholder={getString('signupscreen_lastName')}
                 value={lastName} 
                 setValue={setLastName}
             />
 
             <CustomInput 
                 style={[styles.input]}
-                placeholder={getString('signupscreen_email', global.language)}
+                placeholder={getString('signupscreen_email')}
                 value={email} 
                 setValue={setEmail}
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_password', global.language)}
+                placeholder={getString('signupscreen_password')}
                 value={password} 
                 setValue={setPassword}
                 secureTextEntry
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_repeatPassword', global.language)}
+                placeholder={getString('signupscreen_repeatPassword')}
                 value={passwordRepeat} 
                 setValue={setPasswordRepeat}
                 secureTextEntry
@@ -144,7 +144,7 @@ function SignUpScreen({ navigation }){
             
             <SelectDropdown
                 data={companies}
-                defaultButtonText={getString('signupscreen_company', global.language)}
+                defaultButtonText={getString('signupscreen_company')}
                 onSelect={(selectedItem, index) => {
                     setCompany(selectedItem)
                 }}
@@ -164,7 +164,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={accountTypes}
-                defaultButtonText={getString('signupscreen_accountType', global.language)}
+                defaultButtonText={getString('signupscreen_accountType')}
                 onSelect={(selectedItem, index) => {
                     setAccountType(selectedItem)
                 }}
@@ -184,7 +184,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={languages}
-                defaultButtonText={getString('signupscreen_selectLanguage', global.language)}
+                defaultButtonText={getString('signupscreen_selectLanguage')}
                 onSelect={(selectedItem, index) => {
                     setLanguage(selectedItem)
                 }}
@@ -203,13 +203,13 @@ function SignUpScreen({ navigation }){
             />
 
             <CustomButton
-                text={getString('signupscreen_register', global.language)}
+                text={getString('signupscreen_register')}
                 //onPress={() => {navigation.navigate('SignInScreen')}} 
                 onPress={() => { onSignUpPressed()}} 
             />
 
             <CustomButton
-                text={getString('signupscreen_hasAccount', global.language)}
+                text={getString('signupscreen_hasAccount')}
                 onPress={() => {navigation.navigate('SignInScreen')}}
                 type="TERTIARY"
             />

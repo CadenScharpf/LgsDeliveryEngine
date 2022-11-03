@@ -26,24 +26,24 @@ const ConfirmEmailScreen = () => {
             <Text style={styles.title}>Confirm your email</Text>
 
             <CustomInput 
-                  placeholder={getString('confirmEmail_verification', global.language)}
+                  placeholder={getString('confirmEmail_verification')}
                 value={code} 
                 setValue={setCode}
             />
 
             <CustomButton 
-                  text={getString('confirmEmail_confirm', global.language)}
+                  text={getString('confirmEmail_confirm')}
                 onPress={onConfirmPressed} 
             />
 
             <CustomButton 
-                  text={getString('confirmEmail_resendCode', global.language)}
+                  text={getString('confirmEmail_resendCode')}
                 onPress={onResendPressed}
                 type="SECONDARY"
             />
 
             <CustomButton 
-                  text={getString('confirmEmail_backToSignIn', global.language)}
+                  text={getString('confirmEmail_backToSignIn')}
                 onPress={onSignInPressed}
                 type="SECONDARY"
             />

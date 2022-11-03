@@ -14,11 +14,11 @@ var colors = getGlobalColors();
 export default function BoxCard(props) {
   return (
     <Card containerStyle={props.status == "Good" ? styles.goodStatus : styles.recall}>
-      <Card.Title>{getString('boxcard_box', global.language)}</Card.Title>
-      <Text style={{textAlign: 'center'}}>{getString('boxcard_id', global.language)}: #{props.id}</Text>
+      <Card.Title>{getString('boxcard_box')}</Card.Title>
+      <Text style={{textAlign: 'center'}}>{getString('boxcard_id')}: #{props.id}</Text>
       <Card.Divider />
-      <Text>{getString('boxcard_status', global.language)}: {props.status}</Text>
-      <Button onPress={() => {global.SCANNERSTACKNAV.navigate('Box', { id: props.id })}} title={getString('boxcard_moreinfo', global.language)} />
+      <Text>{getString('boxcard_status')}: {props.status}</Text>
+      <Button onPress={() => {global.SCANNERSTACKNAV.navigate('Box', { id: props.id })}} title={getString('boxcard_moreinfo')} />
     </Card>
 
   )

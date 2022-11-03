@@ -27,8 +27,8 @@ function LoginStack({navigation}) {
         },
       }}>
         
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title', global.language)}} style={styles.container}/>
-            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title', global.language) }}/>
+            <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title')}} style={styles.container}/>
+            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title') }}/>
           
             
            

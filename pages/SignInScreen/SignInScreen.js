@@ -93,7 +93,7 @@ const SignInScreen = ({navigation, authNav}) => {
                 resizeMode = "contain" 
             />
             <CustomInput 
-                  placeholder={getString('signinscreen_email', global.language)}
+                  placeholder={getString('signinscreen_email')}
                 value={username} 
                 setValue={setUsername}
             />
@@ -101,7 +101,7 @@ const SignInScreen = ({navigation, authNav}) => {
 
         <View>
             <CustomInput 
-                  placeholder={getString('signinscreen_password', global.language)}
+                  placeholder={getString('signinscreen_password')}
                 value={password} 
                 setValue={setPassword}
                 secureTextEntry={visible}
@@ -123,17 +123,17 @@ const SignInScreen = ({navigation, authNav}) => {
 
         <View>
             <CustomButton 
-                  text={getString('signinscreen_signIn', global.language)}
+                  text={getString('signinscreen_signIn')}
                 onPress={() => { onSignInPressed()}} 
             />
 
             <CustomButton 
-                  text={getString('signinscreen_forgotPassword?', global.language)}
+                  text={getString('signinscreen_forgotPassword?')}
                 onPress={onForgotPasswordPressed}
                 type="TERTIARY"
             />
             <CustomButton
-                  text={getString('signinscreen_needAccount?', global.language)}
+                  text={getString('signinscreen_needAccount?')}
                 onPress={() => { navigation.goBack();}}
                 type="TERTIARY"
             />

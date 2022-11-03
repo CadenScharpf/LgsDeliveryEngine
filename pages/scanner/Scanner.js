@@ -65,14 +65,14 @@ export default function ScannerStack() {
     if (hasPermission === null) {
         return (
             <View style={styles.container}>
-                <Text>{getString('qrscanner_permission', global.language)}</Text>
+                <Text>{getString('qrscanner_permission')}</Text>
             </View>)
     }
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
                 <Text style={{ margin: 10 }}>No access to camera</Text>
-                <Button title={getString('qrscanner_allow', global.language)} onPress={() => askForCameraPermission()} />
+                <Button title={getString('qrscanner_allow')} onPress={() => askForCameraPermission()} />
             </View>)
     }
 
@@ -104,13 +104,13 @@ export default function ScannerStack() {
                   onPress={()=>{
                        handleBarCodeScanned({type:"",data:palletScanData})
                   }} 
-                  title={getString('scan_simulate_pallet', global.language)}
+                  title={getString('scan_simulate_pallet')}
             />
             <Button style={{ marginTop : 20 }}
                   onPress={()=>{
                        handleBarCodeScanned({type:"",data:boxScanData})
                   }} 
-                  title={getString('scan_simulate_box', global.language)}
+                  title={getString('scan_simulate_box')}
             />
             {
             /* {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />} */}

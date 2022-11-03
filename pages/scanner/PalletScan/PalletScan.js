@@ -17,7 +17,7 @@ import getString from "../../../StringsArray";
 var colors = getGlobalColors()
 
 function PalletWrapper(props) {
-  if (props.route.params.id == '') { return <Text>{getString('palletscan_nothing', global.language)}</Text> }
+  if (props.route.params.id == '') { return <Text>{getString('palletscan_nothing')}</Text> }
   const [palletDetails, setPalletDetails] = useState();
 
   useEffect(() => {
@@ -26,12 +26,12 @@ function PalletWrapper(props) {
       setPalletDetails(queryResults.output[0])
 
     }).catch((error) => {
-      return <Text>{getString('palletscan_resource', global.language)}</Text>
+      return <Text>{getString('palletscan_resource')}</Text>
     });
   }, [])
   if (palletDetails) {
     return <PalletScan src={palletDetails} />
-  } else { return <Text style={styles.baseText}>{getString('palletscan_loading', global.language)}</Text> }
+  } else { return <Text style={styles.baseText}>{getString('palletscan_loading')}</Text> }
 }
 
 class PalletScan extends Component {
@@ -50,8 +50,8 @@ class PalletScan extends Component {
     return (
       <View style={styles.container} onPress={() => { }}>
         <View style={styles.card}>
-          <Text style={styles.titleText} >{getString('palletscan_pallet', global.language)} #{state.id}</Text>
-          <Text style={styles.textDescription}>{getString('palletscan_contains', global.language)} {state.enclosed_box_ids.length} {getString('palletscan_boxes', global.language)}</Text>
+          <Text style={styles.titleText} >{getString('palletscan_pallet')} #{state.id}</Text>
+          <Text style={styles.textDescription}>{getString('palletscan_contains')} {state.enclosed_box_ids.length} {getString('palletscan_boxes')}</Text>
           <ScrollView horizontal={true}>
             {state.enclosed_box_ids.map((id, index) => { return <BoxCard key={index} id={id} status="Good" /> })}
           </ScrollView>
