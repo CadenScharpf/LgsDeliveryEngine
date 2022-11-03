@@ -12,6 +12,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
 
+var boxScanData = "{\"lgsAssetIdentifier\":{\"type\":\"box\", \"id\":1}}"
+var palletScanData = "{ \"lgsAssetIdentifier\": {\"type\":\"pallet\", \"id\":1} }"
 
 export default function ScannerStack() {
     return (
@@ -48,7 +50,7 @@ export default function ScannerStack() {
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
         //setScanned(true);
-        obj = JSON.parse(data)
+        obj = typeof data == 'string' ? JSON.parse(data) : data
         if(obj && obj.lgsAssetIdentifier && obj.lgsAssetIdentifier.type && obj.lgsAssetIdentifier.id)
         {
           setText(data)
@@ -101,7 +103,14 @@ export default function ScannerStack() {
             <Button style={{ marginTop : 20 }}
                   onPress={()=>{
                       // TODO - simulate QR Code scan 
-                      // handleBarCodeScanned 
+                       handleBarCodeScanned({type:"",data:palletScanData})
+                  }} 
+                  title={getString('scan_simulate', global.language)}
+            />
+            <Button style={{ marginTop : 20 }}
+                  onPress={()=>{
+                      // TODO - simulate QR Code scan 
+                       handleBarCodeScanned({type:"",data:boxScanData})
                   }} 
                   title={getString('scan_simulate', global.language)}
             />
