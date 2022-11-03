@@ -102,17 +102,15 @@ export default function ScannerStack() {
             </View>
             <Button style={{ marginTop : 20 }}
                   onPress={()=>{
-                      // TODO - simulate QR Code scan 
                        handleBarCodeScanned({type:"",data:palletScanData})
                   }} 
-                  title={getString('scan_simulate', global.language)}
+                  title={getString('scan_simulate_pallet', global.language)}
             />
             <Button style={{ marginTop : 20 }}
                   onPress={()=>{
-                      // TODO - simulate QR Code scan 
                        handleBarCodeScanned({type:"",data:boxScanData})
                   }} 
-                  title="box simulation"
+                  title={getString('scan_simulate_box', global.language)}
             />
             {
             /* {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />} */}

@@ -188,7 +188,9 @@ function initializeDatabase() {
   StringsDB.push(content)
   content = { description: "scan_noaccess", english: 'No access to camera', spanish: 'Sin acceso a la cámara' };
   StringsDB.push(content) 
-  content = { description: "scan_simulate", english: 'Simulate QR Code Scan', spanish: 'Simular escaneo de código QR' };
+  content = { description: "scan_simulate_pallet", english: 'Simulate Pallet QR Code Scan', spanish: 'Escaneo de código QR de simulación de palet' };
+  StringsDB.push(content) 
+  content = { description: "scan_simulate_box", english: 'Simulate Box QR Code Scan', spanish: 'Escaneo de código QR de caja simulada' };
   StringsDB.push(content) 
 
   // pallet scan
@@ -219,6 +221,22 @@ function initializeDatabase() {
   content = { description: "boxscan_productinfo", english: 'Product Information', spanish: 'Información del Producto'};
   StringsDB.push(content)
 
+  // box card
+  content = { description: "boxcard_box", english: 'Box', spanish: 'Caja'};
+  StringsDB.push(content)
+  content = { description: "boxcard_id", english: 'ID', spanish: 'Identificación'};
+  StringsDB.push(content)
+  content = { description: "boxcard_status", english: 'Status', spanish: 'Estado'};
+  StringsDB.push(content)
+  content = { description: "boxcard_moreinfo", english: 'More Info', spanish: 'Más Información'};
+  StringsDB.push(content)
+  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
+  StringsDB.push(content)
+  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
+  StringsDB.push(content)
+  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
+  StringsDB.push(content)
+
   // qr data  
   content = { description: "qrdata_consumer", english: 'Delivered to consumer', spanish: 'Entregado al consumidor'};
   StringsDB.push(content)  
@@ -232,7 +250,7 @@ function initializeDatabase() {
   StringsDB.push(content)
   content = { description: "qrdata_history", english: 'Scan History', spanish: 'Historial de escaneo'};
   StringsDB.push(content)
-  content = { description: "qrdata_XXX", english: 'XXX', spanish: 'XXX'};
+  content = { description: "qrdata_distributor", english: 'Product left distributor', spanish: 'Producto izquierda distribuidor'};
   StringsDB.push(content) 
 
   // TODO - add strings here

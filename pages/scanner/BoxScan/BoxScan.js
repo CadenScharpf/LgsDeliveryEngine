@@ -30,7 +30,7 @@ function BoxWrapper(props) {
       getLotDetails(queryResults.output[0].lot_id).then((result) => {
         var queryResults = JSON.parse(result);
         setLotDetails(queryResults.output[0])
-        getProductDetails(queryResults.output[0].product_id, 'english').then((result) => {
+        getProductDetails(queryResults.output[0].product_id, global.language).then((result) => {
           var queryResults = JSON.parse(result);
           setProductDetails(queryResults.output[0])
           

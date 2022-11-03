@@ -13,6 +13,7 @@ import getGlobalColors from '../../../Colors';
 import { getAllProducts, getProductDetails, getLotDetails } from '../../../Database'
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import LotInformation from '../../../components/LotInformation/LotInformation';
+import getString from '../../../StringsArray';
 
 
 var colors = getGlobalColors();
@@ -32,11 +33,11 @@ export default function ProductDetails(props) {
           return (
           <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( props.src.productPageURL );}}>
             <View style={styles.infoContainer}>
-              <Text style={styles.name}>{props.src.defaultLabel}</Text>
+              <Text style={styles.name}>{props.src.product_name}</Text>
               <Text style={styles.sub}>{props.src.product_specification.substring(0,90)+"..."}</Text>
             </View>
             {lotInfo && <LotInformation src={lotInfo[0]}/>}
-            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.defaultLabel; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title="Leave Feedback"/>
+            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.product_name; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback', global.language)}/>
 
     </TouchableOpacity>
     );

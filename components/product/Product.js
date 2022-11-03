@@ -40,7 +40,7 @@ export default function Product(props) {
               <Text style={styles.sub}>{getString('product_description', global.language)}: {props.src.product_specification}</Text>
             </View>
             {lotInfo && <LotInformation src={lotInfo[0]}/>}
-            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.defaultLabel; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback', global.language)}/>
+            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.product_name; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback', global.language)}/>
 
     </TouchableOpacity>
     );

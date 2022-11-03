@@ -67,7 +67,7 @@
         return line1 + line2;
         break;
         case "distributor":
-          line1 = "Product left distributer " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
+          line1 = getString('qrdata_distributor', global.language) + " " + company + " " + getString('qrdata_atlocation', global.language) + " [" + lat + "," + lon + "]\n";
           line2 = getString('qrdata_user_dispatched', global.language) + ": " + usr;
           return line1 + line2;
         break;
