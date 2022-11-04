@@ -6,7 +6,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createAppContainer } from 'react-navigation';
 import { createSwitchNavigator } from 'react-navigation';
 import Settings from './pages/settings/Settings'
-import getString from "./StringsArray";
+import {getString} from "./StringsArray";
 import './Colors';
 import getGlobalColors from './Colors';
 import './global.js';

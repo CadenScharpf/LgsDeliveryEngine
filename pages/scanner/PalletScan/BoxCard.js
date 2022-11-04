@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import getGlobalColors from '../../../Colors';
 import { Card } from "@rneui/themed";
-import getString from "../../../StringsArray";
+import {getString} from "../../../StringsArray";
 
 var colors = getGlobalColors();
 

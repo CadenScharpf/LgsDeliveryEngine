@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import React, { useEffect, useState, useRef } from 'react';
 import { Button, Text, StyleSheet, View } from 'react-native';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import SelectDropdown from 'react-native-select-dropdown';
 

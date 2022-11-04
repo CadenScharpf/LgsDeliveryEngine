@@ -12,7 +12,7 @@ import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import BoxCard from './BoxCard';
 import Timeline from 'react-native-timeline-flatlist';
 import QrData from '../../../components/qrdata/QrData';
-import getString from "../../../StringsArray";
+import {getString} from "../../../StringsArray";
 
 var colors = getGlobalColors()
 

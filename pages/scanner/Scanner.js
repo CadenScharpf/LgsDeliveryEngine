@@ -2,7 +2,7 @@ import 'react-native-gesture-handler'
 import React, { useState, useEffect } from 'react';
 import { Alert, Modal, StyleSheet, Text, Pressable, View, Button } from "react-native";
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import ButtonPrimary from '../../components/input/Buttons';
 import PalletScan from './PalletScan/PalletScan';

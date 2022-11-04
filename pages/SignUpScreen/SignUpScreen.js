@@ -9,12 +9,14 @@ import NavigationActions from 'react-navigation'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import SelectDropdown from 'react-native-select-dropdown';
 import getGlobalColors from '../../Colors';
-import getString from "../../StringsArray";
+import {getString, getStringValue} from "../../StringsArray";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {addUser, getAllUsersByAccountType, getAppSettings} from "../../Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
+var currentText = '';
 
 function SignUpScreen({ navigation }){
     const [firstName, setFirstName] = useState();
@@ -30,6 +32,50 @@ function SignUpScreen({ navigation }){
     const languages = ["English", "Spanish"]; 
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
+
+    const [Placeholder_firstname, setPlaceholder_firstname] = useState('');
+    const [Placeholder_lastname, setPlaceholder_lastname] = useState('');
+    const [Placeholder_email, setPlaceholder_email] = useState('');
+    const [Placeholder_password, setPlaceholder_password] = useState('');
+    const [Placeholder_repeatPassword, setPlaceholder_repeatPassword] = useState('');
+    const [Placeholder_company, setPlaceholder_company] = useState('');
+    const [Placeholder_accountType, setPlaceholder_accountType] = useState('');
+    const [Placeholder_register, setPlaceholder_register] = useState('');
+    const [Placeholder_hasAccount, setPlaceholder_hasAccount] = useState('');
+    const [Placeholder_selectLanguage, setPlaceholder_selectLanguage] = useState('');
+    useEffect(() => {  
+        // language changed, update strings
+        getStringValue('signupscreen_firstName').then((result)  => { 
+            setPlaceholder_firstname(result); 
+        }); 
+        getStringValue('signupscreen_lastName').then((result)  => { 
+            setPlaceholder_lastname(result); 
+        }); 
+        getStringValue('signupscreen_email').then((result)  => { 
+            setPlaceholder_email(result); 
+        });
+        getStringValue('signupscreen_password').then((result)  => { 
+            setPlaceholder_password(result); 
+        });
+        getStringValue('signupscreen_repeatPassword').then((result)  => { 
+            setPlaceholder_repeatPassword(result); 
+        });
+        getStringValue('signupscreen_company').then((result)  => { 
+            setPlaceholder_company(result); 
+        });
+        getStringValue('signupscreen_accountType').then((result)  => { 
+            setPlaceholder_accountType(result); 
+        });
+        getStringValue('signupscreen_register').then((result)  => { 
+            setPlaceholder_register(result); 
+        });
+        getStringValue('signupscreen_hasAccount').then((result)  => { 
+            setPlaceholder_hasAccount(result); 
+        });
+        getStringValue('signupscreen_selectLanguage').then((result)  => { 
+            setPlaceholder_selectLanguage(result); 
+        });
+    }, [language]);
 
     const [bannerURL, setBannerURL] = useState('');
     const [appSettings, setAppSettings] = useState();
@@ -108,35 +154,58 @@ function SignUpScreen({ navigation }){
                 style={[styles.logo, {height: height * 0.2}]} 
                 resizeMode = "contain" 
             />
+            
+            <SelectDropdown
+                data={languages}
+                defaultButtonText={Placeholder_selectLanguage}
+                onSelect={(selectedItem, index) => {
+                    setLanguage(selectedItem);
+                
+                    // update asyncStorage
+                    AsyncStorage.setItem("storedLanguage", selectedItem);
+                }}
+                buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem
+                }}
+                rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item
+                }}
+                buttonStyle={styles.dropdownButtonStyle}
+                buttonTextStyle={styles.dropdownTextStyle}
+            />
 
             <CustomInput 
-                placeholder={getString('signupscreen_firstName')}
+                placeholder={Placeholder_firstname}
                 value={firstName} 
                 setValue={setFirstName}
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_lastName')}
+                placeholder={Placeholder_lastname}
                 value={lastName} 
                 setValue={setLastName}
             />
 
             <CustomInput 
+                placeholder={Placeholder_email}
                 style={[styles.input]}
-                placeholder={getString('signupscreen_email')}
                 value={email} 
                 setValue={setEmail}
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_password')}
+                placeholder={Placeholder_password}
                 value={password} 
                 setValue={setPassword}
                 secureTextEntry
             />
 
             <CustomInput 
-                placeholder={getString('signupscreen_repeatPassword')}
+                placeholder={Placeholder_repeatPassword}
                 value={passwordRepeat} 
                 setValue={setPasswordRepeat}
                 secureTextEntry
@@ -144,7 +213,7 @@ function SignUpScreen({ navigation }){
             
             <SelectDropdown
                 data={companies}
-                defaultButtonText={getString('signupscreen_company')}
+                defaultButtonText={Placeholder_company}
                 onSelect={(selectedItem, index) => {
                     setCompany(selectedItem)
                 }}
@@ -164,7 +233,7 @@ function SignUpScreen({ navigation }){
 
             <SelectDropdown
                 data={accountTypes}
-                defaultButtonText={getString('signupscreen_accountType')}
+                defaultButtonText={Placeholder_accountType}
                 onSelect={(selectedItem, index) => {
                     setAccountType(selectedItem)
                 }}
@@ -182,34 +251,14 @@ function SignUpScreen({ navigation }){
                 buttonTextStyle={styles.dropdownTextStyle}
             />
 
-            <SelectDropdown
-                data={languages}
-                defaultButtonText={getString('signupscreen_selectLanguage')}
-                onSelect={(selectedItem, index) => {
-                    setLanguage(selectedItem)
-                }}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-                    return selectedItem
-                }}
-                rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item
-                }}
-                buttonStyle={styles.dropdownButtonStyle}
-                buttonTextStyle={styles.dropdownTextStyle}
-            />
-
             <CustomButton
-                text={getString('signupscreen_register')}
+                text={Placeholder_register}
                 //onPress={() => {navigation.navigate('SignInScreen')}} 
                 onPress={() => { onSignUpPressed()}} 
             />
 
             <CustomButton
-                text={getString('signupscreen_hasAccount')}
+                text={Placeholder_hasAccount}
                 onPress={() => {navigation.navigate('SignInScreen')}}
                 type="TERTIARY"
             />
@@ -217,13 +266,12 @@ function SignUpScreen({ navigation }){
             <Text style={styles.text}>By registering, you confirm that you accept our 
                 <Text style={styles.link} onPress={onTermsOfUsePressed}> Terms of Use</Text> and
                 <Text style={styles.link} onPress={onPrivacyPolicyPressed}> Privacy Policy</Text>
-            </Text>
-
-             
+            </Text>             
         </View>
     </ScrollView>
   );
 };
+// TODO - convert to dynamic strings for terms and services above "By registering..."        
 
 const styles = StyleSheet.create({
     root: {

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import Product from '../../components/product/Product';
 import { getAllProducts } from '../../Database';

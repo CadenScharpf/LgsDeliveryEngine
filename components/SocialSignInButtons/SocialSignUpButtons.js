@@ -3,7 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import CustomButton from '../CustomButton';
 import { FacebookSocialButton, GoogleSocialButton, AppleSocialButton, MicrosoftSocialButton } from "react-native-social-buttons";
 import getGlobalColors from '../../Colors';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 
 var colors = getGlobalColors();
 const SocialSignUpButtons = () => {

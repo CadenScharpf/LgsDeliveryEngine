@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, TextInput, Modal, Button, TouchableOpacity, SafeAreaView, Image} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import { AirbnbRating } from "@rneui/themed";
 

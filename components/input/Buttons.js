@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import React from 'react';
 import { Text, View, Pressable, StyleSheet } from 'react-native';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 
 function ButtonPrimary(props) {
     return (

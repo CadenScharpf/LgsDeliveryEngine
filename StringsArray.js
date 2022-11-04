@@ -1,3 +1,5 @@
+import { getInputLanguage } from './Language';
+
 var StringsDB = [];
 var content = [];
 initializeDatabase();
@@ -268,9 +270,9 @@ function initializeDatabase() {
   }
 }
 
-function getString(inputDescription) {
-  // TODO - convert to asyncStorage
-  inputLanguage = global.language;
+async function getStringValue(inputDescription) {
+  const inputLanguage = await getInputLanguage();
+  
   if (debugging_option) {
     console.log('Get String Function Call');
     console.log('-------------------------------------');
@@ -282,7 +284,22 @@ function getString(inputDescription) {
   return getResultForDescription(inputDescription, inputLanguage);
 }
 
-export default getString;
+// TODO - delete or convert
+function getString(inputDescription) {
+  const inputLanguage = 'english';
+  
+  if (debugging_option) {
+    console.log('Get String Function Call');
+    console.log('-------------------------------------');
+    console.log('Input Description: ' + inputDescription);
+    console.log('Input Language: ' + inputLanguage);
+    console.log(' ');
+    console.log(' ');
+  }
+  return getResultForDescription(inputDescription, inputLanguage);
+}
+
+export {getString, getStringValue};
 
 function getResultForDescription(inputDescription, inputLanguage) {
   if (debugging_option) {

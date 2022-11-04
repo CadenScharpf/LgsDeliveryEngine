@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../Colors';
 import { getAllProducts, getProductDetails, getLotDetails } from '../../Database';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 
 var colors = getGlobalColors();
 

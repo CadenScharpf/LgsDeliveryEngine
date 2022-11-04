@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import {React, createContext} from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import SignUpScreen from '../SignUpScreen';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -28,7 +28,7 @@ function LoginStack({navigation}) {
       }}>
         
             <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title')}} style={styles.container}/>
-            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title') }}/>
+            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title')}}/>
           
             
            

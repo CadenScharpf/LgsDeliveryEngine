@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-native';
 import ReactDOM from 'react-dom';
 import React, { Component } from "react";
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import {getAllProducts, deleteProduct, addProduct, getAllQRScans, getAllUsers, getPalletDetails, getBoxDetails, getProductDetails} from "../../Database";
 
 class Demo_database extends Component {

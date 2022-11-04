@@ -8,7 +8,7 @@ import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
 import { getUserDetails, getAppSettings} from '../../Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

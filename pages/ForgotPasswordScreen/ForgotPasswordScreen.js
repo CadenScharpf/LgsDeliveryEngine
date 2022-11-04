@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import CustomInput from '../../components/CustomInput';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 
 const ForgotPasswordScreen = () => {
     const [username, setUsername] = useState('');

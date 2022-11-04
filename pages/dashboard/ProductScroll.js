@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import React from 'react';
 import { Text, View } from 'react-native';
-import getString from "../../StringsArray";
+import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import Product from '../../components/product/Product';
 

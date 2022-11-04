@@ -9,7 +9,7 @@
  import Timeline from 'react-native-timeline-flatlist'
  import { createStackNavigator } from '@react-navigation/stack';
  import getGlobalColors from '../../Colors';
- import getString from "../../StringsArray";
+ import {getString} from "../../StringsArray";
 
  var colors = getGlobalColors();
  
