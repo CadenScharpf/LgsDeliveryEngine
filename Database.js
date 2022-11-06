@@ -1212,6 +1212,23 @@ const updateFeedback = async (feedback_id, user_id, date_time, rating, feedback_
   });  
 }
 
+const updateLanguage = async (user_id, inputLanguage) => {
+
+  sqlQuery = "UPDATE user \
+                SET \
+                  language = '"+ inputLanguage + "'\
+                WHERE \
+                  user.id = " + user_id;
+  params = [];
+  executeQuery(sqlQuery, params);    
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
+
 const getFeedbackByContentUserId = async (content_type, content_id, user_id) => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
@@ -1370,7 +1387,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {checkForRecall, getUserDetails, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {checkForRecall, getUserDetails, getAppSettings, addFeedback, updateLanguage, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY

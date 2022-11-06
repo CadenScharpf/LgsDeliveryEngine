@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const debugging_option = true;
+const debugging_option = false;
 
 async function getInputLanguage() {
     if (debugging_option) {

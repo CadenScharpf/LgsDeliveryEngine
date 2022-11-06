@@ -286,8 +286,10 @@ async function getStringValue(inputDescription) {
 
 // TODO - delete or convert
 function getString(inputDescription) {
-  const inputLanguage = 'english';
-  
+  var inputLanguage = global.language;
+  inputLanguage = inputLanguage.trim();
+  inputLanguage = inputLanguage.toLowerCase();
+
   if (debugging_option) {
     console.log('Get String Function Call');
     console.log('-------------------------------------');

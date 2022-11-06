@@ -163,6 +163,10 @@ function SignUpScreen({ navigation }){
                 
                     // update asyncStorage
                     AsyncStorage.setItem("storedLanguage", selectedItem);
+                    // update global language variable 
+                    // this could be used for a non-async version 
+                    // for pages where language setting is not modifiable
+                    global.language = selectedItem;
                 }}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     // text represented after item is selected
