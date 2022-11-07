@@ -57,7 +57,6 @@ const SignInScreen = ({navigation, authNav}) => {
     }, [appSettings]);
    
     const onSignInPressed = () => {
-        // getUserDetails(username).then((result) => {
         checkSignIn(username, password).then((result) => {
             console.log(result);
             var result_json = JSON.parse(result);

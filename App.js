@@ -98,6 +98,10 @@ function AuthLoadingScreen({navigation}) {
 
   const [userToken, setUserToken] = useState();
 
+  global.gotoauthloading = ()=>{
+    navigation.navigate("AuthLoading")
+  };
+
   global.gotoapp = ()=>{
     navigation.navigate("App")
   };

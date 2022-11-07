@@ -19,17 +19,38 @@ function Settings() {
   const [Text_Logout, setText_Logout] = useState('');
 
   const[language, setLanguage] = useState('');
+  const initialUpdate_Language = useRef(true);
   const firstUpdate_Language = useRef(true);
   useEffect(() => {  
       // check if this is the first update (running on mount)
-      if (firstUpdate_Language.current) {
+      if (initialUpdate_Language.current || firstUpdate_Language.current) {
         console.log('First Update of Language');
 
-        // pull Language from Async Storage
-        setLanguage(getInputLanguage());
+        // these take care of the 1st and 2nd  
+        // calls to this function (page load 
+        // and the async setLanguage)
+        // check if this is the initial update
+        if (initialUpdate_Language.current) {
+          // set initial update to false
+          initialUpdate_Language.current = false;
 
-        // set first update to false
-        firstUpdate_Language.current = false;
+          // pull Language from Async Storage
+          setLanguage(getInputLanguage());
+        } else {
+          // set first update to false
+          firstUpdate_Language.current = false;
+
+          // refresh strings
+          getStringValue('settings_welcome').then((result)  => { 
+            setText_Welcome(result); 
+          }); 
+          getStringValue('settings_selectLanguage').then((result)  => { 
+            setText_SelectLanguage(result); 
+          }); 
+          getStringValue('settings_logout').then((result)  => { 
+            setText_Logout(result); 
+          }); 
+        }
       } else {
         console.log('Language Changed');
         // language changed, update
@@ -37,7 +58,7 @@ function Settings() {
         // update user's settings on server via API
         // TODO - need to store user_id in Async Storage
         var user_id = -1;
-        updateLanguage(user_id, language);
+        updateLanguage(global.email, language);
 
         // refresh strings
         getStringValue('settings_welcome').then((result)  => { 
@@ -49,6 +70,9 @@ function Settings() {
         getStringValue('settings_logout').then((result)  => { 
           setText_Logout(result); 
         }); 
+
+        // reload all resources return to initial screen, reload resources
+        global.gotoauthloading();
       }
   }, [language]);
 

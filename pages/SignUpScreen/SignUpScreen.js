@@ -43,6 +43,10 @@ function SignUpScreen({ navigation }){
     const [Placeholder_register, setPlaceholder_register] = useState('');
     const [Placeholder_hasAccount, setPlaceholder_hasAccount] = useState('');
     const [Placeholder_selectLanguage, setPlaceholder_selectLanguage] = useState('');
+    const [Text_termsintro, setText_termsintro] = useState('');
+    const [Text_terms, setText_terms] = useState('');
+    const [Text_privacy, setText_privacy] = useState('');
+    const [Text_and, setText_and] = useState('');
     useEffect(() => {  
         // language changed, update strings
         getStringValue('signupscreen_firstName').then((result)  => { 
@@ -74,6 +78,18 @@ function SignUpScreen({ navigation }){
         });
         getStringValue('signupscreen_selectLanguage').then((result)  => { 
             setPlaceholder_selectLanguage(result); 
+        });
+        getStringValue('signupscreen_termsintro').then((result)  => { 
+            setText_termsintro(result); 
+        });
+        getStringValue('signupscreen_terms').then((result)  => { 
+            setText_terms(result); 
+        });
+        getStringValue('signupscreen_privacy').then((result)  => { 
+            setText_privacy(result); 
+        });
+        getStringValue('signupscreen_and').then((result)  => { 
+            setText_and(result); 
         });
     }, [language]);
 
@@ -120,20 +136,29 @@ function SignUpScreen({ navigation }){
     };
      
     const onSignUpPressed = () => {
+        // TODO - confirm all fields got filled out
+
+        // TODO - confirm passwords match
+
         addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
-            console.warn(result);
-            if(result[0] != "DNE" &&  result[0].password && result[0].password == password ) {
-                AsyncStorage.setItem("userToken", JSON.stringify(result[0]) )
-                var user = result[0]
-                global.email = user.email ? user.email : ""
-                global.accountType = user.accountType ? user.accountType :""
-                global.language = user.language ? user.language : ""
-                global.company = user.company ? user.company : ""
-                global.lastName = user.lastName ? user.company : ""
-                global.firstName = user.firstName ? user.firstName : ""
-                global.password = user.password ? user.password : ""
-                //
+            console.log(result);
+            var result_json = JSON.parse(result);
+            if (result.length == 0) {
+                console.log('API Response Issue');
+            } else if (result_json.response_code == 200) {
+                console.log('Successful Sign Up'); 
+
+                global.email = email
+                global.accountType = accountType
+                global.language = language
+                global.company = company
+                global.lastName = lastName
+                global.firstName = firstName
+                global.password = password
+                
                 global.gotoapp()
+            } else {
+                console.log('Undetected API Issue');
             }
           })
     };
@@ -257,7 +282,6 @@ function SignUpScreen({ navigation }){
 
             <CustomButton
                 text={Placeholder_register}
-                //onPress={() => {navigation.navigate('SignInScreen')}} 
                 onPress={() => { onSignUpPressed()}} 
             />
 
@@ -267,15 +291,14 @@ function SignUpScreen({ navigation }){
                 type="TERTIARY"
             />
             <SocialSignUpButtons />
-            <Text style={styles.text}>By registering, you confirm that you accept our 
-                <Text style={styles.link} onPress={onTermsOfUsePressed}> Terms of Use</Text> and
-                <Text style={styles.link} onPress={onPrivacyPolicyPressed}> Privacy Policy</Text>
-            </Text>             
+            <Text style={styles.text}>{Text_termsintro} 
+                <Text style={styles.link} onPress={onTermsOfUsePressed}> {Text_terms}</Text> {Text_and}
+                <Text style={styles.link} onPress={onPrivacyPolicyPressed}> {Text_privacy}</Text>
+            </Text>            
         </View>
     </ScrollView>
   );
 };
-// TODO - convert to dynamic strings for terms and services above "By registering..."        
 
 const styles = StyleSheet.create({
     root: {

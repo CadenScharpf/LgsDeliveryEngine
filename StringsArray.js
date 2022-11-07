@@ -1,4 +1,4 @@
-import { getInputLanguage } from './Language';
+import { getInputLanguage, getGlobalLanguage } from './Language';
 
 var StringsDB = [];
 var content = [];
@@ -27,6 +27,14 @@ function initializeDatabase() {
   content = {description:"signin_title", english: 'Sign In', spanish: 'Registrarse'};
   StringsDB.push(content);
   content = {description:"signup_title", english: 'Sign Up', spanish: 'Inscribirse'};
+  StringsDB.push(content);
+  content = {description:"signupscreen_termsintro", english: 'By registering, you confirm that you accept our', spanish: 'Al registrarse, confirma que acepta nuestro'};
+  StringsDB.push(content);
+  content = {description:"signupscreen_terms", english: 'Terms of Use', spanish: 'Términos de Uso'};
+  StringsDB.push(content);
+  content = {description:"signupscreen_privacy", english: 'Privacy Policy', spanish: 'Política de privacidad'};
+  StringsDB.push(content);
+  content = {description:"signupscreen_and", english: 'and', spanish: 'y'};
   StringsDB.push(content);
 
   // app
@@ -66,9 +74,9 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"drawer_feedback", english: 'Feedback', spanish: 'Retroalimentación'};
   StringsDB.push(content);
-  content = { description: "drawer_app", english: 'App', spanish: 'aplicación'};
+  content = { description:"drawer_app", english: 'App', spanish: 'aplicación'};
   StringsDB.push(content);
-  content = { description: "drawer_auth", english: 'Auth', spanish: 'Autorización' };
+  content = { description:"drawer_auth", english: 'Auth', spanish: 'Autorización' };
   StringsDB.push(content);
 
   // Dashboard
@@ -126,13 +134,13 @@ function initializeDatabase() {
   // sign in page
   content = { description:"signinscreen_email", english: 'Email', spanish: 'Correo electrónico'};
   StringsDB.push(content);
-  content = { description: "signinscreen_password", english: 'Password', spanish: 'Clave' };
+  content = { description:"signinscreen_password", english: 'Password', spanish: 'Clave' };
   StringsDB.push(content);
-  content = { description: "signinscreen_signIn", english: 'Sign In', spanish: 'Registrarse' };
+  content = { description:"signinscreen_signIn", english: 'Sign In', spanish: 'Registrarse' };
   StringsDB.push(content);
-  content = { description: "signinscreen_forgotPassword?", english: 'Forgot password?', spanish: '¿Se te olvidó tu contraseña?' };
+  content = { description:"signinscreen_forgotPassword?", english: 'Forgot password?', spanish: '¿Se te olvidó tu contraseña?' };
   StringsDB.push(content);
-  content = { description: "signinscreen_needAccount?", english: 'Do you need an account? Create one.', spanish: '¿Necesitas una cuenta? Crea uno.' };
+  content = { description:"signinscreen_needAccount?", english: 'Do you need an account? Create one.', spanish: '¿Necesitas una cuenta? Crea uno.' };
   StringsDB.push(content);
   
   // sign up page
@@ -232,12 +240,6 @@ function initializeDatabase() {
   StringsDB.push(content)
   content = { description: "boxcard_moreinfo", english: 'More Info', spanish: 'Más Información'};
   StringsDB.push(content)
-  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
-  StringsDB.push(content)
-  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
-  StringsDB.push(content)
-  content = { description: "boxcard_XXX", english: 'XXX', spanish: 'XXX'};
-  StringsDB.push(content)
 
   // qr data  
   content = { description: "qrdata_consumer", english: 'Delivered to consumer', spanish: 'Entregado al consumidor'};
@@ -286,9 +288,7 @@ async function getStringValue(inputDescription) {
 
 // TODO - delete or convert
 function getString(inputDescription) {
-  var inputLanguage = global.language;
-  inputLanguage = inputLanguage.trim();
-  inputLanguage = inputLanguage.toLowerCase();
+  var inputLanguage = getGlobalLanguage();
 
   if (debugging_option) {
     console.log('Get String Function Call');

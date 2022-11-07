@@ -8,7 +8,7 @@ async function getInputLanguage() {
     }
 
     // default to English
-    inputLanguage = "english";
+    var inputLanguage = "english";
 
     const result = await AsyncStorage.getItem('storedLanguage');
     if (result) {
@@ -34,4 +34,31 @@ async function getInputLanguage() {
     return inputLanguage;
 }
 
-export {getInputLanguage}
+function getGlobalLanguage() {
+    if (debugging_option) {
+        console.log('getGlobalLanguage called');
+    }
+
+    // default to English
+    var inputLanguage = "english";
+
+    if (global.language === undefined) {
+        if (debugging_option) {
+            console.log('Global Variable Language not defined, returning default');
+        }
+    } else {
+        inputLanguage = global.language;
+    }
+
+    inputLanguage = inputLanguage.trim();
+    inputLanguage = inputLanguage.toLowerCase();
+
+    if (debugging_option) {
+        console.log('returning: ');
+        console.log(inputLanguage);
+    }
+
+    return inputLanguage;
+}
+
+export {getInputLanguage, getGlobalLanguage}

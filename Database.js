@@ -1212,13 +1212,13 @@ const updateFeedback = async (feedback_id, user_id, date_time, rating, feedback_
   });  
 }
 
-const updateLanguage = async (user_id, inputLanguage) => {
+const updateLanguage = async (email, inputLanguage) => {
 
   sqlQuery = "UPDATE user \
                 SET \
                   language = '"+ inputLanguage + "'\
                 WHERE \
-                  user.id = " + user_id;
+                  user.email = '" + email + "'";
   params = [];
   executeQuery(sqlQuery, params);    
 
@@ -1364,20 +1364,21 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
   params = [firstName_input, lastName_input, email_input, password_input, accountType_input, language_input, company_input];
   executeQuery(sqlQuery, params);
 
-  currentId = -1;
+  var currentId = -1;
   await getUserId(email_input).then((result) => {
     console.log('Get User ID Then: ' + result);
     currentId = result.output;
+       
   }).catch((error) => {
     console.log('Get User ID Error: ' + error);
   });
-
+  
   // NOTE: no longer returning user ID (currentId) because of a sync issue
   return new Promise((resolve, reject) => {
     let response_code = "200";
-    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(currentId) + "}";
     resolve(ReturnObject);
-  });  
+  }); 
 }
 
 // TODO - define additional accessors here
