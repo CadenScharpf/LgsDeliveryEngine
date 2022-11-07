@@ -1368,7 +1368,6 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
   await getUserId(email_input).then((result) => {
     console.log('Get User ID Then: ' + result);
     currentId = result.output;
-       
   }).catch((error) => {
     console.log('Get User ID Error: ' + error);
   });
@@ -1376,7 +1375,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
   // NOTE: no longer returning user ID (currentId) because of a sync issue
   return new Promise((resolve, reject) => {
     let response_code = "200";
-    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(currentId) + "}";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
     resolve(ReturnObject);
   }); 
 }
