@@ -12,29 +12,23 @@ const Stack = createStackNavigator();
 const ThemeContext = createContext('');
 
 function LoginStack({navigation}) {  
-
   return (
     <ThemeContext.Provider value={()=>{navigation.navigate("App"); AsyncStorage.removeItem("userToken")}}>
        <Stack.Navigator  screenOptions={{ 
-        headerShown: true,
-        headerStyle: {
-            backgroundColor: colors.background
+          headerShown: true,
+          headerStyle: {
+              backgroundColor: colors.background
+            },
+          headerTintColor: colors.backgroundTextPrimary,
+          headerBackVisible: false,
+          headerTitleStyle: {
+            fontWeight: 'bold',
           },
-        headerTintColor: colors.backgroundTextPrimary,
-        headerBackVisible: false,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-        
-            <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title')}} style={styles.container}/>
-            <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title')}}/>
-          
-            
-           
+        }}>        
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen}  options={{ title: getString('signup_title')}} style={styles.container}/>
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ title: getString('signin_title')}}/>
         </Stack.Navigator>
-        </ThemeContext.Provider>
-      
+    </ThemeContext.Provider>
   );
 }
 

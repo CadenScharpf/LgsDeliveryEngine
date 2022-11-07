@@ -95,25 +95,36 @@ function SideBar() {
   );
 }
 function AuthLoadingScreen({navigation}) {
+
   const [userToken, setUserToken] = useState();
-  global.gotoapp = ()=>{navigation.navigate("App")};
-  global.logout = ()=>{AsyncStorage.removeItem('userToken'); navigation.navigate("Auth")}
+
+  global.gotoapp = ()=>{
+    navigation.navigate("App")
+  };
+
+  global.logout = ()=>{
+    AsyncStorage.removeItem('userToken'); 
+    navigation.navigate("Auth")
+  }
+
   useEffect(() => {
     AsyncStorage.getItem('userToken').then((result) => {
-      if(result){setUserToken(result)}
+      if(result) {
+        setUserToken(result);
+      }
+
       navigation.navigate(result ? 'App' : 'Auth');
-      
     })
-}, [])
+  }, [])
 
   // Render any loading content that you like here
 
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator />
-        <StatusBar barStyle="default" />
-      </View>
-    );
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+    </View>
+  );
 }
 
 export default function App() {

@@ -6,7 +6,7 @@ import CustomInput from '../../components/CustomInput';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
-import { getUserDetails, getAppSettings} from '../../Database';
+import { getUserDetails, getAppSettings, checkSignIn} from '../../Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getString} from "../../StringsArray";
 
@@ -57,11 +57,19 @@ const SignInScreen = ({navigation, authNav}) => {
     }, [appSettings]);
    
     const onSignInPressed = () => {
-        getUserDetails(username).then((result) => {
-            console.warn(result);
-            if(result[0] != "DNE" &&  result[0].password && result[0].password == password ) {
-                AsyncStorage.setItem("userToken", JSON.stringify(result[0]) )
-                var user = result[0]
+        // getUserDetails(username).then((result) => {
+        checkSignIn(username, password).then((result) => {
+            console.log(result);
+            var result_json = JSON.parse(result);
+            if (result.length == 0) {
+                console.log('API Response Issue');
+            } else if (result_json.output.length == 0) {
+                console.warn('Invalid Credentials');
+                console.log('Invalid Credentials');
+            } else {
+                console.log('Successful Sign In');
+                AsyncStorage.setItem("userToken", JSON.stringify(result_json.output[0]) )
+                var user = result_json.output[0]
                 global.email = user.email ? user.email : ""
                 global.accountType = user.accountType ? user.accountType :""
                 global.language = user.language ? user.language : ""
@@ -69,7 +77,7 @@ const SignInScreen = ({navigation, authNav}) => {
                 global.lastName = user.lastName ? user.company : ""
                 global.firstName = user.firstName ? user.firstName : ""
                 global.password = user.password ? user.password : ""
-                //
+                
                 global.gotoapp()
             }
 
