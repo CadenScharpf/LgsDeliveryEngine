@@ -46,7 +46,7 @@ function BoxWrapper(props) {
   }, [])
   if (boxDetails && lotDetails && productDetails) {
     return <BoxScan src={boxDetails} pd={productDetails}/>
-  } else { return <Text style={styles.baseText}>{getString('boxscan_resource')}</Text> }
+  } else { return <Text style={styles.baseText}>{"to be replaced with loading animation"}</Text> }
 }
 
 class BoxScan extends Component {

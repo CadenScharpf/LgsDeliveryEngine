@@ -29,6 +29,41 @@ let feedback_text = '';
 const debugging_option = true;
 const debugging_option_detailed = false;
 
+const TABLE_NAMES = ['product', 'product_names', 'product_specifications', 'qrcode', 'qrscan', 'user', 'box',
+                  'box_contents', 'pallet', 'pallet_contents', 'lot', 'feedback', 'settings', 'recall'];
+const TABLES = {
+  product: {
+  }, 
+  product_names: {
+  }, 
+  product_specifications: {
+  }, 
+  qrcode: {
+  }, 
+  qrscan: {
+  }, 
+  user: {
+  }, 
+  box: {
+  },
+  box_contents: {
+  }, 
+  pallet: {
+  }, 
+  pallet_contents: {
+  }, 
+  lot: {
+  }, 
+  feedback: {
+  }, 
+  settings: {
+  }, 
+  recall: {
+  }
+}
+
+
+
 // ---------------------------------------------------------------------
 // CREATE SQLite DATABSE AND TABLES
 // ---------------------------------------------------------------------
@@ -39,14 +74,16 @@ function InitializeDB() {
   params = [];
 
 
-  sqlQuery = "DROP TABLE IF EXISTS product;";
-  executeQuery(sqlQuery, params); 
+  for(let table of Object.keys(TABLES)) {executeQuery(`DROP TABLE IF EXISTS ${table};`, []); }
+  
 
   sqlQuery = "CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, photoURL TEXT, productPageURL TEXT)";
   executeQuery(sqlQuery, params);
 
 
   
+
+
   sqlQuery = "DROP TABLE IF EXISTS product_names;";
   executeQuery(sqlQuery, params); 
 
@@ -287,36 +324,26 @@ function InitializeDB() {
   // ADD ALL LOTS HERE 
   // ---------------------------------------------------------------------
 
-  sqlQuery = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
-  params = [1, '2022-09-26', 4, '2022-10-15'];  
-  executeQuery(sqlQuery, params);
+  
+  var lotInfos = [
+    [1, '2022-09-26', 4, '2022-10-15'],
+    [2, '2022-09-26', 4, '2022-10-16'],
+    [3, '2022-09-26', 4, '2022-10-17'],
+    [1, '2022-09-26', 4, '2022-10-18'],
+    [3, '2022-09-26', 4, '2022-10-19'],
+    [1, '2022-09-26', 4, '2022-10-20'],
+    [2, '2022-10-26', 4, '2022-11-15'],
+    [3, '2022-10-26', 4, '2022-11-15'],
+    [1, '2022-10-26', 4, '2022-11-21'],
+    [2, '2022-10-26', 4, '2022-11-21']
+  ]
 
-  params = [2, '2022-09-26', 4, '2022-10-16'];  
-  executeQuery(sqlQuery, params);
 
-  params = [3, '2022-09-26', 4, '2022-10-17'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-09-26', 4, '2022-10-18'];  
-  executeQuery(sqlQuery, params);
-
-  params = [3, '2022-09-26', 4, '2022-10-19'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-09-26', 4, '2022-10-20'];  
-  executeQuery(sqlQuery, params);
-
-  params = [2, '2022-10-26', 4, '2022-11-15'];  
-  executeQuery(sqlQuery, params);
-
-  params = [3, '2022-10-26', 4, '2022-11-15'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-10-26', 4, '2022-11-21'];  
-  executeQuery(sqlQuery, params);
-
-  params = [2, '2022-10-26', 4, '2022-11-21'];  
-  executeQuery(sqlQuery, params);
+  addLotInfoQueryTemplate = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
+  for(let lotInfo of lotInfos) {
+    executeQuery(addLotInfoQueryTemplate, lotInfo)
+  }
+  
   
   // TODO - add more lots here
 
@@ -328,7 +355,7 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
+  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)" 
   params = [currentId, 3, 1];
   executeQuery(sqlQuery, params);   
   params = [currentId, 1, 2];
