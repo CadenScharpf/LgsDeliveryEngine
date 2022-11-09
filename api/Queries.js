@@ -1,4 +1,4 @@
-var TABLES = {
+var Queries = {
     product: {
       schema:'(id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, photoURL TEXT, productPageURL TEXT)',
       insert: "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)",
@@ -16,27 +16,27 @@ var TABLES = {
     }, 
     qrcode: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, content_id INTEGER, content_type TEXT)",
-      insert: "",
+      insert: "INSERT INTO qrcode (content_id, content_type) values (?, ?)",
       search: ""
     }, 
     qrscan: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)",
-      insert: "",
+      insert: "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)",
       search: ""
     }, 
     user: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, email TEXT, password TEXT, accountType TEXT, language TEXT, company TEXT)",
-      insert: "",
+      insert: "INSERT INTO user (id, firstName, lastName, email, password, accountType, language, company) values (?, ?, ?, ?, ?, ?, ?, ?)",
       search: ""
     }, 
     box: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT)",
-      insert: "",
+      insert: "INSERT INTO box (id) values (?)",
       search: ""
     },
     box_contents: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, quantity_of_products INT, lot_id INTEGER)",
-      insert: "",
+      insert: "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)",
       search: ""
     }, 
     pallet: {
@@ -66,8 +66,8 @@ var TABLES = {
     }, 
     recall: {
       schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, lot_id INTEGER, date_issued DATE, description TEXT, reference_code TEXT)",
-      insert: "",
+      insert: "INSERT INTO recall (lot_id, date_issued, description, reference_code) values (?, ?, ?, ?)",
       search: ""
     }
   }
-  export default TABLES
+  export default Queries

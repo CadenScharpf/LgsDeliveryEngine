@@ -31,6 +31,67 @@ var TestData = {
         [3, '2022-10-26', 4, '2022-11-15'],
         [1, '2022-10-26', 4, '2022-11-21'],
         [2, '2022-10-26', 4, '2022-11-21']
+      ],
+      settings: [
+        ["1.0","LGS","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/cropped-cropped-lfs-logo0-1-2-e1649170913225.png?fit=71%2C71&ssl=1","Roboto","San Francisco","282A36","8A8888","EEEEEE","FFFFFF","282A36"],
+        ["2.0","Philly's Farm","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJYbEvXUTDdZ-f6eqGOMcR_KmEDSDcCBsRMQ&usqp=CAU","Montserrat","Montserrat","F54021","EFA94A","EEEEEE","FFFFFF","F54021"],
+        ["3.0","Hardee Greens","https://images.squarespace-cdn.com/content/v1/5f5a93f868913475d06130f4/1601663134422-WFW88W9AZ04T55WTTIG6/HF_LOGO_KO.png?format=1500w","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","Open Sans","Open Sans","8ABB50","006681","EEEEEE","FFFFFF","8ABB50"]
+      ],
+      recall: [
+        [1, '2022-10-01', 'E. coli detected', 'XYZ123'],
+        [3, '2022-11-01', 'Salmonella detected', 'ABC456']
+      ],
+      user: [
+        [1, 'Zale', 'Tabakman', 'zale@localgrownsalads.com', 'LGS1', 'consumer', 'english', 'Consumer'],
+        [2, 'John', 'Doe', 'johndoe@walmart.com', 'LGS2', 'retailer', 'english', 'Walmart'],
+        [3, 'Jane', 'Smith', 'janesmith@PHXDistribution.com', 'LGS3', 'distributor', 'english', 'PHXDistribution'],
+        [4, 'Jose', 'Rodriguez', 'a@b.com', 'a', 'farmer', 'spanish', 'QuartzsiteFarming']
+      ],
+      pallet: ["1,2,3", "1,2", "1"],
+      qrcode: [
+        [1, 'product'],
+        [2, 'product'],
+        [3, 'product'],
+        [1, 'pallet'],
+        [2, 'box']
+      ],
+      qrscan: [
+        [4, '2022-07-21 12:00:00.000',33.695, -114.204, 1],
+        [3, '2022-07-25 12:00:00.000', 33.447612811244085, -112.07044719604862, 1],
+        [2, '2022-07-30 12:00:00.000', 33.39390852951677, -111.92761243213363, 1],
+        [1, '2022-07-31 12:00:00.000', 33.424564, -111.928001, 1],
+        [4, '2022-08-21 12:00:00.000', 33.694877853650866, -114.2038716512168, 2],
+        [3, '2022-08-25 12:00:00.000', 33.447612811244085, -112.07044719604862, 2],
+        [2, '2022-08-30 12:00:00.000', 33.39390852951677, -111.92761243213363, 2],
+        [1, '2022-08-31 12:00:00.000', 33.424564, -111.928001, 2],
+        [4, '2022-05-21 12:00:00.000', 33.694877853650866, -114.2038716512168, 3],
+        [3, '2022-05-25 12:00:00.000', 33.447612811244085, -112.07044719604862, 3],
+        [2, '2022-05-30 12:00:00.000', 33.39390852951677, -111.92761243213363, 3],
+        [1, '2022-05-31 12:00:00.000', 33.424564, -111.928001, 3],
+        [4, '2022-05-21 12:00:00.000', 33.694877853650866, -114.2038716512168, 4],
+        [3, '2022-05-25 12:00:00.000', 33.447612811244085, -112.07044719604862, 4],
+        [2, '2022-05-30 12:00:00.000', 33.39390852951677, -111.92761243213363, 4],
+        [1, '2022-05-31 12:00:00.000', 33.424564, -111.928001, 4],
+        [4, '2022-05-21 12:00:00.000', 33.694877853650866, -114.2038716512168, 5],
+        [3, '2022-05-25 12:00:00.000', 33.447612811244085, -112.07044719604862, 5],
+        [2, '2022-05-30 12:00:00.000', 33.39390852951677, -111.92761243213363, 5],
+        [1, '2022-05-31 12:00:00.000', 33.424564, -111.928001, 5]
+      ],
+      box: [
+        [1],
+        [2],
+        [3]
+      ],
+      box_contents: [
+        [1, 3, 1],
+        [1, 1, 2],
+        [1, 5, 3],
+        [2, 1, 4],
+        [2, 2, 5],
+        [3, 5, 6],
+        [3, 3, 7],
+        [3, 1, 8]
+
       ]
 }
 export default TestData

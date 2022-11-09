@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite';
 import { debug } from 'react-native-reanimated';
 import { getGlobalLanguage } from '../Language';
-import TABLES from './Queries'; //!< TABLE SCHEMAS AND QUERY TEMPLATES'
+import Queries from './Queries'; //!< TABLE SCHEMAS AND QUERY TEMPLATES'
 import TestData from './TestData';
 
 
@@ -43,351 +43,46 @@ function InitializeDB() {
   params = [];
 
   //Delete existing tables
-  for(let table of Object.keys(TABLES)) {
-    executeQuery(`DROP TABLE IF EXISTS ${table};`, []); 
-    executeQuery(`CREATE TABLE IF NOT EXISTS ${table} ${TABLES[table].schema};`, []); 
+  for(let tableName of Object.keys(Queries)) {
+    executeQuery(`DROP TABLE IF EXISTS ${tableName};`, []); 
+    executeQuery(`CREATE TABLE IF NOT EXISTS ${tableName} ${Queries[tableName].schema};`, []); 
   }
 
+  // Insert Settings Information
+  for(let settingData of TestData.settings) { executeQuery(Queries.settings.insert, settingData); }
 
-
-  // ---------------------------------------------------------------------
-  // ADD ALL SETTINGS HERE 
-  // ---------------------------------------------------------------------
-
-  sqlQuery = "INSERT INTO settings (appVersion, companyName, photoURLBanner, photoURLIcon, fontAndroid, fontiOS, colorPrimary, colorSecondary, colorTertiary, colorBackgroundLight, colorBackgroundDark) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-  params = ["1.0","LGS","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/cropped-cropped-lfs-logo0-1-2-e1649170913225.png?fit=71%2C71&ssl=1","Roboto","San Francisco","282A36","8A8888","EEEEEE","FFFFFF","282A36"];
-  executeQuery(sqlQuery, params);
-
-  params = ["2.0","Philly's Farm","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJYbEvXUTDdZ-f6eqGOMcR_KmEDSDcCBsRMQ&usqp=CAU","Montserrat","Montserrat","F54021","EFA94A","EEEEEE","FFFFFF","F54021"];
-  executeQuery(sqlQuery, params);
+  // Insert Recall Information
+  for(let recallData of TestData.recall) { executeQuery(Queries.recall.insert, recallData); }
   
-  params = ["3.0","Hardee Greens","https://images.squarespace-cdn.com/content/v1/5f5a93f868913475d06130f4/1601663134422-WFW88W9AZ04T55WTTIG6/HF_LOGO_KO.png?format=1500w","https://previews.123rf.com/images/newdesignillustrations/newdesignillustrations1902/newdesignillustrations190211430/125451478-generic-text-on-a-ribbon-designed-with-white-caption-and-blue-tape-vector-banner-with-generic-tag-on.jpg","Open Sans","Open Sans","8ABB50","006681","EEEEEE","FFFFFF","8ABB50"];
-  executeQuery(sqlQuery, params);
-
-  // TODO - add more settings
-
-  // ---------------------------------------------------------------------
-  // ADD ALL RECALLED LOTS HERE 
-  // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO recall (lot_id, date_issued, description, reference_code) values (?, ?, ?, ?)"
-
-  lot_id = 1;
-  params = [lot_id, '2022-10-01', 'E. coli detected', 'XYZ123'];
-  executeQuery(sqlQuery, params);
-
-  lot_id = 3;
-  params = [lot_id, '2022-11-01', 'Salmonella detected', 'ABC456'];
-  executeQuery(sqlQuery, params);
-
-  // TODO - add more recalls
-
-  // ---------------------------------------------------------------------
-  // ADD ALL USERS HERE 
-  // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO user (id, firstName, lastName, email, password, accountType, language, company) values (?, ?, ?, ?, ?, ?, ?, ?)"
-
-  user_id = 1; 
-  firstName = 'Zale';
-  lastName = 'Tabakman';
-  email = 'zale@localgrownsalads.com';
-  password = 'LGS1';
-  accountType = 'consumer';
-  language = 'english';
-  company = 'Consumer';
-  params = [user_id, firstName, lastName, email, password, accountType, language, company];
-  executeQuery(sqlQuery, params);
-
-  user_id = 2; 
-  firstName = 'John';
-  lastName = 'Doe';
-  email = 'johndoe@walmart.com';
-  password = 'LGS2';
-  accountType = 'retailer';
-  language = 'english';
-  company = 'Walmart';
-  params = [user_id, firstName, lastName, email, password, accountType, language, company];
-  executeQuery(sqlQuery, params);
-
-  user_id = 3; 
-  firstName = 'Jane';
-  lastName = 'Smith';
-  email = 'janesmith@PHXDistribution.com';
-  password = 'LGS3';
-  accountType = 'distributor';
-  language = 'english';
-  company = 'PHXDistribution';
-  params = [user_id, firstName, lastName, email, password, accountType, language, company];
-  executeQuery(sqlQuery, params);
-
-  user_id = 4; 
-  firstName = 'Jose';
-  lastName = 'Rodriguez';
-  email = 'a@b.com';
-  password = 'a';
-  accountType = 'farmer';
-  language = 'spanish';
-  company = 'QuartzsiteFarming';
-  params = [user_id, firstName, lastName, email, password, accountType, language, company];
-  executeQuery(sqlQuery, params);
+  // Insert User Information
+  for(let userData of TestData.user) { executeQuery(Queries.user.insert, userData); }
   
-
   // Insert Product Information
-  for(let productData of TestData.products) {executeQuery(TABLES.product.insert, productData); }
-  for(let productNameData of TestData.product_names) {executeQuery(TABLES.product_names.insert, productNameData); }
-  for(let productSpecData of TestData.product_specs) {executeQuery(TABLES.product_specs.insert, productSpecData); }
+  for(let productData of TestData.products) { executeQuery(Queries.product.insert, productData); }
+  for(let productNameData of TestData.product_names) { executeQuery(Queries.product_names.insert, productNameData); }
+  for(let productSpecData of TestData.product_specs) { executeQuery(Queries.product_specs.insert, productSpecData); }
 
   // Insert Lot Information
-  addLotInfoQueryTemplate = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
-  for(let lotInfo of TestData.lot) {
-    executeQuery(addLotInfoQueryTemplate, lotInfo)
-  }
+  for(let lotData of TestData.lot) { executeQuery(Queries.lot.insert, lotData) }
   
-  // ---------------------------------------------------------------------
-  // ADD ALL BOXES HERE 
-  // ---------------------------------------------------------------------
+  //Insert Box Information
+  for(let boxData of TestData.box) { executeQuery(Queries.box.insert, boxData) }
 
-  currentId = 1;
-  sqlQuery = "INSERT INTO box (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)" 
-  params = [currentId, 3, 1];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 1, 2];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 5, 3];  
-  executeQuery(sqlQuery, params);
-  
-  currentId = 2;
-  sqlQuery = "INSERT INTO box (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);  
-  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
-  params = [currentId, 1, 4];
-  executeQuery(sqlQuery, params);    
-  params = [currentId, 2, 5];  
-  executeQuery(sqlQuery, params);
-  
-  currentId = 3;
-  sqlQuery = "INSERT INTO box (id) values (?)"
-  params = [currentId];
-  executeQuery(sqlQuery, params);   
-  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
-  params = [currentId, 5, 6];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 3, 7];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 1, 8];  
-  executeQuery(sqlQuery, params);
+  //Insert Box Content Information
+  for(let boxContentData of TestData.box_contents) { executeQuery(Queries.box_contents.insert, boxContentData) }
 
-  // ---------------------------------------------------------------------
-  // ADD ALL PALLETS HERE 
-  // ---------------------------------------------------------------------
-  box_ids_arr = ["1,2,3", "1,2", "1"]
-  for(i=1; i < box_ids_arr.length+1; i++) {
+  // Insert Pallet Information
+  for(i=1; i < TestData.pallet.length+1; i++) {
     executeQuery("INSERT INTO pallet (id) values (?)", [i]);    
-    executeQuery("INSERT INTO pallet_contents (pallet_id, enclosed_box_ids) values (?, ?)", [i, box_ids_arr[i-1]]); 
+    executeQuery("INSERT INTO pallet_contents (pallet_id, enclosed_box_ids) values (?, ?)", [i, TestData.pallet[i-1]]); 
   }
-  
 
-  // TODO - add more pallets here
+  // Insert QrCode Information
+  for(let codeData of TestData.qrcode) { executeQuery(Queries.qrcode.insert, codeData) }
 
-  // ---------------------------------------------------------------------
-  // ADD ALL QR SCANS HERE 
-  // ---------------------------------------------------------------------
+  // Insert QrScan Information
+  for(let scanData of TestData.qrscan) { executeQuery(Queries.qrscan.insert, scanData) }
 
-  content_id = 1;
-  content_type = 'product';
-  qrcode_id = 1;
-
-  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
-  params = [content_id, content_type];
-  executeQuery(sqlQuery, params);  
-
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-
-  user_id = 4; // Farmer - QuartzsiteFarming
-  date_time = '2022-07-21 12:00:00.000';
-  geolocation_lat = 33.695;
-  geolocation_lon = -114.204;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 3; // Distributor - PHXDistribution
-  date_time = '2022-07-25 12:00:00.000';
-  geolocation_lat = 33.447612811244085;
-  geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 2; // Retailer - Walmart
-  date_time = '2022-07-30 12:00:00.000';
-  geolocation_lat = 33.39390852951677;
-  geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 1; // Consumer - Zale
-  date_time = '2022-07-31 12:00:00.000';
-  geolocation_lat = 33.424564;
-  geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-
-  content_id = 2;
-  content_type = 'product';
-  qrcode_id = 2;
-  
-  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
-  params = [content_id, content_type];
-  executeQuery(sqlQuery, params); 
-  
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-
-  user_id = 4; // Farmer - QuartzsiteFarming
-  date_time = '2022-08-21 12:00:00.000';
-  geolocation_lat = 33.694877853650866;
-  geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 3; // Distributor - PHXDistribution
-  date_time = '2022-08-25 12:00:00.000';
-  geolocation_lat = 33.447612811244085;
-  geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 2; // Retailer - Walmart
-  date_time = '2022-08-30 12:00:00.000';
-  geolocation_lat = 33.39390852951677;
-  geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 1; // Consumer - Zale
-  date_time = '2022-08-31 12:00:00.000';
-  geolocation_lat = 33.424564;
-  geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-
-  content_id = 3;
-  content_type = 'product';
-  qrcode_id = 3;
-  
-  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
-  params = [content_id, content_type];
-  executeQuery(sqlQuery, params);  
-  
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-
-  user_id = 4; // Farmer - QuartzsiteFarming
-  date_time = '2022-05-21 12:00:00.000';
-  geolocation_lat = 33.694877853650866;
-  geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 3; // Distributor - PHXDistribution
-  date_time = '2022-05-25 12:00:00.000';
-  geolocation_lat = 33.447612811244085;
-  geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 2; // Retailer - Walmart
-  date_time = '2022-05-30 12:00:00.000';
-  geolocation_lat = 33.39390852951677;
-  geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 1; // Consumer - Zale
-  date_time = '2022-05-31 12:00:00.000';
-  geolocation_lat = 33.424564;
-  geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-
-  content_id = 1;
-  content_type = 'pallet';
-  qrcode_id = 4;
-  
-  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
-  params = [content_id, content_type];
-  executeQuery(sqlQuery, params);  
-  
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-
-  user_id = 4; // Farmer - QuartzsiteFarming
-  date_time = '2022-05-21 12:00:00.000';
-  geolocation_lat = 33.694877853650866;
-  geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 3; // Distributor - PHXDistribution
-  date_time = '2022-05-25 12:00:00.000';
-  geolocation_lat = 33.447612811244085;
-  geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 2; // Retailer - Walmart
-  date_time = '2022-05-30 12:00:00.000';
-  geolocation_lat = 33.39390852951677;
-  geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 1; // Consumer - Zale
-  date_time = '2022-05-31 12:00:00.000';
-  geolocation_lat = 33.424564;
-  geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-
-  content_id = 2;
-  content_type = 'box';
-  qrcode_id = 5;
-  
-  sqlQuery = "INSERT INTO qrcode (content_id, content_type) values (?, ?)"
-  params = [content_id, content_type];
-  executeQuery(sqlQuery, params);  
-  
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-
-  user_id = 4; // Farmer - QuartzsiteFarming
-  date_time = '2022-05-21 12:00:00.000';
-  geolocation_lat = 33.694877853650866;
-  geolocation_lon = -114.2038716512168;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 3; // Distributor - PHXDistribution
-  date_time = '2022-05-25 12:00:00.000';
-  geolocation_lat = 33.447612811244085;
-  geolocation_lon = -112.07044719604862;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 2; // Retailer - Walmart
-  date_time = '2022-05-30 12:00:00.000';
-  geolocation_lat = 33.39390852951677;
-  geolocation_lon = -111.92761243213363;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  user_id = 1; // Consumer - Zale
-  date_time = '2022-05-31 12:00:00.000';
-  geolocation_lat = 33.424564;
-  geolocation_lon = -111.928001;
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
-  executeQuery(sqlQuery, params);    
-  
-  // TODO - add more QR scans here
- 
   // ---------------------------------------------------------------------
   // ADD ALL FEEDBACK HERE 
   // ---------------------------------------------------------------------
