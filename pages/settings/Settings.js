@@ -5,7 +5,7 @@ import {getStringValue} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getInputLanguage } from '../../Language';
-import {updateLanguage} from "../../Database";
+import { updateLanguage } from '../../api/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var colors = getGlobalColors();
@@ -56,8 +56,6 @@ function Settings() {
         // language changed, update
 
         // update user's settings on server via API
-        // TODO - need to store user_id in Async Storage
-        var user_id = -1;
         updateLanguage(global.email, language);
 
         // refresh strings

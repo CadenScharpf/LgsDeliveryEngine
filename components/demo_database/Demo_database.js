@@ -4,7 +4,7 @@ import { StyleSheet, View, TouchableOpacity, Text, ScrollView } from 'react-nati
 import ReactDOM from 'react-dom';
 import React, { Component } from "react";
 import {getString} from "../../StringsArray";
-import {getAllProducts, deleteProduct, addProduct, getAllQRScans, getAllUsers, getPalletDetails, getBoxDetails, getProductDetails} from "../../Database";
+import {getAllProducts, deleteProduct, addProduct, getAllQRScans, getAllUsers, getPalletDetails, getBoxDetails, getProductDetails} from "../../api/Database";
 
 class Demo_database extends Component {
   constructor(props) {
