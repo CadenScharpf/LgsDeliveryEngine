@@ -11,7 +11,7 @@ import {
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../Colors';
-import { getAllProducts, getProductDetails, getLotDetails } from '../../Database';
+import { getAllProducts, getProductDetails, getLotDetails } from '../../api/Database';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import LotInformation from '../LotInformation/LotInformation';
 

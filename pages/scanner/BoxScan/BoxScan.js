@@ -9,7 +9,7 @@ import {
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../../Colors';
-import { getBoxDetails, getLotDetails, getPalletDetails, getProductDetails } from '../../../Database';
+import { getBoxDetails, getLotDetails, getPalletDetails, getProductDetails } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import { Card } from "@rneui/themed";
 import ProductDetails from './ProductDetails';
@@ -46,7 +46,7 @@ function BoxWrapper(props) {
   }, [])
   if (boxDetails && lotDetails && productDetails) {
     return <BoxScan src={boxDetails} pd={productDetails}/>
-  } else { return <Text style={styles.baseText}>{getString('boxscan_resource')}</Text> }
+  } else { return <Text style={styles.baseText}>{"to be replaced with loading animation"}</Text> }
 }
 
 class BoxScan extends Component {

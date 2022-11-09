@@ -1,5 +1,9 @@
 import * as SQLite from 'expo-sqlite';
 import { debug } from 'react-native-reanimated';
+import { getGlobalLanguage } from '../Language';
+import TABLES from './Queries'; //!< TABLE SCHEMAS AND QUERY TEMPLATES'
+import TestData from './TestData';
+
 
 // returns Database object
 const DatabaseDB = SQLite.openDatabase('DatabaseDB.db') 
@@ -38,122 +42,19 @@ function InitializeDB() {
 
   params = [];
 
-
-  sqlQuery = "DROP TABLE IF EXISTS product;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, photoURL TEXT, productPageURL TEXT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS product_names;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS product_names (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
-  executeQuery(sqlQuery, params);
-
-  
-
-  sqlQuery = "DROP TABLE IF EXISTS product_specifications;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS product_specifications (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
-  executeQuery(sqlQuery, params);
-
-  
-
-  sqlQuery = "DROP TABLE IF EXISTS qrcode;";
-  executeQuery(sqlQuery, params);
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS qrcode (id INTEGER PRIMARY KEY AUTOINCREMENT, content_id INTEGER, content_type TEXT)";
-  executeQuery(sqlQuery, params);
+  //Delete existing tables
+  for(let table of Object.keys(TABLES)) {
+    executeQuery(`DROP TABLE IF EXISTS ${table};`, []); 
+    executeQuery(`CREATE TABLE IF NOT EXISTS ${table} ${TABLES[table].schema};`, []); 
+  }
 
 
-
-  sqlQuery = "DROP TABLE IF EXISTS qrscan;";
-  executeQuery(sqlQuery, params);
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS user;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, email TEXT, password TEXT, accountType TEXT, language TEXT, company TEXT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS box;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS box (id INTEGER PRIMARY KEY AUTOINCREMENT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS box_contents;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, quantity_of_products INT, lot_id INTEGER)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS pallet;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet (id INTEGER PRIMARY KEY AUTOINCREMENT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS pallet_contents;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, enclosed_box_ids TINYTEXT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS lot;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS lot (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, harvest_date DATE, harvested_by_user_id INTEGER, best_before_date DATE)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS feedback;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, content_type TEXT, content_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS settings;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, appVersion TEXT, companyName TEXT, photoURLBanner TEXT, photoURLIcon TEXT, fontAndroid TEXT, fontiOS TEXT, colorPrimary TEXT, colorSecondary TEXT, colorTertiary TEXT, colorBackgroundLight TEXT, colorBackgroundDark TEXT)";
-  executeQuery(sqlQuery, params);
-
-
-  
-  sqlQuery = "DROP TABLE IF EXISTS recall;";
-  executeQuery(sqlQuery, params); 
-
-  sqlQuery = "CREATE TABLE IF NOT EXISTS recall (id INTEGER PRIMARY KEY AUTOINCREMENT, lot_id INTEGER, date_issued DATE, description TEXT, reference_code TEXT)";
-  executeQuery(sqlQuery, params);
 
   // ---------------------------------------------------------------------
   // ADD ALL SETTINGS HERE 
   // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO settings (appVersion, companyName, photoURLBanner, photoURLIcon, fontAndroid, fontiOS, colorPrimary, colorSecondary, colorTertiary, colorBackgroundLight, colorBackgroundDark) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 
+  sqlQuery = "INSERT INTO settings (appVersion, companyName, photoURLBanner, photoURLIcon, fontAndroid, fontiOS, colorPrimary, colorSecondary, colorTertiary, colorBackgroundLight, colorBackgroundDark) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
   params = ["1.0","LGS","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/lfs-logo-tight-crop-e1454958460180.png?fit=190%2C69&ssl=1","https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/cropped-cropped-lfs-logo0-1-2-e1649170913225.png?fit=71%2C71&ssl=1","Roboto","San Francisco","282A36","8A8888","EEEEEE","FFFFFF","282A36"];
   executeQuery(sqlQuery, params);
 
@@ -229,97 +130,18 @@ function InitializeDB() {
   params = [user_id, firstName, lastName, email, password, accountType, language, company];
   executeQuery(sqlQuery, params);
   
-  // TODO - add more users here
 
-  // ---------------------------------------------------------------------
-  // ADD ALL PRODUCTS HERE 
-  // ---------------------------------------------------------------------
+  // Insert Product Information
+  for(let productData of TestData.products) {executeQuery(TABLES.product.insert, productData); }
+  for(let productNameData of TestData.product_names) {executeQuery(TABLES.product_names.insert, productNameData); }
+  for(let productSpecData of TestData.product_specs) {executeQuery(TABLES.product_specs.insert, productSpecData); }
 
-  currentId = 1;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
-  params = [currentId, 'Blade Oakleaf Lettuce', 'https://i2.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/015-Blade-Oakleaf-Lettuce-Web.jpg?fit=1500%2C1000&ssl=1', 'https://localgrownsalads.com/product/blade-oakleaf-lettuce/'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Blade Oakleaf Lettuce'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Hoja de Lechuga de Hoja de Roble'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'An Oakleaf Lettuce in the shape of a blade, this lettuce\'s leaves are long and thin, and they fit perfectly, whole, in large salads, or, chopped, in regular salads. Blade Oakleaf Lettuce has its own distinct, bold flavour compared to staple lettuces, and that\'s why you\'ll find it in stronger flavoured salads.'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Una Lechuga Hoja de Roble en forma de cuchilla, las hojas de esta lechuga son largas y finas, y encajan perfectamente, enteras, en ensaladas grandes, o, picadas, en ensaladas regulares. Blade Oakleaf Lettuce tiene su propio sabor distintivo y audaz en comparación con las lechugas básicas, y es por eso que la encontrará en ensaladas de sabores más fuertes.'];
-  executeQuery(sqlQuery, params);
-
-  currentId = 2;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
-  params = [currentId, 'Curly Kale', 'https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1','https://localgrownsalads.com/product/curly-kale/'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Curly Kale'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Col Rizada'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'A salad favourite, Curly Kale gets its name from its wavy leaves. When young, their edges have a slight curl, but as they grow, so do the amount of curls. This variety of kale is particularly nice in salads, thanks in large part to its appearance and texture adding a different look than your average lettuce-based salad.'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Una ensalada favorita, Curly Kale recibe su nombre de sus hojas onduladas. Cuando son jóvenes, sus bordes tienen un ligero rizo, pero a medida que crecen, también aumenta la cantidad de rizos. Esta variedad de col rizada es particularmente agradable en ensaladas, gracias en gran parte a su apariencia y textura que le da un aspecto diferente al de una ensalada promedio a base de lechuga.'];
-  executeQuery(sqlQuery, params);
-
-  currentId = 3;
-  sqlQuery = "INSERT INTO product (id, defaultLabel, photoURL, productPageURL) values (?, ?, ?, ?)"
-  params = [currentId, 'Pesto Basil', 'https://i0.wp.com/localgrownsalads.com/wp-content/uploads/2022/03/014-Kale-Web.jpg?fit=1500%2C1000&ssl=1', 'https://localgrownsalads.com/product/pesto-basil/'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_names (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Pesto Basil'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Pesto de Albahaca'];
-  executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO product_specifications (product_id, language, content) values (?, ?, ?)"
-  params = [currentId, 'english', 'Sweet Basil. St. Joseph\'s Wort. Ocimum Basilicum. Genovese Basil. Delicious. Whatever you call it, this popular variety of basil is a fragrant and flavourful herb that is most commonly found in its own saucy paste-type dish, pesto, which pairs beautifully from everything from pastas and pizzas to fish and even as a dip for breads and crackers.'];
-  executeQuery(sqlQuery, params);   
-  params = [currentId, 'spanish', 'Albahaca. Hierba de San José. Ocimum Basilicum. Albahaca Genovesa. Delicioso. Como sea que la llames, esta popular variedad de albahaca es una hierba aromática y sabrosa que se encuentra más comúnmente en su propio plato tipo pasta picante, el pesto, que combina a la perfección con todo, desde pastas y pizzas hasta pescado e incluso como salsa para panes. y galletas.'];
-  executeQuery(sqlQuery, params);
-
-  // TODO - add more products here
-
+  // Insert Lot Information
+  addLotInfoQueryTemplate = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
+  for(let lotInfo of TestData.lot) {
+    executeQuery(addLotInfoQueryTemplate, lotInfo)
+  }
   
-  // ---------------------------------------------------------------------
-  // ADD ALL LOTS HERE 
-  // ---------------------------------------------------------------------
-
-  sqlQuery = "INSERT INTO lot (product_id, harvest_date, harvested_by_user_id, best_before_date) values (?, ?, ?, ?)"
-  params = [1, '2022-09-26', 4, '2022-10-15'];  
-  executeQuery(sqlQuery, params);
-
-  params = [2, '2022-09-26', 4, '2022-10-16'];  
-  executeQuery(sqlQuery, params);
-
-  params = [3, '2022-09-26', 4, '2022-10-17'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-09-26', 4, '2022-10-18'];  
-  executeQuery(sqlQuery, params);
-
-  params = [3, '2022-09-26', 4, '2022-10-19'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-09-26', 4, '2022-10-20'];  
-  executeQuery(sqlQuery, params);
-
-  params = [2, '2022-10-26', 4, '2022-11-15'];  
-  executeQuery(sqlQuery, params);
-
-  params = [3, '2022-10-26', 4, '2022-11-15'];  
-  executeQuery(sqlQuery, params);
-
-  params = [1, '2022-10-26', 4, '2022-11-21'];  
-  executeQuery(sqlQuery, params);
-
-  params = [2, '2022-10-26', 4, '2022-11-21'];  
-  executeQuery(sqlQuery, params);
-  
-  // TODO - add more lots here
-
   // ---------------------------------------------------------------------
   // ADD ALL BOXES HERE 
   // ---------------------------------------------------------------------
@@ -328,7 +150,7 @@ function InitializeDB() {
   sqlQuery = "INSERT INTO box (id) values (?)"
   params = [currentId];
   executeQuery(sqlQuery, params);    
-  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)"
+  sqlQuery = "INSERT INTO box_contents (box_id, quantity_of_products, lot_id) values (?, ?, ?)" 
   params = [currentId, 3, 1];
   executeQuery(sqlQuery, params);   
   params = [currentId, 1, 2];
@@ -357,8 +179,6 @@ function InitializeDB() {
   executeQuery(sqlQuery, params);   
   params = [currentId, 1, 8];  
   executeQuery(sqlQuery, params);
-
-  // TODO - add more boxes here
 
   // ---------------------------------------------------------------------
   // ADD ALL PALLETS HERE 
@@ -992,8 +812,7 @@ const getBoxDetails = async (box_id) => {
 }
 
 const getProductDetails = async (product_id) => {
-  // TODO - convert to asyncStorage
-  inputLanguage = global.language;
+  inputLanguage = getGlobalLanguage();
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   product.id, \
@@ -1044,8 +863,7 @@ const getProductDetails = async (product_id) => {
 }
 
 const getAllProducts = async () => {
-  // TODO - convert to asyncStorage
-  inputLanguage = global.language;
+  inputLanguage = getGlobalLanguage();
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   product.id, \

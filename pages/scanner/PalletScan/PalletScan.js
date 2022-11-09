@@ -7,7 +7,7 @@ import {
   Image, TouchableOpacity
 } from 'react-native';
 import getGlobalColors from '../../../Colors'
-import { getPalletDetails } from '../../../Database';
+import { getPalletDetails } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import BoxCard from './BoxCard';
 import Timeline from 'react-native-timeline-flatlist';

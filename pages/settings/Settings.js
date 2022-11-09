@@ -5,7 +5,7 @@ import {getStringValue} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import SelectDropdown from 'react-native-select-dropdown';
 import { getInputLanguage } from '../../Language';
-import {updateLanguage} from "../../Database";
+import { updateLanguage } from '../../api/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 var colors = getGlobalColors();

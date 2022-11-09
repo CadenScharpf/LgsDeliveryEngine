@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler'
 import { StyleSheet, View} from 'react-native';
 import React, { Component } from "react";
-import {checkForRecall, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, addUser, checkSignIn, getLotDetails, getProductId, deleteProduct, addProduct, getAllQRScans, getAllProducts, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails} from "../../Database";
+import {checkForRecall, getAppSettings, addFeedback, updateFeedback, getFeedbackByContentUserId, addUser, checkSignIn, getLotDetails, getProductId, deleteProduct, addProduct, getAllQRScans, getAllProducts, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails} from "../../api/Database";
 
 class Demo_database extends Component {
   constructor(props) {

@@ -6,7 +6,7 @@ import CustomInput from '../../components/CustomInput';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import getGlobalColors from '../../Colors';
 import LogoDark from '../../assets/images/lgs-logo-dark.png'
-import { getUserDetails, getAppSettings, checkSignIn} from '../../Database';
+import { getUserDetails, getAppSettings, checkSignIn} from '../../api/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getString} from "../../StringsArray";
 
