@@ -136,7 +136,8 @@ const SignInScreen = ({navigation, authNav}) => {
 
             <CustomButton 
                   text={getString('signinscreen_forgotPassword?')}
-                onPress={onForgotPasswordPressed}
+                //onPress={onForgotPasswordPressed}
+                onPress={() => {navigation.navigate('ForgotPasswordScreen')}}
                 type="TERTIARY"
             />
             <CustomButton
