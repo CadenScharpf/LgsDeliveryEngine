@@ -4,7 +4,7 @@ import { Text, View, ScrollView, StyleSheet, StatusBar, SafeAreaView } from 'rea
 import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import Product from '../../components/product/Product';
-import { getAllProducts } from '../../Database';
+import { getAllProducts } from '../../api/Database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { withNavigation } from 'react-navigation';
 

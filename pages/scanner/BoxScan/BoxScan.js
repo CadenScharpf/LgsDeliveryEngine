@@ -9,7 +9,7 @@ import {
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
 import getGlobalColors from '../../../Colors';
-import { getBoxDetails, getLotDetails, getPalletDetails, getProductDetails } from '../../../Database';
+import { getBoxDetails, getLotDetails, getPalletDetails, getProductDetails } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import { Card } from "@rneui/themed";
 import ProductDetails from './ProductDetails';
