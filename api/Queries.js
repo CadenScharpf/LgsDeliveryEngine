@@ -20,8 +20,8 @@ var Queries = {
       search: ""
     }, 
     qrscan: {
-      schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)",
-      insert: "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)",
+      schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_email TEXT, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)",
+      insert: "INSERT INTO qrscan (user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)",
       search: ""
     }, 
     user: {
@@ -55,7 +55,7 @@ var Queries = {
       search: ""
     }, 
     feedback: {
-      schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, content_type TEXT, content_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)",
+      schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_email TEXT, content_type TEXT, content_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)",
       insert: "",
       search: ""
     }, 

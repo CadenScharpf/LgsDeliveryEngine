@@ -8,7 +8,7 @@ export default function getGlobalColors() {
 
     if (Platform.OS === 'ios') {
         return {
-            background: DynamicColorIOS({light: '#ffffff', dark: '#141414'}),
+            background: DynamicColorIOS({light: '#deeeff', dark: '#141414'}),
             backgroundTextPrimary: DynamicColorIOS({light: '#282a36', dark: '#ffffff'}),
             backgroundTextSecondary: DynamicColorIOS({light: '#8a8888', dark: '#dbdbdb'}),
 
@@ -18,7 +18,7 @@ export default function getGlobalColors() {
         };
     } else if (Platform.OS === 'android') {
         return {
-            background: '#ffffff',
+            background: '#deeeff',
             backgroundTextSecondary: '#8a8888',
             backgroundTextPrimary: '#282a36',
             foreground: '#EEEEEE',
@@ -27,7 +27,7 @@ export default function getGlobalColors() {
         };
     } else {
         return {
-            background: '#ffffff',
+            background: '#deeeff',
             backgroundTextSecondary: '#8a8888',
             backgroundTextPrimary: '#282a36',
             foreground: '#EEEEEE',

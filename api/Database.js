@@ -86,99 +86,99 @@ function InitializeDB() {
   // ---------------------------------------------------------------------
   // ADD ALL FEEDBACK HERE 
   // ---------------------------------------------------------------------
-  sqlQuery = "INSERT INTO feedback (user_id, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)"
+  sqlQuery = "INSERT INTO feedback (user_email, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)"
 
   // pallet/box feedback matching QR Scans test data above
 
   content_id = 1;
   content_type = 'pallet';
 
-  user_id = 4; // Farmer - QuartzsiteFarming
+  user_email = 'jose@QuartzsiteFarming.com'; // Farmer - QuartzsiteFarming
   date_time = '2022-05-21 12:00:00.000';
   rating = 5;
   feedback_text = "great pallet";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
   
-  user_id = 3; // Distributor - PHXDistribution
+  user_email = 'janesmith@PHXDistribution.com'; // Distributor - PHXDistribution
   date_time = '2022-05-25 12:00:00.000';
   rating = 5;
   feedback_text = "speed delivery of pallet";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
   
-  user_id = 2; // Retailer - Walmart
+  user_email = 'johndoe@walmart.com'; // Retailer - Walmart
   date_time = '2022-05-30 12:00:00.000';
   rating = 4;
   feedback_text = "took longer than expected to arrive";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   content_id = 2;
   content_type = 'box';  
 
-  user_id = 4; // Farmer - QuartzsiteFarming
+  user_email = 'jose@QuartzsiteFarming.com'; // Farmer - QuartzsiteFarming
   date_time = '2022-05-21 12:00:00.000';
   rating = 5;
   feedback_text = "sending out a great box";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
   
-  user_id = 3; // Distributor - PHXDistribution
+  user_email = 'janesmith@PHXDistribution.com'; // Distributor - PHXDistribution
   date_time = '2022-05-25 12:00:00.000';
   rating = 3;
   feedback_text = "smelled weird";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
   
-  user_id = 2; // Retailer - Walmart
+  user_email = 'johndoe@walmart.com'; // Retailer - Walmart
   date_time = '2022-05-30 12:00:00.000';
   rating = 5;
   feedback_text = "good condition box";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   // lot feedback
   content_type = 'lot';
 
-  user_id = 1; 
+  user_email = 'zale@localgrownsalads.com'; 
   content_id = 1; 
   date_time = '2022-05-31 12:00:00.000';
   rating = 5;
   feedback_text = "great!";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
-  user_id = 2; 
+  user_email = 'johndoe@walmart.com'; 
   content_id = 1; 
   date_time = '2022-05-30 12:00:00.000';
   rating = 5;
   feedback_text = "looked great";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
-  user_id = 2; 
+  user_email = 'johndoe@walmart.com'; 
   content_id = 2; 
   date_time = '2022-06-01 12:00:00.000';
   rating = 5;
   feedback_text = "delicious!";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
-  user_id = 3; 
+  user_email = 'janesmith@PHXDistribution.com'; 
   content_id = 3; 
   date_time = '2022-06-02 12:00:00.000';
   rating = 3;
   feedback_text = "looked wilty";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
-  user_id = 1; 
+  user_email = 'zale@localgrownsalads.com'; 
   content_id = 4; 
   date_time = '2022-06-03 12:00:00.000';
   rating = 1;
   feedback_text = "tasted bad";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);
 
   // TODO - add more Feedback here
@@ -285,12 +285,12 @@ const getAllQRScans = async (qrcode_id) => {
                   qrscan.date_time, \
                   qrscan.geolocation_lat, \
                   qrscan.geolocation_lon, \
-                  qrscan.user_id, \
+                  user.email as user_email, \
                   user.firstName || ' ' || user.lastName as user_scanned, \
                   user.accountType, \
                   user.company \
                 FROM qrscan \
-                  LEFT JOIN user ON qrscan.user_id = user.id \
+                  LEFT JOIN user ON qrscan.user_email = user.email \
                 WHERE \
                   qrscan.qrcode_id = " + qrcode_id + "\
                 ORDER BY \
@@ -693,10 +693,10 @@ const deleteProduct = async (product_id) => {
   });  
 }
 
-const addFeedback = async (user_id, content_type, content_id, date_time, rating, feedback_text) => {
+const addFeedback = async (user_email, content_type, content_id, date_time, rating, feedback_text) => {
 
-  sqlQuery = "INSERT INTO feedback (user_id, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)";
-  params = [user_id, content_type, content_id, date_time, rating, feedback_text];
+  sqlQuery = "INSERT INTO feedback (user_email, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)";
+  params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);    
 
   return new Promise((resolve, reject) => {
@@ -706,7 +706,7 @@ const addFeedback = async (user_id, content_type, content_id, date_time, rating,
   });  
 }
 
-const updateFeedback = async (feedback_id, user_id, date_time, rating, feedback_text) => {
+const updateFeedback = async (feedback_id, date_time, rating, feedback_text) => {
 
   sqlQuery = "UPDATE feedback \
                 SET \
@@ -715,7 +715,7 @@ const updateFeedback = async (feedback_id, user_id, date_time, rating, feedback_
                   feedback_text = '" + feedback_text + "'\
                 WHERE \
                   feedback.id = " + feedback_id;
-  params = [user_id, lot_id, date_time, rating, feedback_text];
+  params = [];
   executeQuery(sqlQuery, params);    
 
   return new Promise((resolve, reject) => {
@@ -742,11 +742,11 @@ const updateLanguage = async (email, inputLanguage) => {
   });  
 }
 
-const getFeedbackByContentUserId = async (content_type, content_id, user_id) => {
+const getFeedbackByContentUserId = async (content_type, content_id, user_email) => {
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   feedback.id as feedback_id, \
-                  feedback.user_id, \
+                  feedback.user_email, \
                   feedback.content_type, \
                   feedback.content_id, \
                   feedback.date_time, \
@@ -756,7 +756,7 @@ const getFeedbackByContentUserId = async (content_type, content_id, user_id) => 
                 WHERE \
                   feedback.content_type = '" + content_type + "'\
                   AND feedback.content_id = " + content_id + "\
-                  AND feedback.user_id = " + user_id
+                  AND feedback.user_email = '" + user_email + "'"
               ;
     params = [];  
 
@@ -775,10 +775,10 @@ const getFeedbackByContentUserId = async (content_type, content_id, user_id) => 
   });  
 }
 
-const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_lon, user_id) => {
+const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_lon, user_email) => {
 
-  sqlQuery = "INSERT INTO qrscan (user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
-  params = [user_id, date_time, geolocation_lat, geolocation_lon, qrcode_id];
+  sqlQuery = "INSERT INTO qrscan (user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
+  params = [user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id];
   executeQuery(sqlQuery, params);    
 
   return new Promise((resolve, reject) => {

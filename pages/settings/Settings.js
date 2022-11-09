@@ -56,8 +56,6 @@ function Settings() {
         // language changed, update
 
         // update user's settings on server via API
-        // TODO - need to store user_id in Async Storage
-        var user_id = -1;
         updateLanguage(global.email, language);
 
         // refresh strings
