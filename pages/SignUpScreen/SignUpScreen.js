@@ -12,7 +12,7 @@ import getGlobalColors from '../../Colors';
 import {getString, getStringValue} from "../../StringsArray";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {addUser, getAllUsersByAccountType, getAppSettings} from "../../Database";
+import {addUser, getAllUsersByAccountType, getAppSettings} from "../../api/Database";
 
 var colors = getGlobalColors();
 var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
