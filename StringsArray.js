@@ -146,11 +146,9 @@ function initializeDatabase() {
   StringsDB.push(content);
   
   // sign up page
-  /*content = { description:"signupscreen_firstName", english: 'First name', spanish: 'Nombre de pila'};
+  content = { description:"signupscreen_firstName", english: 'First name', spanish: 'Nombre de pila'};
   StringsDB.push(content);
   content = { description:"signupscreen_lastName", english: 'Last name', spanish: 'Apellido'};
-  StringsDB.push(content);*/
-  content = { description:"signupscreen_lastName_firstName", english: 'Last name, First name', spanish: 'Apellido nombre'};
   StringsDB.push(content);
   content = { description:"signupscreen_email", english: 'Email', spanish: 'Correo electrónico'};
   StringsDB.push(content);
