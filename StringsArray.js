@@ -44,6 +44,8 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"app_feedback", english: 'Feedback', spanish: 'Retroalimentación'};
   StringsDB.push(content);
+  content = {description:"app_reset_password", english: 'Reset Password', spanish: 'Restablecer la contraseña'};
+  StringsDB.push(content);
 
   // Lot Information
   content = {description:"lotinformation_title", english: 'Harvest Information', spanish: 'Información de cosecha'};
@@ -144,16 +146,18 @@ function initializeDatabase() {
   StringsDB.push(content);
   
   // sign up page
-  content = { description:"signupscreen_firstName", english: 'First name', spanish: 'Nombre de pila'};
+  /*content = { description:"signupscreen_firstName", english: 'First name', spanish: 'Nombre de pila'};
   StringsDB.push(content);
   content = { description:"signupscreen_lastName", english: 'Last name', spanish: 'Apellido'};
+  StringsDB.push(content);*/
+  content = { description:"signupscreen_lastName_firstName", english: 'Last name, First name', spanish: 'Apellido nombre'};
   StringsDB.push(content);
   content = { description:"signupscreen_email", english: 'Email', spanish: 'Correo electrónico'};
   StringsDB.push(content);
   content = { description:"signupscreen_password", english: 'Password', spanish: 'Clave'};
   StringsDB.push(content);
-  content = { description:"signupscreen_repeatPassword", english: 'Repeat Password', spanish: 'Repita la contraseña'};
-  StringsDB.push(content);
+  /*content = { description:"signupscreen_repeatPassword", english: 'Repeat Password', spanish: 'Repita la contraseña'};
+  StringsDB.push(content);*/
   content = { description:"signupscreen_company", english: 'Company', spanish: 'Compañía'};
   StringsDB.push(content);
   content = { description:"signupscreen_accountType", english: 'Account type', spanish: 'Tipo de cuenta'};

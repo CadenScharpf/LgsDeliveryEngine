@@ -19,8 +19,9 @@ var Logo = colors.background == '#ffffff' ? LogoLight:LogoDark;
 var currentText = '';
 
 function SignUpScreen({ navigation }){
-    const [firstName, setFirstName] = useState();
-    const [lastName, setLastName] = useState();
+    /*const [firstName, setFirstName] = useState();
+    const [lastName, setLastName] = useState();*/
+    const [lastName_firstName, setlastName_firstName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [passwordRepeat, setPasswordRepeat] = useState();
@@ -33,11 +34,12 @@ function SignUpScreen({ navigation }){
     const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
 
-    const [Placeholder_firstname, setPlaceholder_firstname] = useState('');
-    const [Placeholder_lastname, setPlaceholder_lastname] = useState('');
+    /*const [Placeholder_firstname, setPlaceholder_firstname] = useState('');
+    const [Placeholder_lastname, setPlaceholder_lastname] = useState('');*/
+    const [Placeholder_lastName_firstName, setPlaceholder_lastName_firstName] = useState('');
     const [Placeholder_email, setPlaceholder_email] = useState('');
     const [Placeholder_password, setPlaceholder_password] = useState('');
-    const [Placeholder_repeatPassword, setPlaceholder_repeatPassword] = useState('');
+    //const [Placeholder_repeatPassword, setPlaceholder_repeatPassword] = useState('');
     const [Placeholder_company, setPlaceholder_company] = useState('');
     const [Placeholder_accountType, setPlaceholder_accountType] = useState('');
     const [Placeholder_register, setPlaceholder_register] = useState('');
@@ -49,11 +51,14 @@ function SignUpScreen({ navigation }){
     const [Text_and, setText_and] = useState('');
     useEffect(() => {  
         // language changed, update strings
-        getStringValue('signupscreen_firstName').then((result)  => { 
+        /*getStringValue('signupscreen_firstName').then((result)  => { 
             setPlaceholder_firstname(result); 
         }); 
         getStringValue('signupscreen_lastName').then((result)  => { 
             setPlaceholder_lastname(result); 
+        }); */
+        getStringValue('signupscreen_lastName_firstName').then((result)  => { 
+            setPlaceholder_lastName_firstName(result); 
         }); 
         getStringValue('signupscreen_email').then((result)  => { 
             setPlaceholder_email(result); 
@@ -61,9 +66,9 @@ function SignUpScreen({ navigation }){
         getStringValue('signupscreen_password').then((result)  => { 
             setPlaceholder_password(result); 
         });
-        getStringValue('signupscreen_repeatPassword').then((result)  => { 
+        /*getStringValue('signupscreen_repeatPassword').then((result)  => { 
             setPlaceholder_repeatPassword(result); 
-        });
+        });*/
         getStringValue('signupscreen_company').then((result)  => { 
             setPlaceholder_company(result); 
         });
@@ -140,7 +145,7 @@ function SignUpScreen({ navigation }){
 
         // TODO - confirm passwords match
 
-        addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
+        /*addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
             console.log(result);
             var result_json = JSON.parse(result);
             if (result.length == 0) {
@@ -154,6 +159,26 @@ function SignUpScreen({ navigation }){
                 global.company = company
                 global.lastName = lastName
                 global.firstName = firstName
+                global.password = password
+                
+                global.gotoapp()
+            } else {
+                console.log('Undetected API Issue');
+            }
+          })*/
+          addUser(lastName_firstName, email, password, accountType, language, company).then((result) => {
+            console.log(result);
+            var result_json = JSON.parse(result);
+            if (result.length == 0) {
+                console.log('API Response Issue');
+            } else if (result_json.response_code == 200) {
+                console.log('Successful Sign Up'); 
+
+                global.email = email
+                global.accountType = accountType
+                global.language = language
+                global.company = company
+                global.name = lastName_firstName
                 global.password = password
                 
                 global.gotoapp()
@@ -206,7 +231,7 @@ function SignUpScreen({ navigation }){
                 buttonStyle={styles.dropdownButtonStyle}
                 buttonTextStyle={styles.dropdownTextStyle}
             />
-
+{/*
             <CustomInput 
                 placeholder={Placeholder_firstname}
                 value={firstName} 
@@ -217,6 +242,12 @@ function SignUpScreen({ navigation }){
                 placeholder={Placeholder_lastname}
                 value={lastName} 
                 setValue={setLastName}
+            />
+            */}
+            <CustomInput 
+                placeholder={Placeholder_lastName_firstName}
+                value={lastName_firstName} 
+                setValue={setlastName_firstName}
             />
 
             <CustomInput 
@@ -233,12 +264,12 @@ function SignUpScreen({ navigation }){
                 secureTextEntry
             />
 
-            <CustomInput 
+            {/*<CustomInput 
                 placeholder={Placeholder_repeatPassword}
                 value={passwordRepeat} 
                 setValue={setPasswordRepeat}
                 secureTextEntry
-            />
+            />*/}
             
             <SelectDropdown
                 data={companies}
