@@ -66,7 +66,7 @@ function SideBar() {
         },
       }}/>
       
-      <Drawer.Screen name='Feedback' component={Feedback} 
+      <Drawer.Screen name={getString('app_feedback')} component={Feedback} 
       options={{
         headerStyle: {
           backgroundColor: colors.background,

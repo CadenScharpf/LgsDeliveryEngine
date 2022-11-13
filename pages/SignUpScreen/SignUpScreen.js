@@ -30,7 +30,7 @@ function SignUpScreen({ navigation }){
     
     // TODO - pull these via API
     const languages = ["English", "Spanish"]; 
-    const accountTypes = ["Consumer", "Retailer", "Distributor", "Manufacturer"];
+    const accountTypes = ["Consumer", "Retailer", "Distributor", "Food Servier", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
 
     const [Placeholder_firstname, setPlaceholder_firstname] = useState('');
@@ -232,13 +232,6 @@ function SignUpScreen({ navigation }){
                 placeholder={Placeholder_password}
                 value={password} 
                 setValue={setPassword}
-                secureTextEntry
-            />
-
-            <CustomInput 
-                placeholder={Placeholder_repeatPassword}
-                value={passwordRepeat} 
-                setValue={setPasswordRepeat}
                 secureTextEntry
             />
             
