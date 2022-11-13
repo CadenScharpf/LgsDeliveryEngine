@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image, TouchableOpacity
+  Image, TouchableOpacity, Button
 } from 'react-native';
 import getGlobalColors from '../../../Colors'
 import { getPalletDetails } from '../../../api/Database';
@@ -52,12 +52,15 @@ class PalletScan extends Component {
         <View style={styles.card}>
           <Text style={styles.titleText} >{getString('palletscan_pallet')} #{state.id}</Text>
           <Text style={styles.textDescription}>{getString('palletscan_contains')} {state.enclosed_box_ids.length} {getString('palletscan_boxes')}</Text>
+          {(state.enclosed_box_ids.length > 2)?<Text style={styles.recallTextDescription}>Pallet contains 1 recalled box</Text>:<Text></Text>}
           <ScrollView horizontal={true}>
-            {state.enclosed_box_ids.map((id, index) => { return <BoxCard key={index} id={id} status="Good" /> })}
+            {state.enclosed_box_ids.map((id, index) => { return <BoxCard key={index} id={id} status={index==2?"Recall":"Good"} /> })}
           </ScrollView>
         </View>
         
         <QrData />
+        <Button onPress={()=>{global.feedbackExpirationDate = ""; global.feedbackLotId = "" ;global.gotofeedback()}} title={getString('product_leavefeedback')}/>
+
       </View>
     );
   }
@@ -91,6 +94,11 @@ const styles = StyleSheet.create({
   textDescription: {
     marginLeft: 10,
     color: colors.backgroundTextSecondary,
+    fontSize: 18,
+  },
+  recallTextDescription: {
+    marginLeft: 10,
+    color: '#FF9494',
     fontSize: 18,
   },
   baseText: {

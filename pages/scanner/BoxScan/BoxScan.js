@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image, TouchableOpacity
+  Image, StatusBar, TouchableOpacity
 } from 'react-native';
 import Timeline from 'react-native-timeline-flatlist'
 import { createStackNavigator } from '@react-navigation/stack';
@@ -25,39 +25,25 @@ function BoxWrapper(props) {
 
   useEffect(() => {
     getBoxDetails(props.route.params.id).then((result) => {
-      var queryResults = JSON.parse(result);
-      setBoxDetails(queryResults.output[0])
-      getLotDetails(queryResults.output[0].lot_id).then((result) => {
-        var queryResults = JSON.parse(result);
-        setLotDetails(queryResults.output[0])
-        getProductDetails(queryResults.output[0].product_id).then((result) => {
-          var queryResults = JSON.parse(result);
-          setProductDetails(queryResults.output[0])
-          
-        }).catch((error) => {
-          return <Text>{getString('boxscan_error')}</Text>
-        })
-      }).catch((error) => {
-        return <Text>{getString('boxscan_error')}</Text>
-      })
+      var queryResults = JSON.parse(result);//returns array of lot ids in the box
+      setBoxDetails(queryResults.output)
+      
     }).catch((error) => {
       return <Text>{getString('boxscan_error')}</Text>
     });
   }, [])
-  if (boxDetails && lotDetails && productDetails) {
-    return <BoxScan src={boxDetails} pd={productDetails}/>
+  if (boxDetails) {
+    return <BoxScan id={props.route.params.id} contents={boxDetails}/>
   } else { return <Text style={styles.baseText}>{"to be replaced with loading animation"}</Text> }
 }
 
 class BoxScan extends Component {
   constructor(props) {
     super()
-    const { navigation, src, pd } = props;
+    const { navigation, id, contents } = props;
     this.state = {
-      id: src.box_id ? src.box_id : "",
-      quantity: src.quantity_of_products ? src.quantity_of_products: "",
-      lot_id: src.lot_id ? src.lot_id : "",
-      pd: pd? pd : ""
+      id: id ? id : "",
+      contents: contents ? contents: ""
     };
 
   }
@@ -66,27 +52,31 @@ class BoxScan extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.card} onPress={() => { }}>
-        <View >
-          <Text style={styles.titleText}>{getString('boxscan_box')} #{this.state.id}</Text>
-          <Text style={styles.baseText}>{getString('boxscan_quantity')}: {this.state.quantity}</Text>
-          <Text style={styles.baseText}>{getString('boxscan_productinfo')}:</Text>
-          <ProductDetails src={this.state.pd}/>
-          
-        </View>
+        <Text style={styles.titleText}>{getString('boxscan_box')} #{this.state.id}</Text>
+    <ScrollView style={styles.scrollView}>
+      { 
+         /* <Text style={styles.baseText}>{getString('boxscan_quantity')}: {this.state.quantity}</Text>
+          <Text style={styles.baseText}>{getString('boxscan_productinfo')}:</Text> */}
+    {this.state.contents.map((product, index) => { 
+      return <ProductDetails index={index} lot_id={product.lot_id} p={product}  style={styles.card}/>; 
+      })}
+
+    </ScrollView>
       </View>
-      </View>
-      
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
+    backgroundColor: colors.background,
   },
-
+  scrollView: {
+    backgroundColor: colors.background,
+    marginHorizontal: 20,
+  },
 
   list: {
     flex: 1,

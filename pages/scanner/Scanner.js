@@ -31,6 +31,8 @@ export default function ScannerStack() {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
     const [text, setText] = useState('Not yet scanned')
+    global.gotofeedback = ()=>{ navigation.navigate('Feedback')}
+
 
     const flipState = () => {
         (async () => {setScanned(!scanned)})}

@@ -38,7 +38,7 @@ function Example() {
     })
   }
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(true)
   return (
     <TouchableWithoutFeedback onPress = {() => {
       Keyboard.dismiss();

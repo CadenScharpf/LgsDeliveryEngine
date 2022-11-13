@@ -42,11 +42,120 @@ function InitializeDB() {
 
   params = [];
 
-  //Delete existing tables
-  for(let tableName of Object.keys(Queries)) {
-    executeQuery(`DROP TABLE IF EXISTS ${tableName};`, []); 
-    executeQuery(`CREATE TABLE IF NOT EXISTS ${tableName} ${Queries[tableName].schema};`, []); 
-  }
+  // //Delete existing tables
+  // for(let tableName of Object.keys(Queries)) {
+  //   executeQuery(`DROP TABLE IF EXISTS ${tableName};`, []); 
+  //   executeQuery(`CREATE TABLE IF NOT EXISTS ${tableName} ${Queries[tableName].schema};`, []); 
+  // }
+   sqlQuery = "DROP TABLE IF EXISTS product;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS product (id INTEGER PRIMARY KEY AUTOINCREMENT, defaultLabel TEXT, photoURL TEXT, productPageURL TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS product_names;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS product_names (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
+  executeQuery(sqlQuery, params);
+
+  
+
+  sqlQuery = "DROP TABLE IF EXISTS product_specifications;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS product_specifications (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, language TEXT, content TEXT)";
+  executeQuery(sqlQuery, params);
+
+  
+
+  sqlQuery = "DROP TABLE IF EXISTS qrcode;";
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS qrcode (id INTEGER PRIMARY KEY AUTOINCREMENT, content_id INTEGER, content_type TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+
+  sqlQuery = "DROP TABLE IF EXISTS qrscan;";
+  executeQuery(sqlQuery, params);
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS user;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS user (id INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, email TEXT, password TEXT, accountType TEXT, language TEXT, company TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS box;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS box (id INTEGER PRIMARY KEY AUTOINCREMENT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS box_contents;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS box_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, box_id INTEGER, quantity_of_products INT, lot_id INTEGER)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS pallet;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet (id INTEGER PRIMARY KEY AUTOINCREMENT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS pallet_contents;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS pallet_contents (id INTEGER PRIMARY KEY AUTOINCREMENT, pallet_id INTEGER, enclosed_box_ids TINYTEXT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS lot;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS lot (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, harvest_date DATE, harvested_by_user_id INTEGER, best_before_date DATE)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS feedback;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS feedback (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, content_type TEXT, content_id INTEGER, date_time DATE_TIME, rating INT, feedback_text TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS settings;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, appVersion TEXT, companyName TEXT, photoURLBanner TEXT, photoURLIcon TEXT, fontAndroid TEXT, fontiOS TEXT, colorPrimary TEXT, colorSecondary TEXT, colorTertiary TEXT, colorBackgroundLight TEXT, colorBackgroundDark TEXT)";
+  executeQuery(sqlQuery, params);
+
+
+  
+  sqlQuery = "DROP TABLE IF EXISTS recall;";
+  executeQuery(sqlQuery, params); 
+
+  sqlQuery = "CREATE TABLE IF NOT EXISTS recall (id INTEGER PRIMARY KEY AUTOINCREMENT, lot_id INTEGER, date_issued DATE, description TEXT, reference_code TEXT)";
+  executeQuery(sqlQuery, params);
 
   // Insert Settings Information
   for(let settingData of TestData.settings) { executeQuery(Queries.settings.insert, settingData); }

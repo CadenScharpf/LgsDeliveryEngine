@@ -83,6 +83,7 @@ var TestData = {
     [3]
   ],
   box_contents: [
+    // [box_id, quantity_of_products, lot_id]
     [1, 3, 1],
     [1, 1, 2],
     [1, 5, 3],
