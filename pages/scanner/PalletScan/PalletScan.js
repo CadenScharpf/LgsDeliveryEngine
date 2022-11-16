@@ -52,9 +52,19 @@ class PalletScan extends Component {
         <View style={styles.card}>
           <Text style={styles.titleText} >{getString('palletscan_pallet')} #{state.id}</Text>
           <Text style={styles.textDescription}>{getString('palletscan_contains')} {state.enclosed_box_ids.length} {getString('palletscan_boxes')}</Text>
-          {(state.enclosed_box_ids.length > 2)?<Text style={styles.recallTextDescription}>Pallet contains 1 recalled box</Text>:<Text></Text>}
+          {/* TODO - update hardcoded # of recalled boxes */}
+          {(state.enclosed_box_ids.length > 2)?<Text style={styles.recallTextDescription}>{getString('palletscan_contains_1')} 1 {getString('palletscan_contains_2')}</Text>:<Text></Text>}
           <ScrollView horizontal={true}>
-            {state.enclosed_box_ids.map((id, index) => { return <BoxCard key={index} id={id} status={index==2?"Recall":"Good"} /> })}
+            {/* TODO - update hardcoded text */}
+            {
+              state.enclosed_box_ids.map((id, index) => { 
+                return <BoxCard key={index} id={id} status={
+                  index==2 ? getString('palletscan_status_recall') : getString('palletscan_status_good')
+                } 
+                /> 
+              }
+              )
+            }
           </ScrollView>
         </View>
         

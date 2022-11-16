@@ -34,7 +34,7 @@ function BoxWrapper(props) {
   }, [])
   if (boxDetails) {
     return <BoxScan id={props.route.params.id} contents={boxDetails}/>
-  } else { return <Text style={styles.baseText}>{"to be replaced with loading animation"}</Text> }
+  } else { return <Text style={styles.baseText}>{getString('palletscan_loading')}</Text> }
 }
 
 class BoxScan extends Component {
