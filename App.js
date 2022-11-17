@@ -14,6 +14,7 @@ import ScannerStack from './pages/scanner/Scanner';
 import Feedback from './components/feedback/Feedback'
 import ProductScroll from './pages/product_scroll/ProductScroll';
 import LoginStack from './pages/login_stack/LoginStack';
+import Recall from './pages/recall/Recall'; 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
@@ -65,6 +66,17 @@ function SideBar() {
           fontWeight: 'bold',
         },
       }}/>
+
+      <Drawer.Screen name={getString('app_recall')} component={Recall}
+        options={{
+          headerStyle: {
+            backgroundColor: colors.background,
+          },
+          headerTintColor: colors.backgroundTextPrimary,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
       
       <Drawer.Screen name={getString('app_feedback')} component={Feedback} 
       options={{
