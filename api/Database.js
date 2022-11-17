@@ -1002,6 +1002,88 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
   }); 
 }
 
+const addRecall = async (lot_id_input,date_issued_input,description_input,reference_code_input,status_input) =>{
+  sqlQuery = "INSERT INTO recall (lot_id, date_issued, description, reference_code, status) values (?, ?, ?, ?, ?)"
+  params = [lot_id_input,date_issued_input,description_input,reference_code_input,status_input];
+  executeQuery(sqlQuery, params);
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+
+}
+
+const getRecallById = async(lot_id)=>{
+  return new Promise((resolve, reject) => {
+    var sqlQuerylotId = "SELECT * \
+                          FROM recall \
+                          WHERE \
+                            recall.lot_id = '" + lot_id + "'\
+              ";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuerylotId, params, (trans, results) => {
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array[0] || '{}') + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get Product ID Execute Error: |" + sqlQuerylotId + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get Product ID Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const getAllRecall =  async()=>{
+  return new Promise((resolve, reject) => {
+    var sqlQuerylotId = "SELECT * \
+                          FROM recall\
+              ";
+    params = [];  
+
+    DatabaseDB.transaction((txn) => {
+      txn.executeSql(sqlQuerylotId, params, (trans, results) => {
+        let response_code = "200";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array || '[]') + "}";
+        resolve(ReturnObject);
+      },
+        (error) => {
+        console.log("Get Product ID Execute Error: |" + sqlQuerylotId + "|" + params + "|" + JSON.stringify(error));
+        console.log("Get Product ID Execute Error: " + error);
+
+        let response_code = "400";
+        var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(error) + "}";
+        reject(ReturnObject)
+      });
+    });
+  });  
+}
+
+const updateRecallStatus = async (lot_id,inputStatus) => {
+
+  sqlQuery = "UPDATE recall \
+                SET \
+                  status = '"+ inputStatus + "'\
+                WHERE \
+                  recall.lot_id = '" + lot_id + "'";
+  params = [];
+  executeQuery(sqlQuery, params);    
+
+  return new Promise((resolve, reject) => {
+    let response_code = "200";
+    var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": \"none\"}";
+    resolve(ReturnObject);
+  });  
+}
+
 // TODO - define additional accessors here
 
 // ---------------------------------------------------------------------
@@ -1009,7 +1091,7 @@ const addUser = async (firstName_input, lastName_input, email_input, password_in
 // ---------------------------------------------------------------------
 
 // TODO - export additional accessors here
-export {checkForRecall, getUserDetails, getAppSettings, addFeedback, updateLanguage, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId};
+export {checkForRecall, getUserDetails, getAppSettings, addFeedback, updateLanguage, updateFeedback, getFeedbackByContentUserId, getQRCodeDetails, addUser, checkSignIn, getLotDetails, getAllProducts, deleteProduct, addProduct, addQRCodeScan, getAllQRScans, getAllUsers, getAllUsersByAccountType, getPalletDetails, getBoxDetails, getProductDetails, getProductId, addRecall,getRecallById, updateRecallStatus, getAllRecall};
 
 // ---------------------------------------------------------------------
 // FUNCTION TO EXECUTE SQLite QUERY
