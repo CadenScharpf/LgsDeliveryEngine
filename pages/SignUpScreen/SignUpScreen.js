@@ -29,8 +29,9 @@ function SignUpScreen({ navigation }){
     const[company, setCompany] = useState('');
     
     // TODO - pull these via API
+    // TODO - account type will need to support multiple languages
     const languages = ["English", "Spanish"]; 
-    const accountTypes = ["Consumer", "Retailer", "Distributor", "Food Servier", "Manufacturer"];
+    const accountTypes = ["Consumer", "Retailer", "Distributor", "Food Servicer", "Manufacturer"];
     const companies = ["Consumer", "Walmart", "PHXDistribution", "LGS", "Philly's Farm", "Hardee Greens"];
 
     const [Placeholder_firstname, setPlaceholder_firstname] = useState('');
@@ -207,8 +208,8 @@ function SignUpScreen({ navigation }){
                 buttonTextStyle={styles.dropdownTextStyle}
             />
 
-
-              <View style={{ flexDirection: "row", justifyContent: 'center' }}>
+              {/* Took this out, thought left aligned looked better, justifyContent: 'center' */}
+              <View style={{ flexDirection: "row"}}>
                       <CustomInput style={{ flex: 1 }}
                           placeholder={Placeholder_firstname}
                           value={firstName}

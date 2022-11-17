@@ -1,4 +1,4 @@
 // Global Variables
 global.userToken = ""
 global.accountType = ""
-global.appVersion = "1.0";
+global.appVersion = "4.0";

@@ -13,7 +13,7 @@ var colors = getGlobalColors();
 
 export default function BoxCard(props) {
   return (
-    <Card containerStyle={props.status == "Good" ? styles.goodStatus : styles.recall}>
+    <Card containerStyle={props.status == getString('palletscan_status_good') ? styles.goodStatus : styles.recall}>
       <Card.Title>{getString('boxcard_box')}</Card.Title>
       <Text style={{textAlign: 'center'}}>{getString('boxcard_id')}: #{props.id}</Text>
       <Card.Divider />

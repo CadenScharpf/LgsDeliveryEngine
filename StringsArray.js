@@ -140,7 +140,7 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = { description:"signinscreen_signIn", english: 'Sign In', spanish: 'Registrarse' };
   StringsDB.push(content);
-  content = { description:"signinscreen_forgotPassword?", english: 'Forgot password?', spanish: '¿Se te olvidó tu contraseña?' };
+  content = { description:"signinscreen_forgotPassword", english: 'Forgot password?', spanish: '¿Se te olvidó tu contraseña?' };
   StringsDB.push(content);
   content = { description:"signinscreen_needAccount?", english: 'Do you need an account? Create one.', spanish: '¿Necesitas una cuenta? Crea uno.' };
   StringsDB.push(content);
@@ -178,14 +178,18 @@ function initializeDatabase() {
   StringsDB.push(content);
 
   // forgot password page
-  content = { description: "forgotPassword_username", english: 'Username', spanish: 'Nombre de usuario' };
+  content = { description: "forgotPassword_username", english: 'Email', spanish: 'Correo electrónico' };
   StringsDB.push(content);
   content = { description: "forgotPassword_send", english: 'Send', spanish: 'Enviar' };
   StringsDB.push(content);
   content = { description: "forgotPassword_backToSignIn", english: 'Back to sign in', spanish: 'Volver para iniciar sesión' };
   StringsDB.push(content);
-
-  // new password page
+  content = { description: "forgotpassword_title", english: 'Forgot Password', spanish: 'Has olvidado tu contraseña' };
+  StringsDB.push(content);
+  content = { description: "forgotPassword_reset", english: 'Reset your password', spanish: 'Restablecer su contraseña' };
+  StringsDB.push(content);
+  
+    // new password page
   content = { description: "newPassword_code", english: 'Code', spanish: 'Código' };
   StringsDB.push(content)
   content = { description: "newPassword_newPassword", english: 'Enter your new password', spanish: 'Introduzca su nueva contraseña' };
@@ -218,6 +222,14 @@ function initializeDatabase() {
   StringsDB.push(content)
   content = { description: "palletscan_boxes", english: 'box(es)', spanish: 'caja(s)'};
   StringsDB.push(content)
+  content = { description: "palletscan_contains_1", english: 'Pallet contains', spanish: 'Palet contiene'};
+  StringsDB.push(content)
+  content = { description: "palletscan_contains_2", english: 'recalled box(es)', spanish: 'caja(s) retirada(s)'};
+  StringsDB.push(content)  
+  content = { description: "palletscan_status_recall", english: 'Recall', spanish: 'Recuerdo'};
+  StringsDB.push(content)  
+  content = { description: "palletscan_status_good", english: 'Good', spanish: 'Bueno'};
+  StringsDB.push(content) 
   
   // box scan
   content = { description: "boxscan_nothing", english: 'Nothing to show', spanish: 'Nada que mostrar'};
@@ -231,6 +243,8 @@ function initializeDatabase() {
   content = { description: "boxscan_quantity", english: 'Quantity', spanish: 'Cantidad'};
   StringsDB.push(content)
   content = { description: "boxscan_productinfo", english: 'Product Information', spanish: 'Información del Producto'};
+  StringsDB.push(content)
+  content = { description: "boxscan_loading", english: 'loading...', spanish: 'cargando...'};
   StringsDB.push(content)
 
   // box card
@@ -336,6 +350,14 @@ function getResultForDescription(inputDescription, inputLanguage) {
     }
   }  
   
+  if (!keyFound) {
+    console.log('String not found: ');
+    console.log('inputDescription: ');
+    console.log(inputDescription);
+    console.log('inputLanguage: ');
+    console.log(inputLanguage);
+  }
+
   if (debugging_option) {
     console.log(' ');
     console.log(' ');
