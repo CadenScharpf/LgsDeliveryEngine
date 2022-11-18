@@ -327,7 +327,7 @@ const getQRCodeDetails = async (qrcode_id) => {
 }
 
 const checkForRecall = async (lot_id) => {
-  return new Promise((resolve, reject) => {    
+  return new Promise((resolve, reject) => {   
     sqlQuery = "SELECT \
                   * \
                 FROM recall \
@@ -338,6 +338,11 @@ const checkForRecall = async (lot_id) => {
 
     DatabaseDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => {        
+        if (true) {
+          console.log("Check for Recall Function SUCCESS - Query:" + sqlQuery);
+          console.log("Check for Recall Function Results (JSON): " + JSON.stringify(results));
+        }
+        
         let response_code = "200";
         var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
         resolve(ReturnObject);

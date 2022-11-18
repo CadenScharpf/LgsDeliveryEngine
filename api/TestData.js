@@ -93,7 +93,6 @@ var TestData = {
     [3, 5, 6],
     [3, 3, 7],
     [3, 1, 8]
-
   ]
 }
 export default TestData

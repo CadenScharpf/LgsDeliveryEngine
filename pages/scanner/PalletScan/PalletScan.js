@@ -7,7 +7,7 @@ import {
   Image, TouchableOpacity, Button
 } from 'react-native';
 import getGlobalColors from '../../../Colors'
-import { getPalletDetails } from '../../../api/Database';
+import { getPalletDetails, getBoxDetails, checkForRecall } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import BoxCard from './BoxCard';
 import Timeline from 'react-native-timeline-flatlist';
@@ -17,21 +17,35 @@ import {getString} from "../../../StringsArray";
 var colors = getGlobalColors()
 
 function PalletWrapper(props) {
-  if (props.route.params.id == '') { return <Text>{getString('palletscan_nothing')}</Text> }
+  if (props.route.params.id == '') 
+  { 
+    return <Text>{getString('palletscan_nothing')}</Text>
+  }
+  
+  const [palletID, setpalletID] = useState();
   const [palletDetails, setPalletDetails] = useState();
 
   useEffect(() => {
     getPalletDetails(props.route.params.id).then((result) => {
       var queryResults = JSON.parse(result);
+
+      console.log(' ');
+      console.log(' ');
+      console.log(' ');
+      console.log('Get Pallet Details Result: ' + JSON.stringify(queryResults.output[0]));
+
       setPalletDetails(queryResults.output[0])
 
     }).catch((error) => {
       return <Text>{getString('palletscan_resource')}</Text>
     });
   }, [])
+
   if (palletDetails) {
     return <PalletScan src={palletDetails} />
-  } else { return <Text style={styles.baseText}>{getString('palletscan_loading')}</Text> }
+  } else { 
+    return <Text style={styles.baseText}>{getString('palletscan_loading')}</Text> 
+  }
 }
 
 class PalletScan extends Component {
@@ -39,29 +53,23 @@ class PalletScan extends Component {
     super()
     const { navigation, src } = props;
     state = {
-      id: src.id ? src.id : "",
+      pallet_id: src.pallet_id ? src.pallet_id : "",
       enclosed_box_ids: src.enclosed_box_ids ? src.enclosed_box_ids.split(",") : [],
     };
-
   }
-
 
   render() {
     return (
       <View style={styles.container} onPress={() => { }}>
         <View style={styles.card}>
-          <Text style={styles.titleText} >{getString('palletscan_pallet')} #{state.id}</Text>
+          <Text style={styles.titleText} >{getString('palletscan_pallet')} #{state.pallet_id}</Text>
           <Text style={styles.textDescription}>{getString('palletscan_contains')} {state.enclosed_box_ids.length} {getString('palletscan_boxes')}</Text>
           {/* TODO - update hardcoded # of recalled boxes */}
           {(state.enclosed_box_ids.length > 2)?<Text style={styles.recallTextDescription}>{getString('palletscan_contains_1')} 1 {getString('palletscan_contains_2')}</Text>:<Text></Text>}
           <ScrollView horizontal={true}>
-            {/* TODO - update hardcoded text */}
             {
               state.enclosed_box_ids.map((id, index) => { 
-                return <BoxCard key={index} id={id} status={
-                  index==2 ? getString('palletscan_status_recall') : getString('palletscan_status_good')
-                } 
-                /> 
+                return <BoxCard key={index} id={id} /> 
               }
               )
             }
