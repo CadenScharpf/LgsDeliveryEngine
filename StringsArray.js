@@ -46,6 +46,8 @@ function initializeDatabase() {
   StringsDB.push(content);
   content = {description:"app_reset_password", english: 'Reset Password', spanish: 'Restablecer la contraseña'};
   StringsDB.push(content);
+  content = {description:"app_title_recall", english: 'Initiate Recall', spanish: 'Iniciar recuperación'};
+  StringsDB.push(content);
 
   // Lot Information
   content = {description:"lotinformation_title", english: 'Harvest Information', spanish: 'Información de cosecha'};

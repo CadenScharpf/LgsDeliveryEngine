@@ -67,7 +67,7 @@ function SideBar() {
         },
       }}/>
 
-      <Drawer.Screen name={getString('app_recall')} component={Recall}
+      <Drawer.Screen name={getString('app_title_recall')} component={Recall}
         options={{
           headerStyle: {
             backgroundColor: colors.background,
