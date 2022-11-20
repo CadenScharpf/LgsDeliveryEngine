@@ -16,11 +16,6 @@ const Stack = createStackNavigator();
 var boxScanData = "{\"qrcode_id\":\"5\"}";
 var palletScanData = "{\"qrcode_id\":\"4\"}";
 
-/* TODO - delete, old format
-var boxScanData = "{\"lgsAssetIdentifier\":{\"type\":\"box\", \"id\":1}}"
-var palletScanData = "{ \"lgsAssetIdentifier\": {\"type\":\"pallet\", \"id\":1} }"
-*/
-
 export default function ScannerStack() {
     return (
       <Stack.Navigator screenOptions={{
