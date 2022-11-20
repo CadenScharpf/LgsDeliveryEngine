@@ -52,7 +52,14 @@ export default function ScannerStack() {
 
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        // setScanned(true);       
+        // setScanned(true);
+        console.log('handleBarCodeScanned data: ' + data);
+        obj = typeof data == 'string' ? JSON.parse(data) : data
+        console.log('handleBarCodeScanned obj: ');
+        console.log(obj);
+        console.log('handleBarCodeScanned obj.qrcode_id: ');
+        console.log(obj.qrcode_id);
+        
         if(obj && obj.qrcode_id) {
           // take in QR Code ID and call API for content_type and content_id
           getQRCodeDetails(obj.qrcode_id).then((result) => {
