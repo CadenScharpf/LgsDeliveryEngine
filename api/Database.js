@@ -310,7 +310,7 @@ const getQRCodeDetails = async (qrcode_id) => {
 
     DatabaseDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => {    
-        if (true) {
+        if (debugging_option_detailed) {
           console.log("getQRCodeDetails Function SUCCESS - Query:" + sqlQuery);
           console.log("getQRCodeDetails Function Results (JSON): " + JSON.stringify(results));
         }
@@ -813,7 +813,13 @@ const deleteProduct = async (product_id) => {
 }
 
 const addFeedback = async (user_email, content_type, content_id, date_time, rating, feedback_text) => {
-
+  if (user_email) {
+    // defined
+  } else {
+    // TODO - handle undefined user email (globa.email issue)
+    user_email = ' ';
+  }
+  
   sqlQuery = "INSERT INTO feedback (user_email, content_type, content_id, date_time, rating, feedback_text) values (?, ?, ?, ?, ?, ?)";
   params = [user_email, content_type, content_id, date_time, rating, feedback_text];
   executeQuery(sqlQuery, params);    
@@ -862,6 +868,13 @@ const updateLanguage = async (email, inputLanguage) => {
 }
 
 const getFeedbackByContentUserId = async (content_type, content_id, user_email) => {
+  if (user_email) {
+    // defined
+  } else {
+    // TODO - handle undefined user email (globa.email issue)
+    user_email = ' ';
+  }
+
   return new Promise((resolve, reject) => {
     sqlQuery = "SELECT \
                   feedback.id as feedback_id, \
@@ -895,9 +908,19 @@ const getFeedbackByContentUserId = async (content_type, content_id, user_email) 
 }
 
 const addQRCodeScan = async (qrcode_id, date_time, geolocation_lat, geolocation_lon, user_email) => {
-
+  if (user_email) {
+    // defined
+  } else {
+    // TODO - handle undefined user email (globa.email issue)
+    user_email = ' ';
+  }
+  
   sqlQuery = "INSERT INTO qrscan (user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)";
   params = [user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id];
+  if (true) {
+    console.log("addQRCodeScan params:");
+    console.log(params);
+  }
   executeQuery(sqlQuery, params);    
 
   return new Promise((resolve, reject) => {

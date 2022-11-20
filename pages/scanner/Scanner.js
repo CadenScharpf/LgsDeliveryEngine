@@ -8,7 +8,8 @@ import ButtonPrimary from '../../components/input/Buttons';
 import PalletScan from './PalletScan/PalletScan';
 import BoxWrapper from './BoxScan/BoxScan';
 import { createStackNavigator } from '@react-navigation/stack';
-import { getQRCodeDetails } from '../../api/Database';
+import { getQRCodeDetails, addQRCodeScan } from '../../api/Database';
+import moment from 'moment';
 
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
@@ -67,12 +68,14 @@ export default function ScannerStack() {
             var queryResults = JSON.parse(result);
             console.log('Get QR Code Details Result Output: ' + JSON.stringify(queryResults.output[0]));
             
-            // TODO - add QR Code scan
-            // qrcode_id
-            // date_time
-            // geolocation_lat
-            // geolocation_lon
-            // user_email
+            // add QR Code scan so server has record
+            var date_time = moment()
+            .utcOffset('+00:00')
+            .format('YYYY-MM-DD hh:mm:ss');
+            // TODO - get the user's location
+            var geolocation_lat = '33.39390852951677';
+            var geolocation_lon = '-111.92761243213363';
+            // addQRCodeScan(obj.qrcode_id, date_time, geolocation_lat, geolocation_lon, global.email);
            
             setText(queryResults.output[0])
             global.SCANNERSTACKNAV = navigation
