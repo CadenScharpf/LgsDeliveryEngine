@@ -304,12 +304,17 @@ const getQRCodeDetails = async (qrcode_id) => {
                   qrcode.content_id \
                 FROM qrcode \
                 WHERE \
-                  qrcode.id = " + lot_id + "\
+                  qrcode.id = " + qrcode_id + "\
               ";
     params = [];  
 
     DatabaseDB.transaction((txn) => {
-      txn.executeSql(sqlQuery, params, (trans, results) => {        
+      txn.executeSql(sqlQuery, params, (trans, results) => {    
+        if (true) {
+          console.log("getQRCodeDetails Function SUCCESS - Query:" + sqlQuery);
+          console.log("getQRCodeDetails Function Results (JSON): " + JSON.stringify(results));
+        }
+        
         let response_code = "200";
         var ReturnObject = "{\"response_code\": " + response_code + ", \"output\": " + JSON.stringify(results.rows._array) + "}";
         resolve(ReturnObject);
@@ -338,7 +343,7 @@ const checkForRecall = async (lot_id) => {
 
     DatabaseDB.transaction((txn) => {
       txn.executeSql(sqlQuery, params, (trans, results) => {        
-        if (true) {
+        if (debugging_option_detailed) {
           console.log("Check for Recall Function SUCCESS - Query:" + sqlQuery);
           console.log("Check for Recall Function Results (JSON): " + JSON.stringify(results));
         }

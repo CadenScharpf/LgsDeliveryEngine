@@ -8,12 +8,18 @@ import ButtonPrimary from '../../components/input/Buttons';
 import PalletScan from './PalletScan/PalletScan';
 import BoxWrapper from './BoxScan/BoxScan';
 import { createStackNavigator } from '@react-navigation/stack';
+import { getQRCodeDetails } from '../../api/Database';
 
 var colors = getGlobalColors();
 const Stack = createStackNavigator();
 
+var boxScanData = "{\"qrcode_id\":\"5\"}";
+var palletScanData = "{\"qrcode_id\":\"4\"}";
+
+/* TODO - delete, old format
 var boxScanData = "{\"lgsAssetIdentifier\":{\"type\":\"box\", \"id\":1}}"
 var palletScanData = "{ \"lgsAssetIdentifier\": {\"type\":\"pallet\", \"id\":1} }"
+*/
 
 export default function ScannerStack() {
     return (
@@ -51,16 +57,33 @@ export default function ScannerStack() {
 
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        //setScanned(true);
-        obj = typeof data == 'string' ? JSON.parse(data) : data
-        if(obj && obj.lgsAssetIdentifier && obj.lgsAssetIdentifier.type && obj.lgsAssetIdentifier.id)
-        {
-          setText(data)
-          global.SCANNERSTACKNAV = navigation
-          if(obj.lgsAssetIdentifier.type == "pallet") {navigation.navigate('Pallet', { id: obj.lgsAssetIdentifier.id })}
-          else if(obj.lgsAssetIdentifier.type == "box") {navigation.navigate('Box', { id: obj.lgsAssetIdentifier.id })}
-        }
-        
+        // setScanned(true);       
+        if(obj && obj.qrcode_id) {
+          // take in QR Code ID and call API for content_type and content_id
+          getQRCodeDetails(obj.qrcode_id).then((result) => {
+            console.log('Get QR Code Details Result: ' + result);
+            var queryResults = JSON.parse(result);
+            console.log('Get QR Code Details Result Output: ' + JSON.stringify(queryResults.output[0]));
+            
+            // TODO - add QR Code scan
+            // qrcode_id
+            // date_time
+            // geolocation_lat
+            // geolocation_lon
+            // user_email
+           
+            setText(queryResults.output[0])
+            global.SCANNERSTACKNAV = navigation
+            if(queryResults.output[0].content_type == "pallet") {
+              navigation.navigate('Pallet', { id: queryResults.output[0].content_id })
+            } else if(queryResults.output[0].content_type == "box") {
+              navigation.navigate('Box', { id: queryResults.output[0].content_id })
+            }
+          }).catch((error) => {
+            console.log('getQRCodeDetails Error: ');
+            console.log(error);
+          });
+        }        
     };
 
     // Check permissions and return the screens
