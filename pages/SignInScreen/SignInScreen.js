@@ -63,6 +63,9 @@ const SignInScreen = ({navigation, authNav}) => {
             if (result.length == 0) {
                 console.log('API Response Issue');
             } else if (result_json.output.length == 0) {
+                // TODO - update a label to inform the user of the issue
+                errorText = "Invalid Credentials"
+
                 console.warn('Invalid Credentials');
                 console.log('Invalid Credentials');
             } else {

@@ -139,8 +139,6 @@ function SignUpScreen({ navigation }){
     const onSignUpPressed = () => {
         // TODO - confirm all fields got filled out
 
-        // TODO - confirm passwords match
-
         addUser(firstName, lastName, email, password, accountType, language, company).then((result) => {
             console.log(result);
             var result_json = JSON.parse(result);
