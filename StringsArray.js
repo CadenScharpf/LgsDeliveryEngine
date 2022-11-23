@@ -191,7 +191,7 @@ function initializeDatabase() {
   content = { description: "forgotPassword_reset", english: 'Reset your password', spanish: 'Restablecer su contraseña' };
   StringsDB.push(content);
   
-    // new password page
+  // new password page
   content = { description: "newPassword_code", english: 'Code', spanish: 'Código' };
   StringsDB.push(content)
   content = { description: "newPassword_newPassword", english: 'Enter your new password', spanish: 'Introduzca su nueva contraseña' };
@@ -209,6 +209,8 @@ function initializeDatabase() {
   content = { description: "scan_simulate_pallet", english: 'Simulate Pallet QR Code Scan', spanish: 'Escaneo de código QR de simulación de palet' };
   StringsDB.push(content) 
   content = { description: "scan_simulate_box", english: 'Simulate Box QR Code Scan', spanish: 'Escaneo de código QR de caja simulada' };
+  StringsDB.push(content) 
+  content = { description: "scan_simulate_product", english: 'Simulate Product QR Code Scan', spanish: 'Simular escaneo de código QR de producto' };
   StringsDB.push(content) 
 
   // pallet scan
@@ -233,6 +235,19 @@ function initializeDatabase() {
   content = { description: "palletscan_status_good", english: 'Good', spanish: 'Bueno'};
   StringsDB.push(content) 
   
+  // product scan
+  content = { description: "productscan_nothing", english: 'Nothing to show', spanish: 'Nada que mostrar'};
+  StringsDB.push(content)
+  content = { description: "productscan_resource", english: 'The requested resource could not be found.', spanish: 'No se pudo encontrar el recurso solicitado.'};
+  StringsDB.push(content)
+  content = { description: "productscan_loading", english: 'loading...', spanish: 'cargando...'};
+  StringsDB.push(content)
+  content = { description: "productscan_lot", english: 'Lot', spanish: 'Lote'};
+  StringsDB.push(content)
+
+
+  
+
   // box scan
   content = { description: "boxscan_nothing", english: 'Nothing to show', spanish: 'Nada que mostrar'};
   StringsDB.push(content)

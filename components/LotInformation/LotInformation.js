@@ -32,7 +32,7 @@ const state = {
     return (
        <Table borderStyle={{borderWidth: 10, borderColor: colors.foreground}}>
           <Row data={state.tableHead} style={styles.head} textStyle={styles.head}/>
-          <Rows data={state.tableData} textStyle={styles.text}/>
+          <Rows data={state.tableData} style={styles.head} textStyle={styles.text}/>
         </Table>
     )
 } 
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
         width: 0,
       },
       elevation: 1,
-      marginVertical: 20,
+      marginVertical: 20
     },
     thumb: {
     height: 260,
@@ -64,19 +64,21 @@ const styles = StyleSheet.create({
       width: '100%'
     },
     infoContainer: {
-      padding: 16,
+      padding: 16
     },
     head: {
       fontSize: 22,
       fontWeight: 'bold',
       color: colors.foregroundTextPrimary, 
-      margin: 'auto',
+      margin: 'auto', 
+      backgroundColor: colors.foreground
     },
     text: {
       fontSize: 12,
       fontWeight: '600',
       marginBottom: 8,
-      color: colors.foregroundTextPrimary
+      color: colors.foregroundTextPrimary, 
+      backgroundColor: colors.foreground
     },
   });
 

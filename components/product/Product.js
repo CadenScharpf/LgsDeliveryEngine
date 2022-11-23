@@ -18,34 +18,57 @@ import {getString} from "../../StringsArray";
 var colors = getGlobalColors();
 const stack =  createStackNavigator()
 
-
-
 export default function Product(props) {
+  console.log('Product Called');
+  console.log(props);
+
   const [lotInfo, setLotInfo] = useState();
   useEffect(() => {
-   getLotDetails(props.src.id).then((result) => {
-      var queryResults = JSON.parse(result);
-      setLotInfo(queryResults.output)
-    })
-}, [])
-        if(lotInfo) {
-          return (
-          <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( props.src.productPageURL );}}>
-            <Image
-            resizeMode={'cover'}
-              style={styles.thumb}
-              source={{uri:props.src.photoURL}}/>
-            <View style={styles.infoContainer}>
-              <Text style={styles.name}>{props.src.product_name}</Text>
-              <Text style={styles.sub}>{getString('product_description')}: {props.src.product_specification}</Text>
-            </View>
-            {lotInfo && <LotInformation src={lotInfo[0]}/>}
-            <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.product_name; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback')}/>
+    console.log('Use Effect Entered from Product');
 
-    </TouchableOpacity>
+    getLotDetails(props.src.id).then((result) => {
+      console.log('getLotDetails Called from Product');
+      var queryResults = JSON.parse(result);
+      
+      console.log('getLotDetails Result from Product: ' + JSON.stringify(queryResults.output[0]));
+      
+      setLotInfo(queryResults.output) 
+    })
+  }, [])
+
+  
+  useEffect(() => {
+    console.log('Use Effect Entered from Product');
+
+    getLotDetails(props.src.id).then((result) => {
+      console.log('getLotDetails Called from Product');
+
+      var queryResults = JSON.parse(result);
+      setLotInfo(queryResults.output) 
+    })
+  }, [])
+
+  if(lotInfo) {
+    console.log('Lot Info Set');
+    return (
+    <TouchableOpacity style={styles.card} onPress={() => {Linking.openURL( props.src.productPageURL );}}>
+      <Image
+      resizeMode={'cover'}
+        style={styles.thumb}
+        source={{uri:props.src.photoURL}}/>
+      <View style={styles.infoContainer}>
+        <Text style={styles.name}>{props.src.product_name}</Text>
+        <Text style={styles.sub}>{getString('product_description')}: {props.src.product_specification}</Text>
+      </View>
+      {lotInfo && <LotInformation src={lotInfo[0]}/>}
+      <Button onPress={()=>{global.feedbackExpirationDate = lotInfo[0].bestBeforeDate; global.feedbackProduct = props.src.product_name; global.feedbackLotId = props.src.id ;global.gotofeedback()}} title={getString('product_leavefeedback')}/>
+
+      </TouchableOpacity>
     );
-        } else {return null}
-        
+  } else {
+    console.log('Lot Info NOT Set');
+    return null
+  }
 }
 
 const styles = StyleSheet.create({

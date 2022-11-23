@@ -6,6 +6,7 @@ import {getString} from "../../StringsArray";
 import getGlobalColors from '../../Colors';
 import ButtonPrimary from '../../components/input/Buttons';
 import PalletScan from './PalletScan/PalletScan';
+import ProductScan from './ProductScan/ProductScan';
 import BoxWrapper from './BoxScan/BoxScan';
 import { createStackNavigator } from '@react-navigation/stack';
 import { getQRCodeDetails, addQRCodeScan } from '../../api/Database';
@@ -16,6 +17,7 @@ const Stack = createStackNavigator();
 
 var boxScanData = "{\"qrcode_id\":\"5\"}";
 var palletScanData = "{\"qrcode_id\":\"4\"}";
+var productScanData = "{\"qrcode_id\":\"3\"}";
 
 export default function ScannerStack() {
     return (
@@ -25,6 +27,7 @@ export default function ScannerStack() {
         <Stack.Screen name="Scanner" component={Scanner} />
         <Stack.Screen name="Pallet" component={PalletScan} initialParams={{ id: '' }}/>
         <Stack.Screen name="Box" component={BoxWrapper} initialParams={{ id: '' }}/>
+        <Stack.Screen name="Product" component={ProductScan} initialParams={{ id: '' }}/>
       </Stack.Navigator>
     );
   }
@@ -83,6 +86,8 @@ export default function ScannerStack() {
               navigation.navigate('Pallet', { id: queryResults.output[0].content_id })
             } else if(queryResults.output[0].content_type == "box") {
               navigation.navigate('Box', { id: queryResults.output[0].content_id })
+            } else if(queryResults.output[0].content_type == "product") {
+              navigation.navigate('Product', { id: queryResults.output[0].content_id })
             }
           }).catch((error) => {
             console.log('getQRCodeDetails Error: ');
@@ -141,6 +146,12 @@ export default function ScannerStack() {
                        handleBarCodeScanned({type:"",data:boxScanData})
                   }} 
                   title={getString('scan_simulate_box')}
+            />
+            <Button style={{ marginTop : 20 }}
+                  onPress={()=>{
+                       handleBarCodeScanned({type:"",data:productScanData})
+                  }} 
+                  title={getString('scan_simulate_product')}
             />
             {
             /* {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />} */}
