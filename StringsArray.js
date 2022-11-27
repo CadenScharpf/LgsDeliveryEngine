@@ -290,6 +290,11 @@ function initializeDatabase() {
   content = { description: "qrdata_distributor", english: 'Product left distributor', spanish: 'Producto izquierda distribuidor'};
   StringsDB.push(content) 
 
+  //recall
+  content = { description: "recall_reason", english: 'Recall reason', spanish: 'Recordar la razón'};
+  StringsDB.push(content)  
+  content = { description: "send_recall", english: 'Send Recall', spanish: 'Enviar retiro'};
+  StringsDB.push(content)  
   // TODO - add strings here
 
 
