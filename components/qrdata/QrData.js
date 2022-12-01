@@ -101,6 +101,17 @@ import { getAllQRScans } from '../../api/Database';
    onEventPress(data){
      this.setState({selected: data})
    }
+
+    getAddressFromApi = (lat,lon) => {
+    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=AIzaSyB_7GjJGWkDE-xnnhzYVnHeMdgIO70OSdc`)
+      .then((response) => response.json())
+      .then((json) => {
+        return json.results[0].formatted_address;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
  
    renderSelected(){
        if(this.state.selected)

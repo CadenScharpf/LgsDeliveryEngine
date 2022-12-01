@@ -61,10 +61,10 @@ export default function BoxCard(props) {
 
   return (
     <Card containerStyle={boxStatus == getString('palletscan_status_good') ? styles.goodStatus : styles.recall}>
-      <Card.Title>{getString('boxcard_box')}</Card.Title>
-      <Text style={{textAlign: 'center'}}>{getString('boxcard_id')}: #{props.id}</Text>
+      <Card.Title style={styles.textDescription}>{getString('boxcard_box')}</Card.Title>
+      <Text style={styles.textDescription}>{getString('boxcard_id')}: #{props.id}</Text>
       <Card.Divider />
-      <Text>{getString('boxcard_status')}: {boxStatus}</Text>
+      <Text style={styles.textDescription}>{getString('boxcard_status')}: {boxStatus}</Text>
       <Button onPress={() => {global.SCANNERSTACKNAV.navigate('Box', { id: props.id })}} title={getString('boxcard_moreinfo')} />
     </Card>
 
@@ -75,15 +75,17 @@ const styles = StyleSheet.create({
 
 
   textDescription: {
-    marginLeft: 10,
-    color: colors.foregroundTextPrimary
+    color: colors.foregroundTextSecondary,
+    textAlign: 'center'
   },
   recall: {
-    backgroundColor: '#f8d7da',
+    backgroundColor: colors.foreground,
+    borderColor: "#FF0000",
     textAlign: 'center'
   },
   goodStatus: {
-    backgroundColor: colors.foreground
+    backgroundColor: colors.foreground,
+    borderColor: "#00FF00"
   }
 
 });
