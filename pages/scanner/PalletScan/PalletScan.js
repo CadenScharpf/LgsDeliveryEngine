@@ -7,7 +7,7 @@ import {
   Image, TouchableOpacity, Button
 } from 'react-native';
 import getGlobalColors from '../../../Colors'
-import { getPalletDetails, getBoxDetails, checkForRecall } from '../../../api/Database';
+import { getPalletDetails, getBoxDetails, checkForRecall, getAllQRScans } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import BoxCard from './BoxCard';
 import Timeline from 'react-native-timeline-flatlist';
@@ -24,25 +24,29 @@ function PalletWrapper(props) {
   
   const [palletID, setpalletID] = useState();
   const [palletDetails, setPalletDetails] = useState();
+  const [scanHistory, setScanHistory] = useState();
+  
 
   useEffect(() => {
+    
     getPalletDetails(props.route.params.id).then((result) => {
       var queryResults = JSON.parse(result);
+      for(i=0;i<3; i++){console.log(' ');}
 
-      console.log(' ');
-      console.log(' ');
-      console.log(' ');
       console.log('Get Pallet Details Result: ' + JSON.stringify(queryResults.output[0]));
 
       setPalletDetails(queryResults.output[0])
-
+      getAllQRScans(props.route.params.id).then(
+        (result) => {
+          setScanHistory(JSON.parse(result).output)
+        });
     }).catch((error) => {
       return <Text>{getString('palletscan_resource')}</Text>
     });
   }, [])
 
-  if (palletDetails) {
-    return <PalletScan src={palletDetails} />
+  if (palletDetails && scanHistory) {
+    return <PalletScan src={palletDetails} scanHistory={scanHistory}/>
   } else { 
     return <Text style={styles.baseText}>{getString('palletscan_loading')}</Text> 
   }
@@ -51,10 +55,11 @@ function PalletWrapper(props) {
 class PalletScan extends Component {
   constructor(props) {
     super()
-    const { navigation, src } = props;
+    const { navigation, src, scanHistory } = props;
     state = {
       pallet_id: src.pallet_id ? src.pallet_id : "",
       enclosed_box_ids: src.enclosed_box_ids ? src.enclosed_box_ids.split(",") : [],
+      scanHistory: scanHistory ? scanHistory : ""
     };
   }
 
@@ -76,7 +81,7 @@ class PalletScan extends Component {
           </ScrollView>
         </View>
         
-        <QrData />
+        <QrData  scanHistory={state.scanHistory}/>
         <Button onPress={()=>{global.feedbackExpirationDate = ""; global.feedbackLotId = "" ;global.gotofeedback()}} title={getString('product_leavefeedback')}/>
 
       </View>

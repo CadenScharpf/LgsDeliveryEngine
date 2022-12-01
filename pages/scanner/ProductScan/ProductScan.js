@@ -7,7 +7,7 @@ import {
   Image, TouchableOpacity, Button
 } from 'react-native';
 import getGlobalColors from '../../../Colors'
-import { getLotDetails, getProductDetails } from '../../../api/Database';
+import { getLotDetails, getProductDetails, getAllQRScans } from '../../../api/Database';
 import { ScrollView, SafeAreaView } from 'react-native-gesture-handler';
 import Timeline from 'react-native-timeline-flatlist';
 import QrData from '../../../components/qrdata/QrData';
@@ -25,8 +25,11 @@ function ProductWrapper(props) {
     const [productID, setproductID] = useState(-1);
     const [lotDetails, setLotDetails] = useState();
     const [DBProductDetails, setDBProductDetails] = useState();
+    const [scanHistory, setScanHistory] = useState();
+
 
   useEffect(() => {
+    
     if (productID == -1) {
         // not yet set
         getLotDetails(props.route.params.id).then((result) => {
@@ -37,6 +40,8 @@ function ProductWrapper(props) {
     
             // get product ID and store product details
             setproductID(queryResults.output[0].product_id);
+
+            
         }).catch((error) => {
             return <Text>{getString('productscan_resource')}</Text>
         });
@@ -49,6 +54,10 @@ function ProductWrapper(props) {
                 console.log('Get Product Details Result: ' + JSON.stringify(queryResults.output[0]));
         
                 setDBProductDetails(queryResults.output[0]);
+                getAllQRScans(props.route.params.id).then(
+                  (result) => {
+                    setScanHistory(JSON.parse(result).output)
+                  });
             }).catch((error) => {
                 return <Text>{getString('productscan_resource')}</Text>
             });
@@ -58,8 +67,8 @@ function ProductWrapper(props) {
     }
   }, [productID]);
 
-  if (lotDetails && DBProductDetails) {
-    return <ProductScan lotID={props.route.params.id} lotDetails={lotDetails} DBProductDetails={DBProductDetails} />
+  if (lotDetails && DBProductDetails && scanHistory) {
+    return <ProductScan lotID={props.route.params.id} lotDetails={lotDetails} DBProductDetails={DBProductDetails} scanHistory={scanHistory} />
   } else { 
     return <Text style={styles.baseText}>{getString('productscan_loading')}</Text> 
   }
@@ -68,12 +77,13 @@ function ProductWrapper(props) {
 class ProductScan extends Component {
   constructor(props) {
     super()
-    const { navigation, lotID, lotDetails, DBProductDetails } = props;
+    const { navigation, lotID, lotDetails, DBProductDetails, scanHistory } = props;
     state = {
       product_id: lotDetails.product_id ? lotDetails.product_id : "",
       lot_id: lotID ? lotID : "",
       product: DBProductDetails ? DBProductDetails : "",
       lot: lotDetails ? lotDetails : "",
+      scanHistory: scanHistory ? scanHistory : ""
     };
   }
 
@@ -87,7 +97,7 @@ class ProductScan extends Component {
         <ScrollView>
             <LotInformation src={state.lot}/>
             <ProductOnly src={state.product} />
-            <QrData />
+            <QrData scanHistory={state.scanHistory} />
         </ScrollView>
 
         <Button onPress={()=>{global.feedbackExpirationDate = state.lot.bestBeforeDate; global.feedbackProduct = state.product.product_name; global.feedbackLotId = state.lot_id ;global.gotofeedback()}} title={getString('product_leavefeedback')}/>

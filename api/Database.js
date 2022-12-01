@@ -82,7 +82,7 @@ function InitializeDB() {
   sqlQuery = "DROP TABLE IF EXISTS qrscan;";
   executeQuery(sqlQuery, params);
 
-  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)";
+  sqlQuery = "CREATE TABLE IF NOT EXISTS qrscan (id INTEGER PRIMARY KEY AUTOINCREMENT, user_email INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)";
   executeQuery(sqlQuery, params);
 
 

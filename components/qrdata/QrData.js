@@ -1,5 +1,5 @@
 
- import React, { Component } from 'react';
+ import React, { Component, useState } from 'react';
  import {
    StyleSheet,
    Text,
@@ -10,17 +10,19 @@
  import { createStackNavigator } from '@react-navigation/stack';
  import getGlobalColors from '../../Colors';
  import {getString} from "../../StringsArray";
+import { getAllQRScans } from '../../api/Database';
 
  var colors = getGlobalColors();
  
  export default class QrData extends Component {
    constructor(props){
      super()
-     const { navigation } = props;
+     const { navigation, scanHistory } = props;
      this.onEventPress = this.onEventPress.bind(this)
      this.renderSelected = this.renderSelected.bind(this)
      this.renderDetail = this.renderDetail.bind(this)
      this.unit = require('../../data/qrdata.json')[0]
+     this.qrScans = []
      this.scanData = this.unit.scans;
      this.data = [
        {
@@ -46,7 +48,7 @@
          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
        }
      ]
-     this.state = {selected: null}
+     this.state = {selected: null, qrScans: []}
    } 
 
    processDateString(scanData)

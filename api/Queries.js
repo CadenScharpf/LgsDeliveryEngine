@@ -20,7 +20,7 @@ var Queries = {
       search: ""
     }, 
     qrscan: {
-      schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_email TEXT, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)",
+      //wrong schema: "(id INTEGER PRIMARY KEY AUTOINCREMENT, user_ID INTEGER, date_time DATE_TIME, geolocation_lat DOUBLE, geolocation_lon DOUBLE, qrcode_id INTEGER)",
       insert: "INSERT INTO qrscan (user_email, date_time, geolocation_lat, geolocation_lon, qrcode_id) values (?, ?, ?, ?, ?)",
       search: ""
     }, 
