@@ -56,7 +56,8 @@ import { getAllQRScans } from '../../api/Database';
           description: this.processDescriptionString(scan.user_scanned, scan.accountType , scan.geolocation_lat, scan.geolocation_lon, scan.company),
           lineColor: lineColor,
           icon: iconpath,
-          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
+          imageUrl: `https://maps.googleapis.com/maps/api/staticmap?center=33.447612811244085,%20-112.07044719604862&zoom=13&size=600x300&maptype=roadmap&markers=color:red|label:|${scan.geolocation_lat},${scan.geolocation_lon}&key=AIzaSyB_7GjJGWkDE-xnnhzYVnHeMdgIO70OSdc`
+          
         }
       )
      }
@@ -133,7 +134,6 @@ import { getAllQRScans } from '../../api/Database';
          <Timeline 
            style={styles.list}
            data={this.data}
-           circleSize={20}
            circleColor='rgba(0,0,0,0)'
            lineColor='rgb(45,156,219)'
            timeContainerStyle={{minWidth:72, marginTop: -5}}
@@ -143,6 +143,10 @@ import { getAllQRScans } from '../../api/Database';
              style:{paddingTop:5}
            }}
            innerCircle={'icon'}
+           
+          iconStyle={styles.iconStyle}
+          circleSize={30}
+          lineWidth={5}
            onEventPress={this.onEventPress}
            renderDetail={this.renderDetail}
            showTime={false}
@@ -179,13 +183,19 @@ import { getAllQRScans } from '../../api/Database';
      paddingRight: 50
    },
    image:{
-     width: 50,
-     height: 50,
-     borderRadius: 25
+     width: 80,
+     height: 80,
+     borderRadius: 50
    },
    textDescription: {
      marginLeft: 10,
      color: colors.backgroundTextSecondary
+   },
+   iconStyle: {
+
+   },
+   circleStyle: {
+    width: 20
    }
  });
  

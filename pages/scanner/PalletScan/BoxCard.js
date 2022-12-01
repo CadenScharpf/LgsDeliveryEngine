@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   goodStatus: {
-    backgroundColor: '#d4edda'
+    backgroundColor: colors.foreground
   }
 
 });
