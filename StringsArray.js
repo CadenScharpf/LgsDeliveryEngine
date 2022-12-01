@@ -276,7 +276,9 @@ function initializeDatabase() {
 
   // qr data  
   content = { description: "qrdata_consumer", english: 'Delivered to consumer', spanish: 'Entregado al consumidor'};
-  StringsDB.push(content)  
+  StringsDB.push(content)
+  content = { description: "qrdata_farmer", english: 'Outbound from farm', spanish: 'Salida de la granja'};
+  StringsDB.push(content)    
   content = { description: "qrdata_atlocation", english: 'at location', spanish: 'en el lugar'};
   StringsDB.push(content)
   content = { description: "qrdata_retailer", english: 'Recieved by retailer', spanish: 'Recibido por el minorista'};

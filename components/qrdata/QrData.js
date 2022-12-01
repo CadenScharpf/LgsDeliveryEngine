@@ -22,38 +22,50 @@ import { getAllQRScans } from '../../api/Database';
      this.renderSelected = this.renderSelected.bind(this)
      this.renderDetail = this.renderDetail.bind(this)
      this.unit = require('../../data/qrdata.json')[0]
-     this.qrScans = []
      this.scanData = this.unit.scans;
-     this.data = [
-       {
-         time: this.processDescriptionString(this.scanData[0].user_id, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
-         title: this.scanData[2].date_time, 
-         description: this.processDescriptionString(this.scanData[2].user_scanned, this.scanData[2].accountType , this.scanData[2].geolocation_lat, this.scanData[2].geolocation_lon, this.scanData[2].company),
-         lineColor:'#009688', 
-         icon: require('./distributer.png'),
-         imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
-       },
-       {
-         time: this.processDateString(this.scanData[1]), 
-         title: this.scanData[1].date_time, 
-         description: this.processDescriptionString(this.scanData[1].user_scanned, this.scanData[1].accountType, this.scanData[1].geolocation_lat, this.scanData[1].geolocation_lon, this.scanData[1].company), 
-         icon: require('./retailer.png'),
-         imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
-       },
-       {
-         time: this.processDateString(this.scanData[0]), 
-         title: this.scanData[0].date_time, 
-         description: this.processDescriptionString(this.scanData[0].user_scanned, this.scanData[0].accountType , this.scanData[0].geolocation_lat, this.scanData[0].geolocation_lon, this.scanData[0].company), 
-         icon: require('./consumer.png'),
-         imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
-       }
-     ]
+     this.data = [];
+     for(i=scanHistory.length-1;i>=0; i--) {
+      var scan = scanHistory[i]
+      var iconpath = "./farmer.png";
+      var lineColor = ""
+      switch(scan.accountType){
+          case "farmer":
+            iconpath = require("./farmer.png");
+            lineColor = "#808080"
+          break;
+          case "distributor":
+            iconpath = require("./distributor.png");
+            lineColor = "#0077ff"
+          break;
+          case "retailer":
+            iconpath = require("./retailer.png");
+            lineColor = "#00FF00"
+          break;
+          case "consumer":
+            iconpath = require("./consumer.png");
+            lineColor = "#808080"
+          break;
+      }
+
+      
+
+      this.data.push(
+        {
+          time: this.processDateString(scan), 
+          title: scan.date_time, 
+          description: this.processDescriptionString(scan.user_scanned, scan.accountType , scan.geolocation_lat, scan.geolocation_lon, scan.company),
+          lineColor: lineColor,
+          icon: iconpath,
+          imageUrl: 'https://storage.googleapis.com/gweb-uniblog-publish-prod/images/compass_blogpost_screenshot.max-1000x1000.png'
+        }
+      )
+     }
      this.state = {selected: null, qrScans: []}
    } 
 
    processDateString(scanData)
    {
-    return this.processDescriptionString(scanData.user_id, scanData.accountType , scanData.geolocation_lat, scanData.geolocation_lon, scanData.company)
+    return this.processDescriptionString(scanData.user_email, scanData.accountType , scanData.geolocation_lat, scanData.geolocation_lon, scanData.company)
    }
 
    processDescriptionString(usr, type, lat, lon, company)
@@ -70,6 +82,11 @@ import { getAllQRScans } from '../../api/Database';
         break;
         case "distributor":
           line1 = getString('qrdata_distributor') + " " + company + " " + getString('qrdata_atlocation') + " [" + lat + "," + lon + "]\n";
+          line2 = getString('qrdata_user_dispatched') + ": " + usr;
+          return line1 + line2;
+        break;
+        case "farmer":
+          line1 = getString('qrdata_farmer') + " " + company + " " + getString('qrdata_atlocation') + " [" + lat + "," + lon + "]\n";
           line2 = getString('qrdata_user_dispatched') + ": " + usr;
           return line1 + line2;
         break;
