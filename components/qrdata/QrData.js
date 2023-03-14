@@ -209,4 +209,3 @@ import { getAllQRScans } from '../../api/Database';
     width: 20
    }
  });
- 

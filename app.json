@@ -2,6 +2,7 @@
   "expo": {
     "name": "LgsDeliveryEngine",
     "slug": "LgsDeliveryEngine",
+    "owner": "cscharpf",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +28,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "sdkVersion": "45.0.0"
+    }
   }
 }
